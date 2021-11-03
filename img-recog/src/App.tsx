@@ -1,39 +1,98 @@
-import React, { useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+import { test_fnc } from './test'
 
 const api_key = '2b10189SmpQJ3XHmESgf2Hz9k'
 
 function App() {
-  const inputFile = useRef<HTMLInputElement | null>(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const inputFlower = useRef<HTMLInputElement | null>(null);
+  const inputLeaves = useRef<HTMLInputElement | null>(null);
+  const [selectedFlower, setSelectedFlower] = useState<string | null>(null);
+  const [selectedLeaves, setSelectedLeaves] = useState<string | null>(null);
+  const [response, setResponse] = useState<string>();
 
-  const onUpload = () => {
-    // `current` points to the mounted file input element
-    if (inputFile.current) {
-      inputFile.current.click();
+  const onUploadFlower = () => {
+    if (inputFlower.current) {
+      inputFlower.current.click();
     }
   };
-  
-  const onIdentify = () => {
-    //
+
+  const onUploadLeaves = () => {
+    if (inputLeaves.current) {
+      inputLeaves.current.click();
+    }
   };
 
-  const handleChange = (event) => {
-    
-    setSelectedImage(value)
+  const onIdentify = async () => {
+    // POST request using fetch with async / await
+    const body = `{ "organs": "flower", "images": "${selectedFlower}", "organs": "leaf", "images": "${selectedLeaves}" }`
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body
+    };
+    const response = await fetch('https://my-api.plantnet.org/v2/identify/all?api-key=2b10189SmpQJ3XHmESgf2Hz9k', requestOptions);
+    const data = await response.json();
+    setResponse(data);
+
+    console.log(response)
+  };
+
+  const handleFlowerChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event && event.target) {
+      let input = event.target;
+      var fReader = new FileReader();
+      if (input.files) {
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = (event) => {
+          if (event && event.target) {
+            setSelectedFlower(event.target.result as string);
+          }
+        }
+      }
+    }
+  }
+
+  const handleLeavesChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event && event.target) {
+      let input = event.target;
+      var fReader = new FileReader();
+      if (input.files) {
+        fReader.readAsDataURL(input.files[0]);
+        fReader.onloadend = (event) => {
+          if (event && event.target) {
+            setSelectedLeaves(event.target.result as string);
+          }
+        }
+      }
+    }
   }
 
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={URL.createObjectURL(inputFile.current)} className="App-logo" alt="logo" /> */}
-        <p> {inputFile.current} hello </p>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <input type='file' id='file' ref={inputFile} onChange={handleChange} style={{ display: 'none' }} accept="image/*" />
-        <button onClick={onUpload}>Upload Image</button>
+        <div>
+          <div>
+            <img src={selectedFlower ?? ""} className="App-logo" alt="logo" />
+            <br />
+            <div>
+              <input type='file' id='file' ref={inputFlower} onChange={handleFlowerChange} style={{ display: 'none' }} accept="image/*" />
+              <button onClick={onUploadFlower}>Upload Flower Image</button>
+            </div>
+          </div>
+          <div>
+            <img src={selectedLeaves ?? ""} className="App-logo" alt="logo" />
+            <br />
+            <div>
+              <input type='file' id='file' ref={inputLeaves} onChange={handleLeavesChange} style={{ display: 'none' }} accept="image/*" />
+              <button onClick={onUploadLeaves}>Upload Leaves Image</button>
+            </div>
+          </div>
+        </div>
         <button onClick={onIdentify}>Identify</button>
       </header>
     </div>
