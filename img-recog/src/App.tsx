@@ -2,8 +2,6 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { test_fnc } from './test'
-
 const api_key = '2b10189SmpQJ3XHmESgf2Hz9k'
 
 function App() {
