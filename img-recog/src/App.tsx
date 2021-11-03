@@ -33,7 +33,8 @@ function App() {
       },
       body
     };
-    const response = await fetch('https://my-api.plantnet.org/v2/identify/all?api-key=2b10189SmpQJ3XHmESgf2Hz9k', requestOptions);
+    //https://my-api.plantnet.org/v2/identify/all?api-key=
+    const response = await fetch('https://localhost:3001?api-key=2b10189SmpQJ3XHmESgf2Hz9k', requestOptions);
     const data = await response.json();
     setResponse(data);
 
