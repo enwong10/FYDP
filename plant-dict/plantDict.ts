@@ -36,13 +36,13 @@ initSqlJs().then(function (SQL) {
             descRes.length > 0 && descRes[0].columns.forEach((_, k) => {
                 console.log(descRes[0].columns[k] + ': ' + descRes[0].values[0][k]);
             })
-            distRes.length > 0 && distRes[0].columns.forEach((_, k) => {
-                distRes[0].values.forEach((_, l) => {
+            distRes.length > 0 && distRes[0].values.forEach((_, l) => {
+                distRes[0].columns.forEach((_, k) => {
                     console.log(distRes[0].columns[k] + ': ' + distRes[0].values[l][k]);
                 })
             })
-            nameRes.length > 0 && nameRes[0].columns.forEach((_, k) => {
-                nameRes[0].values.forEach((_, l) => {
+            nameRes.length > 0 && nameRes[0].values.forEach((_, l) => {
+                nameRes[0].columns.forEach((_, k) => {
                     console.log(nameRes[0].columns[k] + ': ' + nameRes[0].values[l][k]);
                 })
             })
