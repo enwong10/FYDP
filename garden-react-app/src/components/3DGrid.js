@@ -1,7 +1,6 @@
 import React from "react";
-import Button from 'react-bootstrap/Button';
 
-function MyGardens() {
+function ARGrid() {
     return(
         <div>
             <h1>
@@ -11,4 +10,4 @@ function MyGardens() {
     )
 }
 
-export default MyGardens;
+export default ARGrid;

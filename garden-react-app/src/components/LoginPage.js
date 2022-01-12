@@ -4,7 +4,9 @@ import Button from 'react-bootstrap/Button';
 function LoginPage() {
     return(
         <div>
-            <Button variant="primary">Primary</Button>
+            <h1>
+                Login Page
+            </h1>
         </div>
     )
 }
