@@ -13,6 +13,10 @@ function ARGrid() {
     const [screenshot, setScreenshot] = useState(null);
     const navigate = useNavigate();
 
+    // mobile height trick (https://css-tricks.com/the-trick-to-viewport-units-on-mobile/)
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
     useEffect(() => {
         if (image) setScreenshot(image)
     }, [image])
@@ -35,20 +39,19 @@ function ARGrid() {
         <Container ref={ref}>
             {!screenshot ? 
             <>
-                <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isFullscreen /> 
+                <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false}/> 
                 <GardenOverlay src={garden} alt='garden'/>
                 </>
                 : 
-            <>
+            <div className="d-flex flex-column text-center w-100 h-100">
             <Screenshot src={screenshot} alt='screenshot'/>
             <ActionsContainer>
                 <Button onClick={() => setScreenshot(null)}>Take Again</Button>
-                <Button class='btn btn-success' onClick={onDownloadScreenshot}>Save and Exit</Button>
-                <Button class='btn btn-danger' onClick={() => navigate('/my-gardens')}>Exit Without Saving</Button>
+                <Button onClick={onDownloadScreenshot}>Save and Exit</Button>
+                <Button onClick={() => navigate('/my-gardens')}>Exit Without Saving</Button>
             </ActionsContainer>
-            </>
+            </div>
             }
-            {/* <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isFullscreen /> */}
         </Container>
     )
 }
@@ -58,12 +61,26 @@ const Container = styled.div`
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+
+    .react-html5-camera-photo {
+        height: 100%;
+        
+        img {
+            height: 100%;
+        }
+
+        video {
+            height: 100%;
+            width: 100%;
+            object-fit: fill;
+        }
+    }
 `
 
 const Screenshot = styled.img`
-    width: 100%;
     height: 90%;
-    object-fit: contain;
+    object-fit: fill;
 `
 
 const ActionsContainer = styled.div`
@@ -79,7 +96,7 @@ const ActionsContainer = styled.div`
 
 const GardenOverlay = styled.img`
     position: absolute;
-    width: 50%;
+    width: 100%;
     height: 50%;
     margin: auto;
     left: 0;
