@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef } from "react";
 import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';

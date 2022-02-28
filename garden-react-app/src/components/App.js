@@ -9,11 +9,13 @@ import MyGardens from "./MyGardens";
 import NoMatch from "./NoMatch";
 import ARGrid from "./3DGrid";
 import TwoDGrid from "./TwoDGrid";
+import { ContextProvider } from "./Context";
 
 function App() {
   return (
-      <div>
-        <BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <ContextProvider>
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="my-gardens" element={<MyGardens />} />
@@ -21,8 +23,9 @@ function App() {
             <Route path="2d-grid" element={<TwoDGrid />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
-        </BrowserRouter>
-      </div>
+        </ContextProvider>
+      </BrowserRouter>
+    </div>
   );
 }
 
