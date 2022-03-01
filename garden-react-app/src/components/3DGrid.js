@@ -1,15 +1,17 @@
-import React, { useState, createRef } from "react";
+import React, { useState, createRef, useContext } from "react";
 import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import garden from '../assets/3d_garden.PNG';
 import 'react-html5-camera-photo/build/css/index.css';
 import html2canvas from 'html2canvas'
+import { Context } from "./Context";
 
 function ARGrid() {
     const ref = createRef(null);
     const [screenshot, setScreenshot] = useState(null);
     const navigate = useNavigate();
+    const { setBackground } = useContext(Context)
 
     const takeScreenShot = (node) => {
         html2canvas(node)
@@ -49,13 +51,10 @@ function ARGrid() {
         takeScreenShot(ref.current)
     }
 
-    const onDownloadScreenshot = () => {
+    const onSaveScreenshot = () => {
         if (!screenshot) return;
-        const a = document.createElement("a");
-        a.href = screenshot;
-        a.download = `greenthumb-garden-${(new Date()).toISOString()}.jpg`;
-        a.click();
-        navigate('/my-gardens');
+        setBackground(screenshot);
+        navigate('/garden');
     }
 
     return (
@@ -70,7 +69,7 @@ function ARGrid() {
             <Screenshot src={screenshot} alt='screenshot'/>
             <ActionsContainer>
                 <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
-                <button className='btn btn-success' onClick={onDownloadScreenshot}>Save and Exit</button>
+                <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
                 <button className='btn btn-danger' onClick={() => navigate('/my-gardens')}>Exit Without Saving</button>
             </ActionsContainer>
             </>

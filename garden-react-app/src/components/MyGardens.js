@@ -13,7 +13,7 @@ function MyGardens() {
 
     const navigate = useNavigate();
     const onButtonClick = () => {
-        navigate('/3d-grid');
+        navigate('/garden');
     }
 
 
