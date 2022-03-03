@@ -64,6 +64,8 @@ const LoginInputContainer = styled.div`
     input, button {
         width: 80%;
         max-width: 400px;
+        border: 0.5px solid gray;
+        padding-left: 8px;
     }
 `
 
