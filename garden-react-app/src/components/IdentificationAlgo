@@ -1,0 +1,66 @@
+import React, { useState, createRef, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import 'react-html5-camera-photo/build/css/index.css';
+import { Context } from "./Context";
+
+function IdentificationAlgo () {
+
+
+
+
+    return (
+    // we need to attach actual naviagtation paths and add the back button image
+        <MainContainer>
+            <h1>
+                Identification
+            </h1>
+        </MainContainer>
+            
+    )
+}
+
+
+const MainContainer = styled.div`
+    position: relative;
+    max-width: 400px;
+    align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    overflow: hidden;
+    border: solid 1px gray;
+    h1 {
+        margin: 48px 0;
+        font-size: 48px;
+        color: black;
+    }
+    h2 {
+        top: 130px;
+        font-size: 12px;
+    }
+    
+`
+const GardenOverlay = styled.img`
+    position: absolute;
+    width: 100%;
+    height: 70%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+`
+const Header = styled.div`
+position: absolute;
+width: 100%;
+height: 70%;
+margin: auto;
+left: 0;
+right: 0;
+bottom: 0;
+
+`
+
+
+export default IdentificationAlgo
