@@ -1,0 +1,61 @@
+tags:
+- name: Sunlight
+  description: Sunlight Levels API
+
+paths:
+# [GET] sunlight-data
+  /sunlight-data:
+    get:
+      tags:
+      - sunlight
+      summary: Get sunlight data for a given rectangular landscape
+      parameters:
+      - name: coords
+        in: query
+        description: '[latitude, longitude, altitude]'
+        required: true
+        type: array
+      - name: res
+        in: query
+        description: '[x resolution, y resolution]'
+        required: true
+        type: array
+      - name: corners
+        in: query
+        description: '[[x-min, y-min], [y-min, y-max]]'
+        required: false
+        type: array
+      - name: polys
+        in: query
+        description: '[[[x, y, z]]]'
+        required: true
+        type: array
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: object
+            properties:
+              DLIAverages:
+                type: array
+                description: The average Daily Light Integrals for the landscape over the year
+        500:
+          description: 'Server Error'
+
+# definitions
+# definitions:
+#   sunlig:
+#     type: object
+#     required:
+#         - email
+#     properties:
+#       id:
+#         type: integer
+#         description: user Id
+#       email:
+#         type: string
+#         description: user Email
+
+schemes:
+ - https
+ - http
