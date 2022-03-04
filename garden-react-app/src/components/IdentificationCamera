@@ -52,8 +52,8 @@ function ARGrid() {
 
     const onSaveScreenshot = () => {
         if (!screenshot) return;
-        setBackground(screenshot);
-        navigate('/garden');
+        setBackground(screenshot); //this sets the background, well want to parse it through the id algo
+        navigate('/garden'); //This will go to actual identification screen
     }
 
     return (
@@ -77,6 +77,8 @@ function ARGrid() {
 }
 
 const Container = styled.div`
+    position: relative;
+    right: -450px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -87,6 +89,7 @@ const Container = styled.div`
     align-items: center;
     text-align: center;
     background: black;
+    max-width: 400px;
 `
 
 const CameraContainer = styled.div`
