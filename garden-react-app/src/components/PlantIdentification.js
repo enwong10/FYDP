@@ -7,7 +7,7 @@ function PlantIdentification () {
     const navigate = useNavigate();
     
     return (
-        
+    // we need to attach actual naviagtation paths and add the back button image
         <MainContainer>
             <h1>
                 Identificaiton
@@ -26,8 +26,8 @@ function PlantIdentification () {
                     </div>
             </Camera>
             <Back>
-            <div role='button' onClick={() => navigate('/garden')}>
-                        BackButton
+            <div role='button' onClick={() => navigate('/garden')}> 
+                        BackButton 
                 </div>
             </Back>
         </MainContainer>
@@ -49,6 +49,7 @@ const MainContainer = styled.div`
     h1 {
         margin: 48px 0;
         font-size: 48px;
+        color: black;
     }
     h2 {
         top: 130px;
@@ -69,6 +70,7 @@ const Header = styled.div`
     top: 209px;
     right: 100px;
     padding: 12px;
+    border-radius: 10px;
 `
 const Back = styled.div`
     position: absolute;
@@ -76,6 +78,6 @@ const Back = styled.div`
     top: 0px;
     right: 300px;
     padding: 12px;
-    
+    color: white;
 `
 export default PlantIdentification
