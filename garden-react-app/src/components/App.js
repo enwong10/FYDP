@@ -14,6 +14,7 @@ import PlantIdentification from "./PlantIdentification";
 import IdentificationCamera from "./IdentificationCamera";
 import PlantDictionary from "./PlantDictionary";
 import GardenSettings from "./GardenSettings";
+import IdentificationAlgo from "./IdentificationAlgo"
 import { ContextProvider } from "./Context";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="my-gardens" element={<MyGardens />} />
             <Route path="id-camera" element={<IdentificationCamera />} />
+            <Route path="id-algo" element={<IdentificationAlgo />} />
             <Route path="garden" element={<MainGarden/>}/>
             <Route path="settings" element={<GardenSettings />} />
             <Route path="3d-grid" element={<ARGrid />} />
