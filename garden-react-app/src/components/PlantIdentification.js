@@ -21,7 +21,7 @@ function PlantIdentification () {
                 </div>
             </Header>
             <Camera>
-            <div role='button' onClick={() => navigate('/3d-grid')}>
+            <div role='button' onClick={() => navigate('/id-camera')}>
                         <img src={camera} alt='3d-grid' />
                     </div>
             </Camera>
