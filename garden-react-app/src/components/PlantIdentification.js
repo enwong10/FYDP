@@ -33,11 +33,21 @@ function PlantIdentification () {
                   Upload Image From Camera Role
         </Popover>
       );
+      const renderCamera = (props) => (
+        <Popover id="3d-pop" {...props} 
+                 style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    ...props.style,
+                  }}>
+                  Take a Picture to Identify!
+        </Popover>
+      );
     return (
     // we need to attach actual naviagtation paths and add the back button image
         <MainContainer>
             <h1>
-                Identificaiton
+                Identification
             </h1>
             <h2>
                 Upload an image of a plant you would like to identify
@@ -49,18 +59,16 @@ function PlantIdentification () {
                 placement="top"
                 delay={{ show: 250, hide: 400 }}
                // container = {target}
-                overlay={renderTooltip}
+                overlay={renderCamera}
                 
              >
                  <Button ref={target} 
-                style={{backgroundColor: "#28A745"}}
+                style={{backgroundColor: 'transparent', borderColor: "transparent"}}
                 onMouseEnter={() => setShow(!show)}
                 onMouseLeave={() => setShow(!show)}
                 onClick={() => navigate('/id-camera')}
                 >
-                 <text style={{color: '#FFFFFF'}}>
-                 + Upload Image
-                </text>
+                 <img src={camera} alt='3d-grid' />
             </Button>
             </OverlayTrigger>
             </div>

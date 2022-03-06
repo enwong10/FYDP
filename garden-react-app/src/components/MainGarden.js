@@ -138,7 +138,7 @@ function MainGarden() {
                 style={{backgroundColor: 'transparent', borderColor: "transparent"}}
                 onMouseEnter={() => setShow(!show)}
                 onMouseLeave={() => setShow(!show)}
-                onClick={() => navigate('/dictionary')}
+                onClick={() => onDownloadClick()}
                 >
                  <img src={download} alt='download' />
             </Button>
