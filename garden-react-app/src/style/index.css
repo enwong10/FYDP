@@ -13,6 +13,16 @@ code {
     monospace;
 }
 
+
+.popover-arrow::after {
+  border-top-color: #28A745 !important;
+  border-bottom-color: #28A745 !important;
+}
+
+.popover {
+  padding: 18px;
+}
+
 /*SCROLLBAR*/
 /* Works on Firefox */
 * {
