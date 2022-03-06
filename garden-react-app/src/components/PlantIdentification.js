@@ -127,12 +127,6 @@ const MainContainer = styled.div`
     
 `
 
-const Camera = styled.div`
-    position: absolute;
-    top: 200px;
-    right: 250px;
-    margin: 12px;
-`
 const MidSection = styled.div`
 height: 10%;
 width: 100%;
@@ -141,7 +135,8 @@ display: flex;
 flex-direction: row;
 padding: 8px; 
 align-items: center;
-align: center;
+top: 50%;
+right: 50%;
 }
 `
 const Back = styled.div`
@@ -152,10 +147,5 @@ const Back = styled.div`
     padding: 12px;
     color: white;
 `
-const UploadImage = styled.div`
-    position: absolute;
-    top: 51%;
-    left: 40%;
-    margin: 12px;
-`
+
 export default PlantIdentification
