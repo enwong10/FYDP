@@ -1,11 +1,38 @@
-import React, { useContext} from "react";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import camera from '../assets/camera.svg'
+import Button from 'react-bootstrap/Button';
+import Tooltip from 'react-bootstrap/ToolTip';
+import Popover from 'react-bootstrap/Popover';
+import React, {  useRef, useState } from "react";
+import 'react-html5-camera-photo/build/css/index.css';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 function PlantIdentification () {
 
     const navigate = useNavigate();
-    
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
+
+    const renderTooltip = (props) => (
+        <Popover id="overlay-example" {...props} 
+                 style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    borderBlockColor: 'green',
+                    borderRightColor: 'green',
+                    borderTopColor: 'green',
+                    borderBottomColor: 'green',
+                    borderLeftColor: 'green',
+                    caretColor: 'green',
+                    stopColor: 'green',
+                    floodColor: 'green',
+                    forcedColorAdjust: 'green',
+                    scrollbarColor: 'green',
+                    ...props.style,
+                  }}>
+                  Upload Image From Camera Role
+        </Popover>
+      );
     return (
     // we need to attach actual naviagtation paths and add the back button image
         <MainContainer>
@@ -15,16 +42,50 @@ function PlantIdentification () {
             <h2>
                 Upload an image of a plant you would like to identify
             </h2>
-            <Header style={{ color: 'white' }}>
-                <div role='button' onClick={() => navigate('/settings')}>
-                        + Upload Picture
-                </div>
-            </Header>
-            <Camera>
-            <div role='button' onClick={() => navigate('/id-camera')}>
-                        <img src={camera} alt='3d-grid' />
-                    </div>
-            </Camera>
+            <MidSection>
+            <div>
+            <OverlayTrigger 
+                target = {target.current}
+                placement="top"
+                delay={{ show: 250, hide: 400 }}
+               // container = {target}
+                overlay={renderTooltip}
+                
+             >
+                 <Button ref={target} 
+                style={{backgroundColor: "#28A745"}}
+                onMouseEnter={() => setShow(!show)}
+                onMouseLeave={() => setShow(!show)}
+                onClick={() => navigate('/id-camera')}
+                >
+                 <text style={{color: '#FFFFFF'}}>
+                 + Upload Image
+                </text>
+            </Button>
+            </OverlayTrigger>
+            </div>
+                <div>
+            <OverlayTrigger 
+                target = {target.current}
+                placement="top"
+                delay={{ show: 250, hide: 400 }}
+               // container = {target}
+                overlay={renderTooltip}
+                
+             >
+                 <Button ref={target} 
+                style={{backgroundColor: "#28A745"}}
+                onMouseEnter={() => setShow(!show)}
+                onMouseLeave={() => setShow(!show)}
+                onClick={() => navigate('/garden')}
+                >
+                 <text style={{color: '#FFFFFF'}}>
+                 + Upload Image
+                </text>
+            </Button>
+            </OverlayTrigger>
+            </div>
+            </MidSection>
             <Back>
             <div role='button' onClick={() => navigate('/garden')}> 
                         BackButton 
@@ -64,13 +125,16 @@ const Camera = styled.div`
     right: 250px;
     margin: 12px;
 `
-const Header = styled.div`
-    position: absolute;
-    background-color: #28A745;
-    top: 209px;
-    right: 100px;
-    padding: 12px;
-    border-radius: 10px;
+const MidSection = styled.div`
+height: 10%;
+width: 100%;
+padding: 12px;
+display: flex;
+flex-direction: row;
+padding: 8px; 
+align-items: center;
+align: center;
+}
 `
 const Back = styled.div`
     position: absolute;
@@ -79,5 +143,11 @@ const Back = styled.div`
     right: 300px;
     padding: 12px;
     color: white;
+`
+const UploadImage = styled.div`
+    position: absolute;
+    top: 51%;
+    left: 40%;
+    margin: 12px;
 `
 export default PlantIdentification
