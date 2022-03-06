@@ -72,14 +72,12 @@ function PlantIdentification () {
             </Button>
             </OverlayTrigger>
             </div>
-                <div>
+            <div>
             <OverlayTrigger 
                 target = {target.current}
                 placement="top"
                 delay={{ show: 250, hide: 400 }}
-               // container = {target}
                 overlay={renderTooltip}
-                
              >
                  <Button ref={target} 
                 style={{backgroundColor: "#28A745"}}
