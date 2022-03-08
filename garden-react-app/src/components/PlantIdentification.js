@@ -8,6 +8,7 @@ import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Context } from './Context';
 import back from '../assets/back.svg';
+import flower from '../assets/Flower 2.jpeg';
 
 function PlantIdentification() {
     const navigate = useNavigate();
@@ -40,9 +41,6 @@ function PlantIdentification() {
             <h1>
                 Identification
             </h1>
-            <h2>
-                Upload an image of a plant you would like to identify
-            </h2>
             <MidSection>
                 <div>
                     <Button
@@ -54,7 +52,7 @@ function PlantIdentification() {
                 </div>
                 <div>
                     <OverlayTrigger
-                        placement="top"
+                        placement="bottom"
                         show={show && tutorialStep === 2}
                         overlay={renderTooltip}
                     >
@@ -71,8 +69,52 @@ function PlantIdentification() {
                         </Button>
                     </OverlayTrigger>
                 </div>
+               
             </MidSection>
+            <ImageContainer1>
+            <div>
+                    <OverlayTrigger
+                        placement="bottom"
+                        show={show && tutorialStep === 3}
+                        overlay={renderTooltip}
+                    >
+                        <Button
+                            style={{ backgroundColor: "black" }}
+                            onClick={() => {
+                                nextTutorialStep();
+                                // do something
+                            }}
+                        >
+                            <span>
+                            <img src={flower} width = "80%" height = "30%" />
+                            </span>
+                        </Button>
+                    </OverlayTrigger>
+                </div>
+        </ImageContainer1>
+        <ImageContainer2>
+        <div>
+                    <OverlayTrigger
+                        placement="bottom"
+                        //show={show && tutorialStep === 3}
+                        overlay={renderTooltip}
+                    >
+                        <Button
+                            style={{ backgroundColor: "black" }}
+                            onClick={() => {
+                               // nextTutorialStep();
+                                // do something
+                            }}
+                        >
+                            <span>
+                            <img src={flower} width = "80%" height = "30%" />
+                            </span>
+                        </Button>
+                    </OverlayTrigger>
+                </div>
+        </ImageContainer2>
         </MainContainer>
+         
 
     )
 }
@@ -92,11 +134,18 @@ const MainContainer = styled.div`
         font-size: 48px;
         color: black;
     }
-    h2 {
-        top: 130px;
-        font-size: 12px;
-    }
-    
+`
+const ImageContainer1 = styled.div`
+background-color: white;
+height: 30%;
+width: 80%;
+padding: 12px;
+`
+const ImageContainer2 = styled.div`
+background-color: white;
+height: 30%;
+width: 80%;
+padding: 12px;
 `
 
 const MidSection = styled.div`
