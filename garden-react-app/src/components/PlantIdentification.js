@@ -12,7 +12,7 @@ import flower from '../assets/Flower 2.jpeg';
 
 function PlantIdentification() {
     const navigate = useNavigate();
-    const { tutorialStep, nextTutorialStep } = useContext(Context);
+    const { tutorialStep, nextTutorialStep, setTutorialStep } = useContext(Context);
     const [show, setShow] = useState(false);
 
     useEffect(() => {
@@ -31,7 +31,6 @@ function PlantIdentification() {
     );
 
     return (
-        // we need to attach actual naviagtation paths and add the back button image
         <MainContainer>
             <Back>
                 <div role='button' onClick={() => navigate('/garden')}>
@@ -57,9 +56,9 @@ function PlantIdentification() {
                         overlay={renderTooltip}
                     >
                         <Button
-                            style={{ backgroundColor: "#28A745" }}
+                            style={{ backgroundColor: "#28A745" , borderColor: "transparent"}}
                             onClick={() => {
-                                nextTutorialStep();
+                                if (tutorialStep === 2)setTutorialStep(3);
                                 // do something
                             }}
                         >
@@ -71,7 +70,7 @@ function PlantIdentification() {
                 </div>
                
             </MidSection>
-            <ImageContainer1>
+            <ImageContainer1 style={{ backgroundColor: "black", borderColor: "transparent"}}>
             <div>
                     <OverlayTrigger
                         placement="bottom"
@@ -79,10 +78,10 @@ function PlantIdentification() {
                         overlay={renderTooltip}
                     >
                         <Button
-                            style={{ backgroundColor: "black" }}
+                            style={{ backgroundColor: "black", borderColor: "transparent" }}
                             onClick={() => {
-                                nextTutorialStep();
-                                // do something
+                                if (tutorialStep === 3)setTutorialStep(4);
+                                //navigate('/settings');
                             }}
                         >
                             <span>
@@ -91,16 +90,23 @@ function PlantIdentification() {
                         </Button>
                     </OverlayTrigger>
                 </div>
+                <div style={{ backgroundColor: "black", color: "white"}}>
+                 Flower Name           
+                </div>
         </ImageContainer1>
-        <ImageContainer2>
+        
+        <div style={{ backgroundColor: "white", borderColor: "transparent", height: "5%"}}>
+            
+        </div>
+        <ImageContainer2 style={{ backgroundColor: "black", borderColor: "transparent"}}> 
         <div>
                     <OverlayTrigger
                         placement="bottom"
-                        //show={show && tutorialStep === 3}
+                        //show={show && tutorialStep === 4}
                         overlay={renderTooltip}
                     >
                         <Button
-                            style={{ backgroundColor: "black" }}
+                            style={{ backgroundColor: "black", borderColor: "transparent"}}
                             onClick={() => {
                                // nextTutorialStep();
                                 // do something
@@ -111,6 +117,9 @@ function PlantIdentification() {
                             </span>
                         </Button>
                     </OverlayTrigger>
+                </div>
+                <div style={{ backgroundColor: "black", color: "white"}}>
+                 Flower Name           
                 </div>
         </ImageContainer2>
         </MainContainer>
@@ -135,17 +144,20 @@ const MainContainer = styled.div`
         color: black;
     }
 `
+
 const ImageContainer1 = styled.div`
-background-color: white;
-height: 30%;
+background-color: black;
+height: 29%;
 width: 80%;
 padding: 12px;
+justify-content: space-between;
 `
 const ImageContainer2 = styled.div`
 background-color: white;
 height: 30%;
 width: 80%;
 padding: 12px;
+justify-content: space-between;
 `
 
 const MidSection = styled.div`

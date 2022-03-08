@@ -30,6 +30,7 @@ function MainGarden() {
         <Popover id="settings-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -41,6 +42,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Your Plants Page
@@ -51,6 +53,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Plant Identification Page
@@ -61,6 +64,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Add New Plants To Your Garden
@@ -70,6 +74,7 @@ function MainGarden() {
         <Popover id="3d-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -80,6 +85,7 @@ function MainGarden() {
         <Popover id="down-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -173,7 +179,7 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="top"
                         overlay={renderAddPop}
-                        // show={tutorialStep === 2}
+                        show={tutorialStep === 7}
                         >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px' }}
@@ -184,7 +190,7 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="top"
                         overlay={render3DPop}
-                        // show={tutorialStep === 1}
+                         show={tutorialStep === 11}
                         >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -199,7 +205,9 @@ function MainGarden() {
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                            onClick={() => { nextTutorialStep(); navigate('/identification') }}>
+                            onClick={() => {
+                                if (tutorialStep === 1)setTutorialStep(2);
+                                 navigate('/identification') }}>
                             <img src={info} alt='plant-identification' />
                         </div>
                     </OverlayTrigger>
