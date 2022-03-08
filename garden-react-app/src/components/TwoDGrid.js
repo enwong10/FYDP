@@ -1,43 +1,189 @@
-import React, { useState } from 'react';
-import {DndContext} from '@dnd-kit/core';
-import {Button} from 'react-bootstrap'
+import React, {useContext, useState} from 'react';
+import {Context} from "./Context";
+import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
+import styled from "styled-components";
+import { Dropdown, Button, ButtonGroup } from "react-bootstrap"
+import plant from '../assets/plant.jpeg'
 
-import {Draggable} from './grid/Draggable';
-import { GridContainer } from './grid/Grid'
+const INSPECTION = 0;
+const ADDITION = 1;
+const INSIGHT = 2;
+const MOVE = 3;
+const REMOVE = 4;
+
+const PLANT_GROUPS = [
+    "Plants in Garden",
+    "Saved Plants",
+    "Save the Bees",
+    "Flowers",
+    "Trees",
+    "Food",
+    "Shrubs",
+    "Ground Covers",
+    "Fungi"
+];
 
 function TwoDGrid() {
-    const DraggableMarkup = (props) => (
-        <Draggable id={props.id}>{props.name}</Draggable>
-    );
-    const [draggables, setDraggables] = useState(() =>
-        new Array(5).fill(0).map((_, i) => ({
-            id: `draggable${i}`,
-            name: `Hi${i}`,
-            parent: null
-        }))
+    const { grid, setGrid } = useContext(Context);
+    const [interactionMode, setInteractionMode] = useState(INSPECTION);
+    const [selectedPlant, setSelectedPlant] = useState(null);
+    const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
+    const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
+
+    const updateGrid = (i, j) => {
+        if (interactionMode === ADDITION) {
+            const newGrid = [...grid];
+            newGrid[i][j] = selectedPlant;
+            setGrid(newGrid);
+        }
+        else if (interactionMode === REMOVE) {
+            const newGrid = [...grid];
+            newGrid[i][j] = null;
+            setGrid(newGrid);
+        }
+        else if (interactionMode === INSPECTION) {
+            // TODO: open dictionary
+        }
+        else if (interactionMode === INSIGHT) {
+            // TODO: Enable tooltips
+        }
+        else if (interactionMode === MOVE) {
+            // TODO: Enable moving
+        }
+    };
+
+    const toggleAdditionMode = (plantIndex) => {
+        if (selectedPlant === plantIndex) {
+            // TODO: open dictionary
+        }
+        else {
+            setInteractionMode(ADDITION);
+            setSelectedPlant(plantIndex);
+        }
+    };
+
+    const toggleAlternateMode = (mode) => {
+        if (selectedPlant) setSelectedPlant(null);
+        setInteractionMode(mode);
+    };
+
+    const updateFirstPlantIndex = (shiftValue) => {
+        let newIndex = firstPlantChoiceIndex + shiftValue;
+        if (newIndex < 0) newIndex = 0;
+        setfirstPlantChoiceIndex(newIndex);
+    };
+
+    const displayGrid = grid.map((row, i) =>
+        <GridRow key={'row' + i} className={'row'}>
+            {row.map((gridContent, j) =>
+                <GridSquare onClick={() => updateGrid(i, j)} key={'col' + j} className={'col'}>
+                    {gridContent}
+                </GridSquare>
+            )}
+        </GridRow>
     );
 
-    return (
-        <div>
-            <DndContext onDragEnd={handleDragEnd}>
-                { draggables.map(d => (
-                    d.parent === null ? <DraggableMarkup id={d.id} key={d.id} name={d.name}/> : null
-                ))}
-                <GridContainer draggables={draggables} draggableMarkup={DraggableMarkup}/>
-            </DndContext>
-            <Button> Generate Garden </Button>
-        </div>
+    const plantSelector = (
+        <PlantSelector className={'row'}>
+            <SelectorNavigationButton className={'col'} style={{borderRadius: '5px 0 0 5px'}}
+                                      onClick={() => updateFirstPlantIndex(-3)}>
+                P
+            </SelectorNavigationButton>
+            {[...Array(3)].map((x,i) =>
+                <PlantOption style={{border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745": ""}}
+                             onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}>
+                    <PlantImage src={plant} />
+                    <div>Plant {firstPlantChoiceIndex + i}</div>
+                </PlantOption>
+            )}
+            <SelectorNavigationButton className={'col'} style={{borderRadius: '0 5px 5px 0'}}
+                                      onClick={() => updateFirstPlantIndex(3)}>
+                N
+            </SelectorNavigationButton>
+        </PlantSelector>
     );
 
-    function handleDragEnd(event) {
-        const {over, active} = event;
-        const activeI = draggables.findIndex(d => d.id === active.id)
-        const activeEl = draggables[activeI]
-        setDraggables(draggables.slice(0, activeI).concat([
-                {...activeEl, parent: over?.id ?? null}],
-            draggables.slice(activeI + 1)
-        ))
-    }
+    const gridButtons = (
+        <ButtonGroup>
+            <Button onClick={() => toggleAlternateMode(INSIGHT)}>
+                Insight
+            </Button>
+            <Button onClick={() => toggleAlternateMode(MOVE)}>
+                MOVE
+            </Button>
+            <Button onClick={() => toggleAlternateMode(REMOVE)}>
+                Remove
+            </Button>
+        </ButtonGroup>
+    );
+
+    return(
+        <Container className={'container'}>
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {plantGroup}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    {PLANT_GROUPS.map((groupName, i) =>
+                        <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
+                    )}
+                </Dropdown.Menu>
+            </Dropdown>
+            {plantSelector}
+            <GridContainer>
+                <TransformWrapper>
+                    <TransformComponent>
+                        {displayGrid}
+                    </TransformComponent>
+                </TransformWrapper>
+            </GridContainer>
+            {gridButtons}
+        </Container>
+    )
 }
+
+const GridSquare = styled.div`
+    border: 1px solid black;
+    height: 40px;
+    width: 40px;
+`;
+
+const GridRow = styled.div`
+    margin: auto;
+`;
+
+const GridContainer = styled.div`
+    margin: auto;
+    border: 3px solid black;
+    text-align: center;
+`;
+
+const Container = styled.div`
+    margin:auto;
+    max-width: 400px;
+`;
+
+const PlantSelector = styled.div`
+    margin:auto;
+    margin-top: 50px;
+    margin-bottom:20px;
+    border: 1px solid black;
+    border-radius: 5px;
+`;
+
+const PlantOption = styled.div`
+    text-align: center;
+    border: 1px solid black;
+`;
+
+const SelectorNavigationButton = styled.div`
+    width: 10px;
+    text-align: center;
+    background-color: #28A745;
+`;
+
+const PlantImage = styled.img`
+    width: 100%;
+`;
 
 export default TwoDGrid;
