@@ -11,11 +11,24 @@ const INSIGHT = 2;
 const MOVE = 3;
 const REMOVE = 4;
 
+const PLANT_GROUPS = [
+    "Plants in Garden",
+    "Saved Plants",
+    "Save the Bees",
+    "Flowers",
+    "Trees",
+    "Food",
+    "Shrubs",
+    "Ground Covers",
+    "Fungi"
+];
+
 function TwoDGrid() {
     const { grid, setGrid } = useContext(Context);
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
+    const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
 
     const updateGrid = (i, j) => {
         if (interactionMode === ADDITION) {
@@ -106,7 +119,16 @@ function TwoDGrid() {
 
     return(
         <Container className={'container'}>
-            <Dropdown></Dropdown>
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {plantGroup}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    {PLANT_GROUPS.map((groupName, i) =>
+                        <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
+                    )}
+                </Dropdown.Menu>
+            </Dropdown>
             {plantSelector}
             <GridContainer>
                 <TransformWrapper>
