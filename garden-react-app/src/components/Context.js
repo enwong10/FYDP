@@ -14,12 +14,16 @@ export const defaultSettings = {
     },
     animals: '',
     budget: undefined,
-}
+};
+
+export const defaultGrid = Array.from(Array(10), () => {
+    return new Array(10).fill(null)
+});
 
 const Context = React.createContext({ grid: '', setGrid: () => {}, background: '', setBackground: () => {}, settings: {}, setSettings: () => {} });
 
 const ContextProvider = ({ children }) => {
-    const [grid, setGrid] = useState('');
+    const [grid, setGrid] = useState(defaultGrid);
     const [background, setBackground] = useState('');
     const [settings, setSettings] = useState(defaultSettings);
     return <Context.Provider value={{ grid, setGrid, background, setBackground, settings, setSettings }}>{children}</Context.Provider>;
