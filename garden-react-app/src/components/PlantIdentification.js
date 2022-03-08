@@ -16,7 +16,7 @@ function PlantIdentification() {
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        if (tutorialStep !== 0) setShow(true) 
+        if (tutorialStep !== 0) setShow(true)
     }, [tutorialStep])
 
     const renderTooltip = (props) => (
@@ -34,7 +34,7 @@ function PlantIdentification() {
         <MainContainer>
             <Back>
                 <div role='button' onClick={() => navigate('/garden')}>
-                    <img src={back} alt='back'/>
+                    <img src={back} alt='back' />
                 </div>
             </Back>
             <h1>
@@ -56,9 +56,9 @@ function PlantIdentification() {
                         overlay={renderTooltip}
                     >
                         <Button
-                            style={{ backgroundColor: "#28A745" , borderColor: "transparent"}}
+                            style={{ backgroundColor: "#28A745", borderColor: "transparent" }}
                             onClick={() => {
-                                if (tutorialStep === 2)setTutorialStep(3);
+                                if (tutorialStep === 2) setTutorialStep(3);
                                 // do something
                             }}
                         >
@@ -68,10 +68,10 @@ function PlantIdentification() {
                         </Button>
                     </OverlayTrigger>
                 </div>
-               
+
             </MidSection>
-            <ImageContainer1 style={{ backgroundColor: "black", borderColor: "transparent"}}>
-            <div>
+            <ImageContainer1 style={{ backgroundColor: "black", borderColor: "transparent" }}>
+                <div>
                     <OverlayTrigger
                         placement="bottom"
                         show={show && tutorialStep === 3}
@@ -80,51 +80,49 @@ function PlantIdentification() {
                         <Button
                             style={{ backgroundColor: "black", borderColor: "transparent" }}
                             onClick={() => {
-                                if (tutorialStep === 3)setTutorialStep(4);
+                                if (tutorialStep === 3) setTutorialStep(4);
                                 //navigate('/settings');
                             }}
                         >
                             <span>
-                            <img src={flower} width = "80%" height = "30%" />
+                                <img src={flower} width="80%" height="30%" alt='plant' />
                             </span>
                         </Button>
                     </OverlayTrigger>
                 </div>
-                <div style={{ backgroundColor: "black", color: "white"}}>
-                 Flower Name           
+                <div style={{ backgroundColor: "black", color: "white" }}>
+                    Flower Name
                 </div>
-        </ImageContainer1>
-        
-        <div style={{ backgroundColor: "white", borderColor: "transparent", height: "5%"}}>
-            
-        </div>
-        <ImageContainer2 style={{ backgroundColor: "black", borderColor: "transparent"}}> 
-        <div>
+            </ImageContainer1>
+
+            <div style={{ backgroundColor: "white", borderColor: "transparent", height: "5%" }}>
+
+            </div>
+            <ImageContainer2 style={{ backgroundColor: "black", borderColor: "transparent" }}>
+                <div>
                     <OverlayTrigger
                         placement="bottom"
                         //show={show && tutorialStep === 4}
                         overlay={renderTooltip}
                     >
                         <Button
-                            style={{ backgroundColor: "black", borderColor: "transparent"}}
+                            style={{ backgroundColor: "black", borderColor: "transparent" }}
                             onClick={() => {
-                               // nextTutorialStep();
+                                // nextTutorialStep();
                                 // do something
                             }}
                         >
                             <span>
-                            <img src={flower} width = "80%" height = "30%" />
+                                <img src={flower} width="80%" height="30%" alt='plant' />
                             </span>
                         </Button>
                     </OverlayTrigger>
                 </div>
-                <div style={{ backgroundColor: "black", color: "white"}}>
-                 Flower Name           
+                <div style={{ backgroundColor: "black", color: "white" }}>
+                    Flower Name
                 </div>
-        </ImageContainer2>
+            </ImageContainer2>
         </MainContainer>
-         
-
     )
 }
 

@@ -10,7 +10,7 @@ import backgroundPlaceholder from '../assets/background-placeholder.png';
 import settings from '../assets/settings.svg';
 import dictionary from '../assets/dictionary.svg';
 import download from '../assets/download.svg';
-import { Context } from "./Context";
+import { Context, defaultGrid } from "./Context";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Popover from 'react-bootstrap/Popover';
@@ -171,7 +171,7 @@ function MainGarden() {
             <MainGardenContainer>
                 {!background ? <>
                     <img src={backgroundPlaceholder} alt='placeholder' />
-                    {!grid ? <img src={gridPlaceholder} alt='placeholder' /> : <img src={garden} alt='grid' />}
+                    {grid === defaultGrid ? <img src={gridPlaceholder} alt='placeholder' /> : <img src={garden} alt='grid' />}
                 </> : <img src={background} alt='background' />}
             </MainGardenContainer>
             <Footer>
