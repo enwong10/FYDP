@@ -19,14 +19,24 @@ function PlantIdentification() {
         if (tutorialStep !== 0) setShow(true)
     }, [tutorialStep])
 
-    const renderTooltip = (props) => (
+    const renderTooltipPic = (props) => (
         <Popover id="overlay-example" {...props}
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
                 ...props.style,
             }}>
-            Upload Image From Camera Role
+            To identify a plant, simply upload the image here!
+        </Popover>
+    );
+    const renderTooltipID = (props) => (
+        <Popover id="overlay-example" {...props}
+            style={{
+                backgroundColor: '#28A745',
+                color: 'white',
+                ...props.style,
+            }}>
+            To see general information on this plant you can click it. 
         </Popover>
     );
 
@@ -45,7 +55,7 @@ function PlantIdentification() {
                     <OverlayTrigger
                         placement="bottom"
                         show={show && tutorialStep === 2}
-                        overlay={renderTooltip}
+                        overlay={renderTooltipPic}
                     >
                         <Button
                             style={{ backgroundColor: "#28A745", borderColor: "transparent" }}
@@ -67,13 +77,13 @@ function PlantIdentification() {
                     <OverlayTrigger
                         placement="bottom"
                         show={show && tutorialStep === 3}
-                        overlay={renderTooltip}
+                        overlay={renderTooltipID}
                     >
                         <Button
                             style={{ backgroundColor: "black", borderColor: "transparent" }}
                             onClick={() => {
                                 if (tutorialStep === 3) setTutorialStep(4);
-                                //navigate('/settings');
+                                navigate('/dictionary');
                             }}
                         >
                             <span>
@@ -95,7 +105,7 @@ function PlantIdentification() {
                     <OverlayTrigger
                         placement="bottom"
                         //show={show && tutorialStep === 4}
-                        overlay={renderTooltip}
+                        overlay={renderTooltipPic}
                     >
                         <Button
                             style={{ backgroundColor: "black", borderColor: "transparent" }}

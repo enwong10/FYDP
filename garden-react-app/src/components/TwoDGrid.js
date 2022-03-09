@@ -1,9 +1,12 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {Context} from "./Context";
 import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
 import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import plant from '../assets/plant.jpeg';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 
 const INSPECTION = 0;
 const ADDITION = 1;
