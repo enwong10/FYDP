@@ -9,7 +9,7 @@ export function TopNavBar({title, component}) {
     const navigate = useNavigate();
     const {tutorialStep, setTutorialStep} = useContext(Context);
     return(
-        <div>
+        <PageContainer>
             <div className={'row'}>
                 <Back className={'col'}>
                     <div role='button' onClick={() => navigate(-1)}>
@@ -26,18 +26,28 @@ export function TopNavBar({title, component}) {
             </div>
             {title && <Title> {title} </Title>}
             {component}
-         </div>
+        </PageContainer>
     )
 }
+
+const PageContainer = styled.div`
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+`
 
 const Back = styled.div`
     padding: 12px;
     text-align: left;
 `;
+
 const Home = styled.div`
     padding: 12px;
     text-align: right;
 `;
+
 const Title = styled.h1`
     text-align: center;
 `;

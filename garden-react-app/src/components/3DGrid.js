@@ -89,14 +89,14 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: black;
+    background: white;
 `
 
 const CameraContainer = styled.div`
     position: relative;
     width: 100%;
     padding-top: 133%;
-    background: black;
+    background: white;
     overflow: hidden;
     
     .react-html5-camera-photo {

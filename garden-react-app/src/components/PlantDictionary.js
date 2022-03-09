@@ -39,7 +39,7 @@ const MOCK_PLANT = {
 function PlantDictionary() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const {tutorialStep, setTutorialStep} = useContext(Context);
+    const { tutorialStep, setTutorialStep } = useContext(Context);
     const [show, setShow] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -74,61 +74,64 @@ function PlantDictionary() {
     return (
         <MainContainer>
             <PageSelectorContainer>
-                <button className="btn" 
-                onClick={() => setPage(1)} 
-                style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black' }}>GENERAL</button>
+                <div role='button'
+                    onClick={() => setPage(1)}
+                    style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black'}}>
+                        GENERAL
+                        </div>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderGrow}
                     show={tutorialStep === 4}
-                    >
-                    <Button
-                        className="btn"
-                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black', borderLeft: '1px solid black', borderRight: '1px solid black' }}
+                >
+                    <div role='button'
+                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black'}}
                         onClick={() => {
-                            if (tutorialStep === 4) setTutorialStep(5);  
-                            setPage(2);}}
+                            if (tutorialStep === 4) setTutorialStep(5);
+                            setPage(2);
+                        }}
                     >
                         GROWING
-                    </Button>
+                    </div>
                 </OverlayTrigger>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderPersonal}
                     show={tutorialStep === 5}
-                    >
-                    <Button
-                        className="btn"
-                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black' }}
+                >
+                    <div
+                        role="button"
+                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black'}}
                         onClick={() => {
-                            if (tutorialStep === 5) setTutorialStep(6);  
-                            setPage(3);}}
-                    >
-                       PERSONAL
-                    </Button>
-                </OverlayTrigger>
-                <Modal show={tutorialStep === 6} onHide={() => setShowModal(false)} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Walkthrough?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="text-left">
-                        Would you like to continue the walkthrough? To continue click okay and navigate back to the home page.
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                        className='btn btn-success'
-                        onClick={() => {
-                            setTutorialStep(7);
-                            setShowModal(false);
+                            if (tutorialStep === 5) setTutorialStep(6);
+                            setPage(3);
                         }}
                     >
-                        Continue
-                    </Button>
-                    <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false)}}>Exit</Button>
-                </Modal.Footer>
-            </Modal>
+                        PERSONAL
+                    </div>
+                </OverlayTrigger>
+                <Modal show={tutorialStep === 6} onHide={() => setShowModal(false)} centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Walkthrough?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="text-left">
+                            Would you like to continue the walkthrough? To continue click okay and navigate back to the home page.
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            className='btn btn-success'
+                            onClick={() => {
+                                setTutorialStep(7);
+                                setShowModal(false);
+                            }}
+                        >
+                            Continue
+                        </Button>
+                        <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>Exit</Button>
+                    </Modal.Footer>
+                </Modal>
             </PageSelectorContainer>
             {page === 1 &&
                 <PageContentContainer>
@@ -328,16 +331,30 @@ const PageSelectorContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
     border-radius: .25rem;
     overflow: hidden;
     margin: 8px 0;
 
-    button {
-        box-shadow: none !important;
+    > div {
         flex: 1;
-        border-radius: 0;
         min-height: 38px;
+        height: 100%;
+        border: 1px solid black;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    > div:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border-right: none;
+    }
+    > div:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-left: none;
     }
 `
 
