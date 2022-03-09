@@ -10,7 +10,7 @@ import backgroundPlaceholder from '../assets/background-placeholder.png';
 import settings from '../assets/settings.svg';
 import dictionary from '../assets/dictionary.svg';
 import download from '../assets/download.svg';
-import { Context } from "./Context";
+import { Context, defaultGrid } from "./Context";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Popover from 'react-bootstrap/Popover';
@@ -30,6 +30,7 @@ function MainGarden() {
         <Popover id="settings-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -41,6 +42,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Your Plants Page
@@ -51,6 +53,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Plant Identification Page
@@ -61,6 +64,7 @@ function MainGarden() {
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
+                borderColor: "black",
                 ...props.style,
             }}>
             Add New Plants To Your Garden
@@ -70,6 +74,7 @@ function MainGarden() {
         <Popover id="3d-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -80,6 +85,7 @@ function MainGarden() {
         <Popover id="down-pop" {...props}
             style={{
                 backgroundColor: '#28A745',
+                borderColor: "black",
                 color: 'white',
                 ...props.style,
             }}>
@@ -165,7 +171,7 @@ function MainGarden() {
             <MainGardenContainer>
                 {!background ? <>
                     <img src={backgroundPlaceholder} alt='placeholder' />
-                    {!grid ? <img src={gridPlaceholder} alt='placeholder' /> : <img src={garden} alt='grid' />}
+                    {grid === defaultGrid ? <img src={gridPlaceholder} alt='placeholder' /> : <img src={garden} alt='grid' />}
                 </> : <img src={background} alt='background' />}
             </MainGardenContainer>
             <Footer>
@@ -173,7 +179,7 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="top"
                         overlay={renderAddPop}
-                        // show={tutorialStep === 2}
+                        show={tutorialStep === 7}
                         >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px' }}
@@ -184,7 +190,7 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="top"
                         overlay={render3DPop}
-                        // show={tutorialStep === 1}
+                         show={tutorialStep === 11}
                         >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -199,7 +205,9 @@ function MainGarden() {
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                            onClick={() => { nextTutorialStep(); navigate('/identification') }}>
+                            onClick={() => {
+                                if (tutorialStep === 1)setTutorialStep(2);
+                                 navigate('/identification') }}>
                             <img src={info} alt='plant-identification' />
                         </div>
                     </OverlayTrigger>
