@@ -59,26 +59,23 @@ function ARGrid() {
     }
 
     return (
-        <div className={'container'}>
-            <TopNavBar route={'/garden'}/>
-            <Container>
-                {!screenshot ?
-                <CameraContainer ref={ref}>
-                    <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} isMaxResolution/>
-                    <GardenOverlay src={garden} alt='garden'/>
-                    </CameraContainer>
-                    :
-                <>
-                <Screenshot src={screenshot} alt='screenshot'/>
-                <ActionsContainer>
-                    <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
-                    <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
-                    <button className='btn btn-danger' onClick={() => navigate('/garden')}>Exit Without Saving</button>
-                </ActionsContainer>
-                </>
-                }
-            </Container>
-        </div>
+        <Container>
+            {!screenshot ?
+            <CameraContainer ref={ref}>
+                <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} isMaxResolution/>
+                <GardenOverlay src={garden} alt='garden'/>
+                </CameraContainer>
+                :
+            <>
+            <Screenshot src={screenshot} alt='screenshot'/>
+            <ActionsContainer>
+                <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
+                <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
+                <button className='btn btn-danger' onClick={() => navigate('/garden')}>Exit Without Saving</button>
+            </ActionsContainer>
+            </>
+            }
+        </Container>
     )
 }
 

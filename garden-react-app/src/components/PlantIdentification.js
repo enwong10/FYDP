@@ -32,14 +32,6 @@ function PlantIdentification() {
 
     return (
         <MainContainer>
-            <Back>
-                <div role='button' onClick={() => navigate('/garden')}>
-                    <img src={back} alt='back' />
-                </div>
-            </Back>
-            <h1>
-                Identification
-            </h1>
             <MidSection>
                 <div>
                     <Button

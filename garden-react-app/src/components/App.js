@@ -16,10 +16,12 @@ import PlantDictionary from "./PlantDictionary";
 import GardenSettings from "./GardenSettings";
 import IdentificationAlgo from "./IdentificationAlgo"
 import { ContextProvider } from "./Context";
+import {TopNavBar} from "./TopNavBar";
+import styled from "styled-components";
 
 function App() {
   return (
-    <div>
+    <Container className={'container'}>
       <BrowserRouter>
         <ContextProvider>
           <Routes>
@@ -28,17 +30,22 @@ function App() {
             <Route path="id-camera" element={<IdentificationCamera />} />
             <Route path="id-algo" element={<IdentificationAlgo />} />
             <Route path="garden" element={<MainGarden/>}/>
-            <Route path="settings" element={<GardenSettings />} />
-            <Route path="3d-grid" element={<ARGrid />} />
-            <Route path="2d-grid" element={<TwoDGrid />} />
-            <Route path="identification" element={<PlantIdentification />} />
-            <Route path="dictionary" element={<PlantDictionary />} />
+            <Route path="settings" element={<TopNavBar title={'Garden Setings'} component={<GardenSettings />} />} />
+            <Route path="3d-grid" element={<TopNavBar component={<ARGrid />} />} />
+            <Route path="2d-grid" element={<TopNavBar component={<TwoDGrid />} />} />
+            <Route path="identification" element={<TopNavBar component={<PlantIdentification />} />} />
+            <Route path="dictionary" element={<TopNavBar component={<PlantDictionary />} />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
         </ContextProvider>
       </BrowserRouter>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+    margin:auto;
+    max-width: 400px;
+`;
 
 export default App;

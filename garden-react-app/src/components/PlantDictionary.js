@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import plant from '../assets/plant.jpeg';
+import {TopNavBar} from "./TopNavBar";
 
 const MOCK_PLANT = {
     vernacularName: 'White Trillium',

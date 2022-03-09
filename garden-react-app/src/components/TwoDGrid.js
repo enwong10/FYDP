@@ -2,9 +2,8 @@ import React, {useContext, useState} from 'react';
 import {Context} from "./Context";
 import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
 import styled from "styled-components";
-import { Dropdown, Button, ButtonGroup } from "react-bootstrap"
-import plant from '../assets/plant.jpeg'
-import { TopNavBar } from "./TopNavBar";
+import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import plant from '../assets/plant.jpeg';
 
 const INSPECTION = 0;
 const ADDITION = 1;
@@ -123,8 +122,7 @@ function TwoDGrid() {
     );
 
     return(
-        <Container className={'container'}>
-            <TopNavBar route={'/garden'}/>
+        <div>
             <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                     {plantGroup}
@@ -144,7 +142,7 @@ function TwoDGrid() {
                 </TransformWrapper>
             </GridContainer>
             {gridButtons}
-        </Container>
+        </div>
     )
 }
 
@@ -162,11 +160,6 @@ const GridContainer = styled.div`
     margin: auto;
     border: 3px solid black;
     text-align: center;
-`;
-
-const Container = styled.div`
-    margin:auto;
-    max-width: 400px;
 `;
 
 const PlantSelector = styled.div`
