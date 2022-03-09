@@ -3,10 +3,12 @@ import styled from "styled-components";
 import upIcon from '../assets/up.svg';
 import downIcon from '../assets/down.svg';
 import mockImage from '../assets/Flower 2.jpeg'
+import { useNavigate } from "react-router-dom";
 
 const MOCK_DATA = [{name: 'Trillium', img: mockImage}, {name: 'Daisy', img: mockImage}, {name: 'Flower 3', img: mockImage}, {name: 'Flower 4', img: mockImage}]
 
 function MyPlants() {
+    const navigate = useNavigate();
     const [isAccordionCollapsed, setIsAccordionCollapsed] = useState(false);
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
 
@@ -42,7 +44,7 @@ function MyPlants() {
                         {!isAccordionCollapsed && 
                         <div className='d-flex flex-row flex-wrap justify-content-between'>
                             {MOCK_DATA.map((a) => (
-                                <PlantPreviewContainer>
+                                <PlantPreviewContainer role='button' onClick={() => navigate('/dictionary')}>
                                     <img src={a.img} alt='plant'/>
                                     <div>{a.name}</div>
                                 </PlantPreviewContainer>

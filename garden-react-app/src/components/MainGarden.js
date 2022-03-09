@@ -152,7 +152,7 @@ function MainGarden() {
                     >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                        onClick={() => navigate('/dictionary')}
+                        onClick={() => navigate('/my-plants')}
                     >
                         <img src={dictionary} alt='dictionary' />
                     </Button>
