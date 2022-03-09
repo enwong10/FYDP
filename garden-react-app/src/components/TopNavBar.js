@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import back from "../assets/back.svg";
 import home from "../assets/home.svg";
-import React from "react";
+import React, {useContext} from "react";
 import {useNavigate} from "react-router-dom";
+import { Context} from "./Context";
 
 export function TopNavBar({title, component}) {
     const navigate = useNavigate();
+    const {tutorialStep, setTutorialStep} = useContext(Context);
     return(
         <div>
             <div className={'row'}>
@@ -15,7 +17,9 @@ export function TopNavBar({title, component}) {
                     </div>
                 </Back>
                 <Home className={'col'}>
-                    <div role='button' onClick={() => navigate('/garden')}>
+                    <div role='button' onClick={() => {
+                        //setTutorialStep(7);
+                        navigate('/garden')}}>
                         <img src={home} alt='home'/>
                     </div>
                 </Home>
