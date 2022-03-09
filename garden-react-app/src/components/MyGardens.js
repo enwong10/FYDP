@@ -60,7 +60,6 @@ function MyGardens() {
 
 
 const GardensContainer = styled.div`
-    width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -96,7 +95,7 @@ const GardenPreviewContainer = styled.div`
     overflow: hidden;
 
     @media (min-width: 768px) {
-        width: 400px;
+        width: 100%;
         height: 400px;
         padding-top: 0%;
     }
