@@ -6,6 +6,7 @@ import garden from '../assets/3d_garden.PNG';
 import 'react-html5-camera-photo/build/css/index.css';
 import html2canvas from 'html2canvas'
 import { Context } from "./Context";
+import {TopNavBar} from "./TopNavBar";
 
 function ARGrid() {
     const ref = createRef(null);
@@ -21,21 +22,21 @@ function ARGrid() {
             // init data
             const cropPositionTop = 0
             const cropPositionLeft = 0
-            // weird bug causing canvas width / height to be greater than it actually is 
+            // weird bug causing canvas width / height to be greater than it actually is
             const cropWidth = canvas.width - 3
             const cropHeight = canvas.height - 3
-    
+
             croppedCanvas.width = cropWidth
             croppedCanvas.height = cropHeight
-    
+
             croppedCanvasContext.drawImage(
               canvas,
               cropPositionLeft,
               cropPositionTop,
             )
-    
+
             const base64Image = croppedCanvas.toDataURL()
-    
+
             setScreenshot(base64Image)
             return base64Image
           })
@@ -58,23 +59,26 @@ function ARGrid() {
     }
 
     return (
-        <Container>
-            {!screenshot ? 
-            <CameraContainer ref={ref}>
-                <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} isMaxResolution/> 
-                <GardenOverlay src={garden} alt='garden'/>
-                </CameraContainer>
-                : 
-            <>
-            <Screenshot src={screenshot} alt='screenshot'/>
-            <ActionsContainer>
-                <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
-                <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
-                <button className='btn btn-danger' onClick={() => navigate('/my-gardens')}>Exit Without Saving</button>
-            </ActionsContainer>
-            </>
-            }
-        </Container>
+        <div className={'container'}>
+            <TopNavBar route={'/garden'}/>
+            <Container>
+                {!screenshot ?
+                <CameraContainer ref={ref}>
+                    <Camera onTakePhoto={handleTakePhoto} idealFacingMode={FACING_MODES.ENVIRONMENT} isImageMirror={false} isMaxResolution/>
+                    <GardenOverlay src={garden} alt='garden'/>
+                    </CameraContainer>
+                    :
+                <>
+                <Screenshot src={screenshot} alt='screenshot'/>
+                <ActionsContainer>
+                    <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
+                    <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
+                    <button className='btn btn-danger' onClick={() => navigate('/garden')}>Exit Without Saving</button>
+                </ActionsContainer>
+                </>
+                }
+            </Container>
+        </div>
     )
 }
 

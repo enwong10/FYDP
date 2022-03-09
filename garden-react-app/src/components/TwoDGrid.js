@@ -4,6 +4,7 @@ import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
 import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap"
 import plant from '../assets/plant.jpeg'
+import { TopNavBar } from "./TopNavBar";
 
 const INSPECTION = 0;
 const ADDITION = 1;
@@ -29,6 +30,8 @@ function TwoDGrid() {
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
+
+    // Functions //
 
     const updateGrid = (i, j) => {
         if (interactionMode === ADDITION) {
@@ -72,6 +75,8 @@ function TwoDGrid() {
         if (newIndex < 0) newIndex = 0;
         setfirstPlantChoiceIndex(newIndex);
     };
+
+    // JSX Pieces //
 
     const displayGrid = grid.map((row, i) =>
         <GridRow key={'row' + i} className={'row'}>
@@ -119,6 +124,7 @@ function TwoDGrid() {
 
     return(
         <Container className={'container'}>
+            <TopNavBar route={'/garden'}/>
             <Dropdown>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                     {plantGroup}

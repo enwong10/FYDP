@@ -20,7 +20,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 function MainGarden() {
     const navigate = useNavigate();
     const { grid, background, tutorialStep, setTutorialStep, nextTutorialStep } = useContext(Context);
-    const [showModal, setShowModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (tutorialStep === -1) setShowModal(true);
@@ -83,7 +83,7 @@ function MainGarden() {
                 color: 'white',
                 ...props.style,
             }}>
-            Download a JPEG of your Gareden!
+            Download a JPEG of your Garden!
         </Popover>
     );
 
@@ -102,7 +102,7 @@ function MainGarden() {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="text-left">
-                        Would you like to participate in the app walkthrough? 
+                        Would you like to participate in the app walkthrough?
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
