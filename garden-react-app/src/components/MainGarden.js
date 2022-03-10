@@ -19,11 +19,17 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 function MainGarden() {
     const navigate = useNavigate();
-    const { grid, background, tutorialStep, setTutorialStep, nextTutorialStep } = useContext(Context);
+    const { grid, background, tutorialStep, setTutorialStep } = useContext(Context);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (tutorialStep === -1) setShowModal(true);
+    }, [tutorialStep])
+
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        if (tutorialStep !== 0) setShow(true)
     }, [tutorialStep])
 
     const renderSettingsPop = (props) => (
@@ -56,7 +62,7 @@ function MainGarden() {
                 borderColor: "black",
                 ...props.style,
             }}>
-            Plant Identification Page
+            To begin, navigate to the plant identification section. 
         </Popover>
     );
     const renderAddPop = (props) => (
@@ -146,7 +152,7 @@ function MainGarden() {
                     >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                        onClick={() => navigate('/dictionary')}
+                        onClick={() => navigate('/my-plants')}
                     >
                         <img src={dictionary} alt='dictionary' />
                     </Button>
@@ -181,11 +187,14 @@ function MainGarden() {
                         overlay={renderAddPop}
                         show={tutorialStep === 7}
                         >
-                        <div role='button'
+                        <Button 
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px' }}
-                            onClick={() => navigate('/2d-grid')}>
+                            onClick={() => {
+                                if (tutorialStep === 7) setTutorialStep(8);
+                                console.log(tutorialStep);
+                                navigate('/2d-grid')}}>
                             <img src={add} alt='2d-grid' />
-                        </div>
+                        </Button>
                     </OverlayTrigger>
                     <OverlayTrigger
                         placement="top"

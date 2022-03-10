@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {Context} from "./Context";
 import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
 import styled from "styled-components";
@@ -7,6 +7,9 @@ import plant from '../assets/plant.jpeg';
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
 import {useNavigate} from "react-router-dom";
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 
 const INSPECTION = 0;
 const ADDITION = 1;
