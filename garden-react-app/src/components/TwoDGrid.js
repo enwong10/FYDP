@@ -31,28 +31,32 @@ const PLANT_GROUPS = [
 
 function TwoDGrid() {
     const { grid, setGrid } = useContext(Context);
+    const { history, setHistory } = useContext(Context);
     const navigate = useNavigate();
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
-    const [history, setHistory] = useState(grid);
 
     // Functions //
 
-    const updateGrid = (i, j) => {
+    const modifyGrid = (i, j, newValue) => {
+        const newGrid = [...grid];
+        setHistory([...history, {i, j, value: newGrid[i][j]}]);
+        newGrid[i][j] = newValue;
+        setGrid(newGrid);
+    };
+
+    const clickedGrid = (i, j) => {
         if (interactionMode === ADDITION) {
-            const newGrid = [...grid];
-            newGrid[i][j] = selectedPlant;
-            setGrid(newGrid);
+            modifyGrid(i, j, selectedPlant)
         }
         else if (interactionMode === REMOVE) {
-            const newGrid = [...grid];
-            newGrid[i][j] = null;
-            setGrid(newGrid);
+            modifyGrid(i, j,null)
         }
         else if (interactionMode === INSPECTION) {
-            navigate('/dictionary');
+            if (grid[i][j])
+                navigate('/dictionary');
         }
         else if (interactionMode === INSIGHT) {
             // TODO: Enable tooltips
@@ -64,7 +68,8 @@ function TwoDGrid() {
 
     const toggleAdditionMode = (plantIndex) => {
         if (selectedPlant === plantIndex) {
-            // TODO: open dictionary
+            setInteractionMode(INSPECTION);
+            setSelectedPlant(null);
         }
         else {
             setInteractionMode(ADDITION);
@@ -83,12 +88,23 @@ function TwoDGrid() {
         setfirstPlantChoiceIndex(newIndex);
     };
 
+    const undo = () => {
+        if (history.length > 0) {
+            const newHistory = [...history];
+            const lastState = newHistory.pop();
+            const newGrid = [...grid];
+            newGrid[lastState.i][lastState.j] = lastState.value;
+            setGrid(newGrid);
+            setHistory(newHistory);
+        }
+    };
+
     // JSX Pieces //
 
     const displayGrid = grid.map((row, i) =>
         <GridRow key={'row' + i} className={'row'}>
             {row.map((gridContent, j) =>
-                <GridSquare onClick={() => updateGrid(i, j)} key={'col' + j} className={'col'}>
+                <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
                     {gridContent}
                 </GridSquare>
             )}
@@ -97,17 +113,24 @@ function TwoDGrid() {
 
     return(
         <Container>
-            <div>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        {plantGroup}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {PLANT_GROUPS.map((groupName, i) =>
-                            <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
-                        )}
-                    </Dropdown.Menu>
-                </Dropdown>
+            <div className={'row'}>
+                <div className={'col'}>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {plantGroup}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {PLANT_GROUPS.map((groupName, i) =>
+                                <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+                <div className={'col'}>
+                    <Button onClick={undo}>
+                        Undo
+                    </Button>
+                </div>
             </div>
             <PlantSelector className={'row'}>
                 <SelectorNavigationButton className={'col'} style={{borderRadius: '5px 0 0 5px'}}
@@ -160,6 +183,7 @@ const GridSquare = styled.div`
     border: 1px solid black;
     height: 40px;
     width: 40px;
+    padding: 0;
 `;
 
 const GridRow = styled.div`
