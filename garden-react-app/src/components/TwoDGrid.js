@@ -107,7 +107,9 @@ function TwoDGrid() {
         <GridRow key={'row' + i} className={'row'}>
             {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
-                    <img src={id !== null ? plantDictionary[id].imageUrl : ''} alt="" />
+                    {id !== null &&
+                        <img src={plantDictionary[id].imageUrl} alt="" />
+                    }
                 </GridSquare>
             )}
         </GridRow>
