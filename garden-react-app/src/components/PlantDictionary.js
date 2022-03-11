@@ -114,8 +114,9 @@ function PlantDictionary() {
                     <InformationContainer>
                         <div>
                             <div>
-                                <span>Vernacular Name: </span>
-                                <span>{plantDictionary[selectedPlantIndex].vernacularName}</span>
+                                <span>Common Names: </span>
+                                <span>{plantDictionary[selectedPlantIndex].commonNames[0]}</span> 
+                                {/* // TODO LIST ALL THE NAMES  */}
                             </div>
                         </div>
                         <div>

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import {Context} from "./Context";
-import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
+import { Context, plantDictionary } from "./Context";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import plant from '../assets/plant.jpeg';
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
@@ -42,7 +42,7 @@ function TwoDGrid() {
 
     const modifyGrid = (i, j, newValue) => {
         const newGrid = [...grid];
-        setHistory([...history, {i, j, value: newGrid[i][j]}]);
+        setHistory([...history, { i, j, value: newGrid[i][j] }]);
         newGrid[i][j] = newValue;
         setGrid(newGrid);
     };
@@ -52,7 +52,7 @@ function TwoDGrid() {
             modifyGrid(i, j, selectedPlant)
         }
         else if (interactionMode === REMOVE) {
-            modifyGrid(i, j,null)
+            modifyGrid(i, j, null)
         }
         else if (interactionMode === INSPECTION) {
             if (grid[i][j])
@@ -111,7 +111,7 @@ function TwoDGrid() {
         </GridRow>
     );
 
-    return(
+    return (
         <Container>
             <div className={'row'}>
                 <div className={'col'}>
@@ -132,22 +132,24 @@ function TwoDGrid() {
                     </Button>
                 </div>
             </div>
-            <PlantSelector className={'row'}>
-                <SelectorNavigationButton className={'col'} style={{borderRadius: '5px 0 0 5px'}}
-                  onClick={() => updateFirstPlantIndex(-3)}
-                  style={{backgroundColor: firstPlantChoiceIndex === 0 ? "#868686" : "#28A745"}}>
+            <PlantSelector>
+                <SelectorNavigationButton
+                    onClick={() => updateFirstPlantIndex(-3)}
+                    disabled={firstPlantChoiceIndex === 0}>
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
-                {[...Array(3)].map((x,i) =>
-                    <PlantOption style={{border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745": ""}}
-                                 onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}>
-                        <PlantImage src={plant} />
-                        <div>Plant {firstPlantChoiceIndex + i}</div>
-                        <hr />
-                    </PlantOption>
-                )}
-                <SelectorNavigationButton className={'col'} style={{borderRadius: '0 5px 5px 0'}}
-                  onClick={() => updateFirstPlantIndex(3)}>
+                <PlantsSelectionsContainer>
+                    {plantDictionary.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
+                        <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
+                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}>
+                            <PlantImage src={x.imageUrl} />
+                            <div>{x.commonNames[0]}</div>
+                        </PlantOption>
+                    )}
+                </PlantsSelectionsContainer>
+                <SelectorNavigationButton
+                    onClick={() => updateFirstPlantIndex(3)}
+                    disabled={firstPlantChoiceIndex + 3 > plantDictionary.length}>
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
@@ -169,13 +171,21 @@ function TwoDGrid() {
                     Remove
                 </Button>
             </ButtonGroup>
-        </Container>
+        </Container >
     )
 }
 
 const TopButtons = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
+`;
+
+const PlantsSelectionsContainer = styled.div`
+    display: flex;
+    flex: 5;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
 `;
 
@@ -197,6 +207,9 @@ const GridContainer = styled.div`
 `;
 
 const PlantSelector = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-grow;
     margin: 20px auto;
     border: 1px solid black;
     border-radius: 5px;
@@ -204,16 +217,23 @@ const PlantSelector = styled.div`
 
 const PlantOption = styled.div`
     text-align: center;
+    width: 33.3333333333%;
     border: 1px solid black;
 `;
 
-const SelectorNavigationButton = styled.div`
-    width: 10px;
+const SelectorNavigationButton = styled.button`
+    flex: 1;
     text-align: center;
     background-color: #28A745;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
+    background-color: #28A745;
+
+    :disabled {
+        background-color: #868686
+    }
 `;
 
 const PlantImage = styled.img`

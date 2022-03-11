@@ -12,6 +12,8 @@ function MyPlants() {
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
 
     const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
+    console.log(listOfPlants)
+    console.log(plantDictionary)
 
     return (
         <MainContainer>
@@ -39,14 +41,14 @@ function MyPlants() {
                         </> : 
                         <>
                         <div role='button' className='d-flex flex-row align-items-center' onClick={() => setIsAccordionCollapsed(!isAccordionCollapsed)} >
-                            <h3>{cat} ({listOfPlants.length})</h3> 
+                            <h3>{cat} ({listOfPlants.length - 1})</h3> 
                             <img className="mx-2" src={isAccordionCollapsed ? downIcon : upIcon} alt='expand/collapse'/>
                         </div>
                         {!isAccordionCollapsed && listOfPlants.length > 0 && 
-                        <div className='d-flex flex-row flex-wrap justify-content-between'>
+                        <div className='d-flex flex-row flex-wrap justify-content-start'>
                             {listOfPlants.map((a) => (
                                 <>
-                                {!!a && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlant(a); navigate('/dictionary')}}>
+                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlant(a); navigate('/dictionary')}}>
                                     <img src={plantDictionary[a].imageUrl} alt='plant'/>
                                     <div>{plantDictionary[a].name}</div>
                                 </PlantPreviewContainer>}
@@ -105,6 +107,7 @@ const PlantPreviewContainer = styled.div`
     padding-top: 30%;
     border: 2px solid black;
     margin-bottom: 5%;
+    margin-right: 3%;
     overflow: hidden;
 
     img {

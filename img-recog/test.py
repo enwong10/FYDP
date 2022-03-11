@@ -1,5 +1,7 @@
 import requests
 import json
+import os
+import sys
 from pprint import pprint
 
 def format_prepped_request(prepped, encoding=None):
@@ -17,29 +19,40 @@ def format_prepped_request(prepped, encoding=None):
 API_KEY = "2b10189SmpQJ3XHmESgf2Hz9k"	# Your API_KEY here
 api_endpoint = f"https://my-api.plantnet.org/v2/identify/all?api-key={API_KEY}"
 
-image_path_1 = "C:/Users/maxrink/Downloads/flower.jpeg"
-image_data_1 = open(image_path_1, 'rb')
+# original_stdout = sys.stdout
+base_path = "B:/dev/githubio/mwjrink.github.io/code/test_images"
+with open('B:/dev/githubio/mwjrink.github.io/code/test_images/output.txt', 'wt', encoding="utf-8") as out:
+    # sys.stdout = out
+    for file in os.listdir(base_path):
+        image_path_1 = base_path + "/" + file
+        image_data_1 = open(image_path_1, 'rb')
 
-image_path_2 = "C:/Users/maxrink/Downloads/leaves.jpeg"
-image_data_2 = open(image_path_2, 'rb')
+        # image_path_2 = "C:/Users/maxrink/Downloads/leaves.jpeg"
+        # image_data_2 = open(image_path_2, 'rb')
 
-data = {
-	'organs': ['flower', 'leaf']
-}
+        data = {
+            'organs': ['flower', 
+            # 'leaf'
+            ]
+        }
 
-files = [
-	('images', (image_path_1, image_data_1)),
-	('images', (image_path_2, image_data_2))
-]
+        files = [
+            ('images', (image_path_1, image_data_1)),
+            # ('images', (image_path_2, image_data_2))
+        ]
 
-req = requests.Request('POST', url=api_endpoint, files=files, data=data)
-prepared = req.prepare()
+        req = requests.Request('POST', url=api_endpoint, files=files, data=data)
+        prepared = req.prepare()
 
-print(format_prepped_request(prepared))
+        # print(format_prepped_request(prepared))
 
-s = requests.Session()
-response = s.send(prepared)
-json_result = json.loads(response.text)
+        s = requests.Session()
+        response = s.send(prepared)
+        json_result = json.loads(response.text)
 
-pprint(response.status_code)
-pprint(json_result)
+        out.write('\n\n\n')
+        out.write(file)
+        pprint(response.status_code, stream=out)
+        pprint(json_result, stream=out)
+
+# sys.stdout = original_stdout

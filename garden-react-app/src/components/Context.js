@@ -32,7 +32,7 @@ export const defaultGrid = buildInitialGrid(10, 10);
 
 const MOCK_PLANT = {
     imageUrl: mockImage,
-    vernacularName: 'White Trillium',
+    commonNames: ['White Trillium'],
     scientificName: 'Trillium grandiflorum',
     occurranceStatus: 'Present',
     locality: 'Southern Ontario, Canada',
@@ -73,7 +73,7 @@ const Context = React.createContext({
     nextTutorialStep: () => {},
     disableTutorial: () => {},
     selectedPlantIndex: 0,
-    setSelectedPlantIndex: () => {}
+    setSelectedPlantIndex: () => {},
 });
 
 const ContextProvider = ({ children }) => {

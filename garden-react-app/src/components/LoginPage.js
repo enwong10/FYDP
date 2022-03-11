@@ -9,7 +9,7 @@ function LoginPage() {
     const navigate = useNavigate();
 
     const onLoginClick = () => {
-        if (username === 'user@example.com' && password === 'password') 
+        // if (username === 'user@example.com' && password === 'password') 
         navigate('/my-gardens');
     }
 

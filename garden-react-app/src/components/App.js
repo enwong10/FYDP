@@ -28,8 +28,6 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="my-gardens" element={<MyGardens />} />
-            <Route path="id-camera" element={<IdentificationCamera />} />
-            <Route path="id-algo" element={<IdentificationAlgo />} />
             <Route path="garden" element={<MainGarden/>}/>
             <Route path="settings" element={<TopNavBar title={'Garden Settings'} component={<GardenSettings />} />} />
             <Route path="3d-grid" element={<TopNavBar component={<ARGrid />} />} />

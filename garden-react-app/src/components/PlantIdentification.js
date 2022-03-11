@@ -1,170 +1,124 @@
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import camera from '../assets/camera.svg'
-import Button from 'react-bootstrap/Button';
+import PrettyButton from './PrettyButton';
 import Popover from 'react-bootstrap/Popover';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Context } from './Context';
-import flower from '../assets/Flower 2.jpeg';
-import {TopNavBar} from "./TopNavBar";
+
+const api_key = '2b10189SmpQJ3XHmESgf2Hz9k'
 
 function PlantIdentification() {
-    const navigate = useNavigate();
-    const { tutorialStep, nextTutorialStep, setTutorialStep } = useContext(Context);
+    // const navigate = useNavigate();
+    const { tutorialStep, _, setTutorialStep } = useContext(Context);
     const [show, setShow] = useState(false);
+
+    const inputFlower = useRef(null);
+    const [selectedFlower, setSelectedFlower] = useState(null);
+    const [response, setResponse] = useState("");
+    const [showAPI, setShowAPI] = useState(false);
 
     useEffect(() => {
         if (tutorialStep !== 0) setShow(true)
     }, [tutorialStep])
 
-    const renderTooltipPic = (props) => (
+    const onUploadFlower = () => {
+        if (tutorialStep === 2) setTutorialStep(3);
+
+        if (inputFlower.current) {
+            inputFlower.current.click();
+        }
+    };
+
+    const onIdentify = async () => {
+        setShowAPI(true);
+
+        // POST request using fetch with async / await
+        const body = `{ "organs": "flower", "images": "${selectedFlower}" }`
+        // , "organs": "leaf", "images": "${selectedLeaves}"
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            body
+        };
+        //https://my-api.plantnet.org/v2/identify/all?api-key=
+        const response = await fetch(`https://my-api.plantnet.org/v2/identify/all?api-key=${api_key}`, requestOptions);
+        const data = await response.json();
+        // setResponse(data);
+        setResponse("hello");
+
+        console.log(response)
+    };
+
+    //: ChangeEvent<HTMLInputElement>
+    const handleFlowerChange = (event) => {
+        if (event && event.target) {
+            let input = event.target;
+            var fReader = new FileReader();
+            if (input.files) {
+                fReader.readAsDataURL(input.files[0]);
+                fReader.onloadend = (event) => {
+                    if (event && event.target) {
+                        //  as string
+                        setSelectedFlower(event.target.result);
+                    }
+                }
+            }
+        }
+    }
+
+    const renderTooltip = (props) => (
         <Popover id="overlay-example" {...props}
             style={{
                 backgroundColor: '#28A745',
                 color: 'white',
                 ...props.style,
-            }}>
-            To identify a plant, simply upload the image here!
-        </Popover>
-    );
-    const renderTooltipID = (props) => (
-        <Popover id="overlay-example" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                color: 'white',
-                ...props.style,
-            }}>
-            To see general information on this plant you can click it. 
+            }
+            }>
+            Upload Image From Camera Roll
         </Popover>
     );
 
     return (
         <MainContainer>
-            <MidSection>
-                <div>
-                    <Button
-                        style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                        onClick={() => navigate('/id-camera')}
-                    >
-                        <img src={camera} alt='3d-grid' />
-                    </Button>
-                </div>
-                <div>
-                    <OverlayTrigger
-                        placement="bottom"
-                        show={show && tutorialStep === 2}
-                        overlay={renderTooltipPic}
-                    >
-                        <Button
-                            style={{ backgroundColor: "#28A745", borderColor: "transparent" }}
-                            onClick={() => {
-                                if (tutorialStep === 2) setTutorialStep(3);
-                                // do something
-                            }}
-                        >
-                            <span style={{ color: '#FFFFFF' }}>
-                                + Upload Image
-                            </span>
-                        </Button>
-                    </OverlayTrigger>
-                </div>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                {selectedFlower !== null && <img style={{ margin: "1em" }} src={selectedFlower ?? ""} className="App-logo" alt="logo" />}
+                <input type='file' id='file' ref={inputFlower} onChange={handleFlowerChange} style={{ display: 'none' }} accept="image/*" />
+                <OverlayTrigger
+                    placement="bottom"
+                    show={show && tutorialStep === 2}
+                    overlay={renderTooltip}
+                >
+                    <PrettyButton
+                        onClick={onUploadFlower}
+                        content="Choose an Image" />
+                </OverlayTrigger>
+                <PrettyButton onClick={onIdentify} content="Identify" />
 
-            </MidSection>
-            <ImageContainer1 style={{ backgroundColor: "black", borderColor: "transparent" }}>
-                <div>
-                    <OverlayTrigger
-                        placement="bottom"
-                        show={show && tutorialStep === 3}
-                        overlay={renderTooltipID}
-                    >
-                        <Button
-                            style={{ backgroundColor: "black", borderColor: "transparent" }}
-                            onClick={() => {
-                                if (tutorialStep === 3) setTutorialStep(4);
-                                navigate('/dictionary');
-                            }}
-                        >
-                            <span>
-                                <img src={flower} width="80%" height="30%" alt='plant' />
-                            </span>
-                        </Button>
-                    </OverlayTrigger>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignContent: "flex-start"
+                }}>
+                    {showAPI && response}
                 </div>
-                <div style={{ backgroundColor: "black", color: "white" }}>
-                    Flower Name
-                </div>
-            </ImageContainer1>
-
-            <div style={{ backgroundColor: "white", borderColor: "transparent", height: "5%" }}>
-
             </div>
-            <ImageContainer2 style={{ backgroundColor: "black", borderColor: "transparent" }}>
-                <div>
-                    <OverlayTrigger
-                        placement="bottom"
-                        //show={show && tutorialStep === 4}
-                        overlay={renderTooltipPic}
-                    >
-                        <Button
-                            style={{ backgroundColor: "black", borderColor: "transparent" }}
-                            onClick={() => {
-                                // nextTutorialStep();
-                                // do something
-                            }}
-                        >
-                            <span>
-                                <img src={flower} width="80%" height="30%" alt='plant' />
-                            </span>
-                        </Button>
-                    </OverlayTrigger>
-                </div>
-                <div style={{ backgroundColor: "black", color: "white" }}>
-                    Flower Name
-                </div>
-            </ImageContainer2>
         </MainContainer>
     )
 }
 
-
 const MainContainer = styled.div`
-    max-width: 400px;
-    align-items: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    overflow: hidden;
-`
-
-const ImageContainer1 = styled.div`
-background-color: black;
-height: 29%;
-width: 80%;
-padding: 12px;
-justify-content: space-between;
-`
-const ImageContainer2 = styled.div`
-background-color: white;
-height: 30%;
-width: 80%;
-padding: 12px;
-justify-content: space-between;
-`
-
-const MidSection = styled.div`
-    height: 10%;
-    width: 100%;
-    padding: 12px;
-    display: flex;
-    flex-direction: row;
-    padding: 8px; 
-    align-items: center;
-    justify-content: center;
-    top: 50%;
-    right: 50%;
-`
+                                                                            max-width: 400px;
+                                                                            align-items: center;
+                                                                            height: 100vh;
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            margin: auto;
+                                                                            overflow: hidden;
+                                                                            `
 
 export default PlantIdentification
