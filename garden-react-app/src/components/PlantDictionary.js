@@ -6,40 +6,13 @@ import Button from 'react-bootstrap/Button';
 import Popover from 'react-bootstrap/Popover';
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { Context, defaultGrid } from "./Context";
+import { Context, plantDictionary } from "./Context";
 import Modal from 'react-bootstrap/Modal';
-
-const MOCK_PLANT = {
-    vernacularName: 'White Trillium',
-    scientificName: 'Trillium grandiflorum',
-    occurranceStatus: 'Present',
-    locality: 'Southern Ontario, Canada',
-    establishmentMeans: 'Natural, Non-invasive',
-    lifespan: 'Perennial',
-    growthSunShade: 'Shade',
-    height: '20-50 cm',
-    description: ['White Trillium is the provincial flower of Ontario', 'It has large white three-petalled flower above a whorl of 3 leaves.'],
-    waterAmount: '10 oz per week',
-    soilType: 'Brunisolic, Acidic',
-    spacing: '6 to 12 inches',
-    seedDepth: '2 to 4 inches',
-    plantingTime: 'Early Spring/Late Summer',
-    stalking: 'No',
-    sunlightAmount: 'Moderate',
-    mulch: '3 to 5 cm in fall',
-    additionalInformation: ["Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
-    prosLocation: 'Good',
-    prosTime: 'Excellent',
-    prosBees: 'Good',
-    prosCost: 'Excellent',
-    consAnimals: 'Awful',
-    consChildren: 'Poor',
-}
 
 function PlantDictionary() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { tutorialStep, setTutorialStep } = useContext(Context);
+    const { tutorialStep, setTutorialStep, selectedPlantIndex } = useContext(Context);
     const [show, setShow] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -142,56 +115,56 @@ function PlantDictionary() {
                         <div>
                             <div>
                                 <span>Vernacular Name: </span>
-                                <span>{MOCK_PLANT.vernacularName}</span>
+                                <span>{plantDictionary[selectedPlantIndex].vernacularName}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Scientific Name: </span>
-                                <span>{MOCK_PLANT.scientificName}</span>
+                                <span>{plantDictionary[selectedPlantIndex].scientificName}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Occurrance Status: </span>
-                                <span>{MOCK_PLANT.occurranceStatus}</span>
+                                <span>{plantDictionary[selectedPlantIndex].occurranceStatus}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Locality: </span>
-                                <span>{MOCK_PLANT.locality}</span>
+                                <span>{plantDictionary[selectedPlantIndex].locality}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Establishment Means: </span>
-                                <span>{MOCK_PLANT.establishmentMeans}</span>
+                                <span>{plantDictionary[selectedPlantIndex].establishmentMeans}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Lifespan: </span>
-                                <span>{MOCK_PLANT.lifespan}</span>
+                                <span>{plantDictionary[selectedPlantIndex].lifespan}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Grows in Sun/Shade: </span>
-                                <span>{MOCK_PLANT.growthSunShade}</span>
+                                <span>{plantDictionary[selectedPlantIndex].growthSunShade}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Height: </span>
-                                <span>{MOCK_PLANT.height}</span>
+                                <span>{plantDictionary[selectedPlantIndex].height}</span>
                             </div>
                         </div>
                         <div className='mt-2'>
                             <div className='mb-2'>Description</div>
                             <div>
                                 <ul>
-                                    {MOCK_PLANT.description.map((a) => (
+                                    {plantDictionary[selectedPlantIndex].description.map((a) => (
                                         <li key={a}>{a}</li>
                                     ))}
                                 </ul>
@@ -206,55 +179,55 @@ function PlantDictionary() {
                         <div>
                             <div>
                                 <span>Amount of Water: </span>
-                                <span>{MOCK_PLANT.waterAmount}</span>
+                                <span>{plantDictionary[selectedPlantIndex].waterAmount}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Preferred Soil Type: </span>
-                                <span>{MOCK_PLANT.soilType}</span>
+                                <span>{plantDictionary[selectedPlantIndex].soilType}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Spacing: </span>
-                                <span>{MOCK_PLANT.spacing}</span>
+                                <span>{plantDictionary[selectedPlantIndex].spacing}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Seed Depth: </span>
-                                <span>{MOCK_PLANT.seedDepth}</span>
+                                <span>{plantDictionary[selectedPlantIndex].seedDepth}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Planting Time: </span>
-                                <span>{MOCK_PLANT.plantingTime}</span>
+                                <span>{plantDictionary[selectedPlantIndex].plantingTime}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Stalking: </span>
-                                <span>{MOCK_PLANT.stalking}</span>
+                                <span>{plantDictionary[selectedPlantIndex].stalking}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Amount of Sunlight: </span>
-                                <span>{MOCK_PLANT.sunlightAmount}</span>
+                                <span>{plantDictionary[selectedPlantIndex].sunlightAmount}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Mulch: </span>
-                                <span>{MOCK_PLANT.mulch}</span>
+                                <span>{plantDictionary[selectedPlantIndex].mulch}</span>
                             </div>
                         </div>
                         <div className='mt-2'>
                             <div className='mb-2'>Additional Information</div>
                             <div className="d-flex flex-column">
-                                {MOCK_PLANT.additionalInformation.map((a) => (
+                                {plantDictionary[selectedPlantIndex].additionalInformation.map((a) => (
                                     <span key={a}>{a}</span>
                                 ))}
                             </div>
@@ -275,10 +248,10 @@ function PlantDictionary() {
                                     <span>Cost</span>
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{MOCK_PLANT.prosLocation}</span>
-                                    <span>{MOCK_PLANT.prosTime}</span>
-                                    <span>{MOCK_PLANT.prosBees}</span>
-                                    <span>{MOCK_PLANT.prosCost}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].prosLocation}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].prosTime}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].prosBees}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].prosCost}</span>
                                 </div>
                             </div>
                         </div>
@@ -292,8 +265,8 @@ function PlantDictionary() {
                                     <span>Children</span>
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{MOCK_PLANT.consAnimals}</span>
-                                    <span>{MOCK_PLANT.consChildren}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].consAnimals}</span>
+                                    <span>{plantDictionary[selectedPlantIndex].consChildren}</span>
                                 </div>
                             </div>
                         </div>

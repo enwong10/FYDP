@@ -188,10 +188,9 @@ function MainGarden() {
                         show={tutorialStep === 7}
                         >
                         <Button 
-                            style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px' }}
+                            style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px', marginLeft: '-10px' }}
                             onClick={() => {
                                 if (tutorialStep === 7) setTutorialStep(8);
-                                console.log(tutorialStep);
                                 navigate('/2d-grid')}}>
                             <img src={add} alt='2d-grid' />
                         </Button>

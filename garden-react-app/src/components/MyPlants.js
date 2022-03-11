@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import upIcon from '../assets/up.svg';
 import downIcon from '../assets/down.svg';
-import mockImage from '../assets/Flower 2.jpeg'
 import { useNavigate } from "react-router-dom";
-
-const MOCK_DATA = [{name: 'Trillium', img: mockImage}, {name: 'Daisy', img: mockImage}, {name: 'Flower 3', img: mockImage}, {name: 'Flower 4', img: mockImage}]
+import { Context, plantDictionary } from "./Context";
 
 function MyPlants() {
     const navigate = useNavigate();
     const [isAccordionCollapsed, setIsAccordionCollapsed] = useState(false);
+    const { grid, setSelectedPlant } = useContext(Context)
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
+
+    const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
 
     return (
         <MainContainer>
@@ -38,16 +39,18 @@ function MyPlants() {
                         </> : 
                         <>
                         <div role='button' className='d-flex flex-row align-items-center' onClick={() => setIsAccordionCollapsed(!isAccordionCollapsed)} >
-                            <h3>{cat} ({MOCK_DATA.length})</h3> 
+                            <h3>{cat} ({listOfPlants.length})</h3> 
                             <img className="mx-2" src={isAccordionCollapsed ? downIcon : upIcon} alt='expand/collapse'/>
                         </div>
-                        {!isAccordionCollapsed && 
+                        {!isAccordionCollapsed && listOfPlants.length > 0 && 
                         <div className='d-flex flex-row flex-wrap justify-content-between'>
-                            {MOCK_DATA.map((a) => (
-                                <PlantPreviewContainer role='button' onClick={() => navigate('/dictionary')}>
-                                    <img src={a.img} alt='plant'/>
-                                    <div>{a.name}</div>
-                                </PlantPreviewContainer>
+                            {listOfPlants.map((a) => (
+                                <>
+                                {!!a && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlant(a); navigate('/dictionary')}}>
+                                    <img src={plantDictionary[a].imageUrl} alt='plant'/>
+                                    <div>{plantDictionary[a].name}</div>
+                                </PlantPreviewContainer>}
+                                </>
                             ))}
                         </div>}
                         </>
