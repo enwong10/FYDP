@@ -22,7 +22,7 @@ import styled from "styled-components";
 
 function App() {
   return (
-    <Container className={'container'}>
+    <Container>
       <BrowserRouter>
         <ContextProvider>
           <Routes>
@@ -46,6 +46,7 @@ function App() {
 const Container = styled.div`
     margin:auto;
     max-width: 400px;
+    width: 100%
 `;
 
 export default App;

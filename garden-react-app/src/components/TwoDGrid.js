@@ -9,10 +9,9 @@ import undoIcon from '../assets/undo.svg';
 import infoIcon from '../assets/info_square.svg';
 import trashIcon from '../assets/trash.svg';
 import toolsIcon from '../assets/tools.svg';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-
 
 const INSPECTION = 0;
 const ADDITION = 1;
@@ -106,9 +105,9 @@ function TwoDGrid() {
 
     const displayGrid = grid.map((row, i) =>
         <GridRow key={'row' + i} className={'row'}>
-            {row.map((gridContent, j) =>
+            {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
-                    {gridContent}
+                    <img src={id !== null ? plantDictionary[id].imageUrl : ''} alt="" />
                 </GridSquare>
             )}
         </GridRow>
@@ -248,7 +247,13 @@ const GridSquare = styled.div`
     height: 40px;
     width: 40px;
     padding: 0;
-`;
+    
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    };
+`
 
 const GridRow = styled.div`
     margin: auto;
@@ -292,6 +297,7 @@ const SelectorNavigationButton = styled.button`
 
 const PlantImage = styled.img`
     width: 100%;
+    object-fit: cover;
 `;
 
 const Container = styled.div`

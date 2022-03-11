@@ -34,6 +34,8 @@ const PageContainer = styled.div`
     width: 100%;
     height: 100vh;
 
+    padding: 0px 12px;
+
     display: flex;
     flex-direction: column;
 `
