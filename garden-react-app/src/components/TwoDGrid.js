@@ -6,6 +6,7 @@ import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import plant from '../assets/plant.jpeg';
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
+import undoIcon from '../assets/undo.svg';
 import {useNavigate} from "react-router-dom";
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -55,7 +56,7 @@ function TwoDGrid() {
             modifyGrid(i, j,null)
         }
         else if (interactionMode === INSPECTION) {
-            if (grid[i][j])
+            if (grid[i][j] !== null)
                 navigate('/dictionary');
         }
         else if (interactionMode === INSIGHT) {
@@ -113,29 +114,25 @@ function TwoDGrid() {
 
     return(
         <Container>
-            <div className={'row'}>
-                <div className={'col'}>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {plantGroup}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {PLANT_GROUPS.map((groupName, i) =>
-                                <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
-                            )}
-                        </Dropdown.Menu>
-                    </Dropdown>
+            <TopButtons>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        {plantGroup}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {PLANT_GROUPS.map((groupName, i) =>
+                            <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <div onClick={undo} style={{marginLeft: 'auto', marginRight: '30px'}}>
+                    <img src={undoIcon} />
                 </div>
-                <div className={'col'}>
-                    <Button onClick={undo}>
-                        Undo
-                    </Button>
-                </div>
-            </div>
+            </TopButtons>
             <PlantSelector className={'row'}>
-                <SelectorNavigationButton className={'col'} style={{borderRadius: '5px 0 0 5px'}}
-                  onClick={() => updateFirstPlantIndex(-3)}
-                  style={{backgroundColor: firstPlantChoiceIndex === 0 ? "#868686" : "#28A745"}}>
+                <SelectorNavigationButton className={'col'}
+                  style={{borderRadius: '5px 0 0 5px', backgroundColor: firstPlantChoiceIndex === 0 ? "#868686" : "#28A745"}}
+                  onClick={() => updateFirstPlantIndex(-3)}>
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
                 {[...Array(3)].map((x,i) =>
@@ -175,8 +172,9 @@ function TwoDGrid() {
 
 const TopButtons = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    gap: 20px;
 `;
 
 const GridSquare = styled.div`
@@ -197,14 +195,14 @@ const GridContainer = styled.div`
 `;
 
 const PlantSelector = styled.div`
-    margin: 20px auto;
+    margin: 10px auto;
     border: 1px solid black;
     border-radius: 5px;
 `;
 
 const PlantOption = styled.div`
     text-align: center;
-    border: 1px solid black;
+    border: 2px solid black;
 `;
 
 const SelectorNavigationButton = styled.div`
