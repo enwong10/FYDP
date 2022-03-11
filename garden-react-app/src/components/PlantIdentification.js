@@ -84,7 +84,7 @@ function PlantIdentification() {
 
     return (
         <MainContainer>
-            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
                 {selectedFlower !== null && <img style={{ margin: "1em" }} src={selectedFlower ?? ""} className="App-logo" alt="logo" />}
                 <input type='file' id='file' ref={inputFlower} onChange={handleFlowerChange} style={{ display: 'none' }} accept="image/*" />
                 <OverlayTrigger
@@ -112,13 +112,16 @@ function PlantIdentification() {
 }
 
 const MainContainer = styled.div`
-                                                                            max-width: 400px;
-                                                                            align-items: center;
-                                                                            height: 100vh;
-                                                                            display: flex;
-                                                                            flex-direction: column;
-                                                                            margin: auto;
-                                                                            overflow: hidden;
-                                                                            `
+    max-width: 400px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    height: 100vh;
+    display: flex;
+    margin: auto;
+    overflow: hidden;
+`
 
 export default PlantIdentification
