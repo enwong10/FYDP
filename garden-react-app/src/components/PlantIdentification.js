@@ -621,7 +621,7 @@ function PlantIdentification() {
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
-    }, [tutorialStep, response])
+    }, [tutorialStep])
 
     const onUploadFlower = () => {
         if (tutorialStep === 2 ) nextTutorialStep();

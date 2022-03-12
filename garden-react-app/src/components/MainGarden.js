@@ -62,47 +62,29 @@ function MainGarden() {
                 </Modal.Footer>
             </Modal>
             <Settings>
-                <OverlayTrigger
-                    placement="bottom"
-                    overlay={(p) => Popover(p, 'Change User Settings')}
-                    //show={showPopover && tutorialStep === 6}
+                <Button
+                    style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
+                    onClick={() => navigate('/settings')}
                 >
-                    <Button
-                        style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                        onClick={() => navigate('/settings')}
-                    >
-                        <img src={settings} alt='settings' />
-                    </Button>
-                </OverlayTrigger>
+                    <img src={settings} alt='settings' />
+                </Button>
             </Settings>
             <Dictionary>
-                <OverlayTrigger
-                    placement="bottom"
-                    overlay={(p) => Popover(p, 'Your Plants Page')}
-                 //show={showPopover && tutorialStep === 5}
+                <Button
+                    style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
+                    onClick={() => navigate('/my-plants')}
                 >
-                    <Button
-                        style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                        onClick={() => navigate('/my-plants')}
-                    >
-                        <img src={dictionary} alt='dictionary' />
-                    </Button>
-                </OverlayTrigger>
+                    <img src={dictionary} alt='dictionary' />
+                </Button>
             </Dictionary>
             {background &&
                 <Download>
-                    <OverlayTrigger
-                        placement="bottom"
-                        overlay={(p) => Popover(p, 'Download a JPEG of your Garden!')}
-                      //  show={showPopover && tutorialStep === 4}
+                    <Button
+                        style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
+                        onClick={() => onDownloadClick()}
                     >
-                        <Button
-                            style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                            onClick={() => onDownloadClick()}
-                        >
-                            <img src={download} alt='download' />
-                        </Button>
-                    </OverlayTrigger>
+                        <img src={download} alt='download' />
+                    </Button>
                 </Download>}
 
             <MainGardenContainer>
@@ -134,7 +116,7 @@ function MainGarden() {
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                            onClick={() => {if (tutorialStep === 14) nextTutorialStep(); navigate('/3d-grid')}}>
+                            onClick={() => { if (tutorialStep === 14) nextTutorialStep(); navigate('/3d-grid') }}>
                             <img src={camera} alt='3d-grid' />
                         </div>
                     </OverlayTrigger>

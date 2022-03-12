@@ -36,7 +36,7 @@ const PLANT_GROUPS = [
 ];
 
 function TwoDGrid() {
-    const { grid, setGrid, history, setHistory, setSelectedPlantIndex } = useContext(Context);
+    const { grid, setGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep } = useContext(Context);
     const navigate = useNavigate();
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
     const [selectedPlant, setSelectedPlant] = useState(null);
@@ -45,7 +45,6 @@ function TwoDGrid() {
     const [movingPlant, setMovingPlant] = useState(null);
     const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid));
     const [showPopover, setShowPopover] = useState(false);
-    const {tutorialStep, setTutorialStep, nextTutorialStep} = useContext(Context);
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
@@ -184,8 +183,7 @@ function TwoDGrid() {
                     placement="bottom"
                     overlay={(p) => Popover(p, 'To begin adding plants, ensure that flowers are selected in the dorp down menu.')}
                     show={showPopover && tutorialStep === 9}
-                >
-            
+                >          
                 <Dropdown onClick={() =>  {setShowPopover(false)}}>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         {plantGroup}
@@ -198,8 +196,6 @@ function TwoDGrid() {
                 </Dropdown>
             </OverlayTrigger>
             </TopButtons>
-           
-
             <PlantSelector>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(-3)}
@@ -213,9 +209,7 @@ function TwoDGrid() {
                         show={showPopover && tutorialStep === 10}
                     >
                 <PlantsSelectionsContainer>
-                
                     {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
-                    
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
                             onClick={() => {if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i)}}
                             onContextMenu={(e) => rightClickNavigate(e, x.id)}
@@ -223,9 +217,7 @@ function TwoDGrid() {
                         >
                             <PlantImage src={x.imageUrl} />
                             <div>{x.commonNames[0]}</div>
-                        </PlantOption>
-                    )}
-                    
+                        </PlantOption> )}
                 </PlantsSelectionsContainer>
                 </OverlayTrigger>
                 <SelectorNavigationButton

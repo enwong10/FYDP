@@ -12,6 +12,7 @@ export function TopNavBar({ title, component }) {
     const navigate = useNavigate();
     const { tutorialStep, setTutorialStep, nextTutorialStep } = useContext(Context);
     const [showPopover, setShowPopover] = useState(false);
+
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
     }, [tutorialStep])
@@ -68,7 +69,7 @@ const ActionButtonContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    >div {
+    > div {
         padding: 12px 0;
     }
 `

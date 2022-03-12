@@ -47,7 +47,6 @@ function ARGrid() {
 
     const handleTakePhoto = () => {
         document.getElementById('container-circles').style.display = "none";
-
         takeScreenShot(ref.current)
     }
 
