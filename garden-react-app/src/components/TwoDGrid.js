@@ -5,7 +5,8 @@ import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import plantDb from './PlantDb'
-import { autoGenGarden } from './Constants'
+import {autoGenGarden} from './Constants'
+import SWAlgorithm from "./SWAlgorithm";
 // imgs
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
@@ -40,6 +41,7 @@ function TwoDGrid() {
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
     const [movingPlant, setMovingPlant] = useState(null);
+    const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid));
 
     // Functions //
 
@@ -149,7 +151,15 @@ function TwoDGrid() {
     const displayGrid = grid.map((row, i) =>
         <GridRow key={'row' + i} className={'row'}>
             {row.map((id, j) =>
-                <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
+                <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
+                    style={{
+                        backgroundColor:
+                            warningsGrid[i][j] && (
+                            'warning' in warningsGrid[i][j] && warningsGrid[i][j].warning ? '#977B16' :
+                            'suggestions' in warningsGrid[i][j] && warningsGrid[i][j].suggestions ? '#007BFF' :
+                            '')
+                    }}
+                >
                     {id !== null &&
                         <img src={plantDb[id].imageUrl} alt=""
                              style={{opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1'}}
