@@ -81,8 +81,11 @@ function TwoDGrid() {
     };
 
     const toggleAlternateMode = (mode) => {
-        if (mode !== INSIGHT && selectedPlant !== null) setSelectedPlant(null);
-        setInteractionMode(mode);
+        if (interactionMode === mode) setInteractionMode(INSPECTION);
+        else {
+            if (mode !== INSIGHT && selectedPlant !== null) setSelectedPlant(null);
+            setInteractionMode(mode);
+        }
     };
 
     const updateFirstPlantIndex = (shiftValue) => {
@@ -143,14 +146,17 @@ function TwoDGrid() {
             <PlantSelector>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(-3)}
-                    disabled={firstPlantChoiceIndex === 0}>
+                    disabled={firstPlantChoiceIndex === 0}
+                    style={{borderRadius: '4px 0 0 4px'}}>
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
                 <PlantsSelectionsContainer>
                     {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
-                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}
-                            onContextMenu={rightClickNavigate}>
+                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)}
+                            onContextMenu={rightClickNavigate}
+                                     className={'col-4'}
+                        >
                             <PlantImage src={x.imageUrl} />
                             <div>{x.commonNames[0]}</div>
                         </PlantOption>
@@ -158,7 +164,8 @@ function TwoDGrid() {
                 </PlantsSelectionsContainer>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(3)}
-                    disabled={firstPlantChoiceIndex + 3 > plantDb.length}>
+                    disabled={firstPlantChoiceIndex + 3 > plantDb.length}
+                    style={{borderRadius: '0 4px 4px 0'}}>
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
@@ -247,8 +254,7 @@ const BottomButton = styled.button`
 
 const PlantsSelectionsContainer = styled.div`
     display: flex;
-    flex: 5;
-    flex-direction: row;
+    flex: 3;
     justify-content: flex-start;
     align-items: center;
 `;
@@ -264,7 +270,7 @@ const GridSquare = styled.div`
         height: 100%;
         object-fit: cover;
     };
-`
+`;
 
 const GridRow = styled.div`
     margin: auto;
@@ -287,8 +293,7 @@ const PlantSelector = styled.div`
 
 const PlantOption = styled.div`
     text-align: center;
-    width: 33.33333%;
-    border: 1px solid black;
+    border: 2px solid black;
     
     img {
         height: 90px;
@@ -297,14 +302,9 @@ const PlantOption = styled.div`
 `;
 
 const SelectorNavigationButton = styled.button`
-    flex: 1;
     text-align: center;
     background-color: #28A745;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: none;
-    background-color: #28A745;
 
     :disabled {
         background-color: #868686
