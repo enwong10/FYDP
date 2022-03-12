@@ -3,7 +3,8 @@ import styled from "styled-components";
 import upIcon from '../assets/up.svg';
 import downIcon from '../assets/down.svg';
 import { useNavigate } from "react-router-dom";
-import { Context, plantDictionary } from "./Context";
+import { Context } from "./Context";
+import plantDb from './PlantDb'
 
 function MyPlants() {
     const navigate = useNavigate();
@@ -12,8 +13,6 @@ function MyPlants() {
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
 
     const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
-    console.log(listOfPlants)
-    console.log(plantDictionary)
 
     return (
         <MainContainer>
@@ -49,8 +48,8 @@ function MyPlants() {
                             {listOfPlants.map((a) => (
                                 <>
                                 {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
-                                    <img src={plantDictionary[a].imageUrl} alt='plant'/>
-                                    <div>{plantDictionary[a].name}</div>
+                                    <img src={plantDb[a].imageUrl} alt='plant'/>
+                                    <div>{plantDb[a].name}</div>
                                 </PlantPreviewContainer>}
                                 </>
                             ))}

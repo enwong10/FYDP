@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
-import { Context, defaultSettings } from "./Context";
+import { Context } from "./Context";
 import { Dropdown } from 'react-bootstrap';
-import {TopNavBar} from "./TopNavBar";
+import { defaultSettings } from './Constants'
 
 function GardenSettings() {
     const { settings, setSettings } = useContext(Context);

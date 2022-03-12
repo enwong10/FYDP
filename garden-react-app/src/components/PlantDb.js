@@ -6,7 +6,7 @@ import image4 from '../assets/plant_images/fall_phlox.jpg'
 import image5 from '../assets/plant_images/eastern_purple_coneflower.jpg'
 import image6 from '../assets/plant_images/black_eyed_susan.gif'
 
-const growth_db = [
+const plantDb = [
     {
         id: 0,
         imageUrl: image0,
@@ -184,7 +184,7 @@ const growth_db = [
     },
 ];
 
-export default growth_db;
+export default plantDb;
 
 /*
 Height: '24-36 in. (60-90 cm)'

@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Button, Modal, Popover, OverlayTrigger } from 'react-bootstrap';
 import styled from "styled-components";
+import { Context } from "./Context";
+import { defaultGrid } from './Constants'
+// css
+import 'react-html5-camera-photo/build/css/index.css';
+// imgs
 import add from '../assets/add.svg';
 import camera from '../assets/camera.svg';
 import info from '../assets/info.svg';
@@ -10,12 +16,6 @@ import backgroundPlaceholder from '../assets/background-placeholder.png';
 import settings from '../assets/settings.svg';
 import dictionary from '../assets/dictionary.svg';
 import download from '../assets/download.svg';
-import { Context, defaultGrid } from "./Context";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Popover from 'react-bootstrap/Popover';
-import 'react-html5-camera-photo/build/css/index.css';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 function MainGarden() {
     const navigate = useNavigate();
@@ -62,7 +62,7 @@ function MainGarden() {
                 borderColor: "black",
                 ...props.style,
             }}>
-            To begin, navigate to the plant identification section. 
+            To begin, navigate to the plant identification section.
         </Popover>
     );
     const renderAddPop = (props) => (
@@ -127,15 +127,15 @@ function MainGarden() {
                     >
                         Yes
                     </Button>
-                    <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false)}}>No</Button>
+                    <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>No</Button>
                 </Modal.Footer>
             </Modal>
             <Settings>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderSettingsPop}
-                    // show={tutorialStep === 6}
-                    >
+                // show={tutorialStep === 6}
+                >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                         onClick={() => navigate('/settings')}
@@ -148,8 +148,8 @@ function MainGarden() {
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderDictionaryPop}
-                    // show={tutorialStep === 5}
-                    >
+                // show={tutorialStep === 5}
+                >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                         onClick={() => navigate('/my-plants')}
@@ -163,8 +163,8 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="bottom"
                         overlay={renderDownloadPop}
-                        // show={tutorialStep === 4}
-                        >
+                    // show={tutorialStep === 4}
+                    >
                         <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                             onClick={() => onDownloadClick()}
@@ -186,20 +186,21 @@ function MainGarden() {
                         placement="top"
                         overlay={renderAddPop}
                         show={tutorialStep === 7}
-                        >
-                        <Button 
+                    >
+                        <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px', marginLeft: '-10px' }}
                             onClick={() => {
                                 if (tutorialStep === 7) setTutorialStep(8);
-                                navigate('/2d-grid')}}>
+                                navigate('/2d-grid')
+                            }}>
                             <img src={add} alt='2d-grid' />
                         </Button>
                     </OverlayTrigger>
                     <OverlayTrigger
                         placement="top"
                         overlay={render3DPop}
-                         show={tutorialStep === 11}
-                        >
+                        show={tutorialStep === 11}
+                    >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                             onClick={() => navigate('/3d-grid')}>
@@ -214,8 +215,9 @@ function MainGarden() {
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                             onClick={() => {
-                                if (tutorialStep === 1)setTutorialStep(2);
-                                 navigate('/identification') }}>
+                                if (tutorialStep === 1) setTutorialStep(2);
+                                navigate('/identification')
+                            }}>
                             <img src={info} alt='plant-identification' />
                         </div>
                     </OverlayTrigger>
