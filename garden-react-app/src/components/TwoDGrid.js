@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context, plantDictionary } from "./Context";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
-import plant from '../assets/plant.jpeg';
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
 import undoIcon from '../assets/undo.svg';
+import infoIcon from '../assets/info_square.svg';
+import trashIcon from '../assets/trash.svg';
+import toolsIcon from '../assets/tools.svg';
 import { useNavigate } from "react-router-dom";
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -78,7 +80,7 @@ function TwoDGrid() {
     };
 
     const toggleAlternateMode = (mode) => {
-        if (selectedPlant) setSelectedPlant(null);
+        if (mode !== INSIGHT && selectedPlant !== null) setSelectedPlant(null);
         setInteractionMode(mode);
     };
 
@@ -105,7 +107,9 @@ function TwoDGrid() {
         <GridRow key={'row' + i} className={'row'}>
             {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
-                    <img src={id !== null ? plantDictionary[id].imageUrl : ''} alt="" />
+                    {id !== null &&
+                        <img src={plantDictionary[id].imageUrl} alt="" />
+                    }
                 </GridSquare>
             )}
         </GridRow>
@@ -124,7 +128,7 @@ function TwoDGrid() {
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
-                <div role="button" onClick={undo}>
+                <div role="button" onClick={undo} style={{marginRight: '30px'}}>
                     <img src={undoIcon} />
                 </div>
             </TopButtons>
@@ -156,17 +160,37 @@ function TwoDGrid() {
                     </TransformComponent>
                 </TransformWrapper>
             </GridContainer>
-            <ButtonGroup>
-                <Button onClick={() => toggleAlternateMode(INSIGHT)}>
-                    Insight
-                </Button>
-                <Button onClick={() => toggleAlternateMode(MOVE)}>
-                    Move
-                </Button>
-                <Button onClick={() => toggleAlternateMode(REMOVE)}>
-                    Remove
-                </Button>
-            </ButtonGroup>
+            <BottomButtonsContainer>
+                <BottomButton onClick={() => toggleAlternateMode(INSIGHT)}
+                              style={{backgroundColor: interactionMode === INSIGHT && '#28A745'}}>
+                    <img src={infoIcon} />
+                </BottomButton>
+                <BottomButton onClick={() => toggleAlternateMode(MOVE)}
+                              style={{backgroundColor: interactionMode === MOVE && '#28A745'}}>
+                    <img src={toolsIcon} />
+                </BottomButton>
+                <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
+                              style={{backgroundColor: interactionMode === REMOVE && '#28A745'}}>
+                    <img src={trashIcon} />
+                </BottomButton>
+            </BottomButtonsContainer>
+            <Legend>
+                <LegendItem>
+                    <LegendIcon style={{backgroundColor: '#007BFF'}}/>
+                    Ideal
+                </LegendItem>
+                <LegendItem>
+                    <LegendIcon style={{backgroundColor: '#977B16'}}/>
+                    Warning
+                </LegendItem>
+                <LegendItem>
+                    <LegendIcon style={{backgroundColor: '#D83535'}}/>
+                    Conflict
+                </LegendItem>
+            </Legend>
+            <Button variant={'success'}>
+                Autogenerate a garden for me!
+            </Button>
         </Container >
     )
 }
@@ -176,6 +200,40 @@ const TopButtons = styled.div`
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+`;
+
+const Legend = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+`;
+
+const LegendItem = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const LegendIcon = styled.div`
+    border-radius: 3px;
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+`;
+
+const BottomButtonsContainer = styled.div`
+    margin: 10px 0 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+`;
+
+const BottomButton = styled.button`
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 2px;
+    border: none;
 `;
 
 const PlantsSelectionsContainer = styled.div`
@@ -256,7 +314,8 @@ const Container = styled.div`
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-}
+    text-align: center;
+    overflow-y: scroll;
 `;
 
 export default TwoDGrid;
