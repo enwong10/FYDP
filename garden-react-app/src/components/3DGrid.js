@@ -12,8 +12,7 @@ function ARGrid() {
     const ref = createRef(null);
     const [screenshot, setScreenshot] = useState(null);
     const navigate = useNavigate();
-    const { setBackground } = useContext(Context)
-
+    const { setBackground, tutorialStep, nextTutorialStep } = useContext(Context)
     const takeScreenShot = (node) => {
         html2canvas(node)
           .then((canvas) => {
@@ -48,12 +47,13 @@ function ARGrid() {
 
     const handleTakePhoto = () => {
         document.getElementById('container-circles').style.display = "none";
-        console.log(ref.current.ownerDocument.defaultView)
+
         takeScreenShot(ref.current)
     }
 
     const onSaveScreenshot = () => {
         if (!screenshot) return;
+        if (tutorialStep === 14) nextTutorialStep();
         setBackground(screenshot);
         navigate('/garden');
     }
@@ -69,9 +69,9 @@ function ARGrid() {
             <>
             <Screenshot src={screenshot} alt='screenshot'/>
             <ActionsContainer>
+                <button className='btn btn-danger' onClick={() => navigate('/garden')}>Exit Without Saving</button>
                 <button className='btn btn-primary' onClick={() => setScreenshot(null)}>Take Again</button>
                 <button className='btn btn-success' onClick={onSaveScreenshot}>Save and Exit</button>
-                <button className='btn btn-danger' onClick={() => navigate('/garden')}>Exit Without Saving</button>
             </ActionsContainer>
             </>
             }

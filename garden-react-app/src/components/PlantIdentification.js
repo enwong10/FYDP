@@ -64,7 +64,8 @@ const identifications = {
                 },
                 'scientificName': 'Echinacea angustifolia DC.',
                 'scientificNameAuthorship': 'DC.',
-                'scientificNameWithoutAuthor': 'Echinacea angustifolia'}
+                'scientificNameWithoutAuthor': 'Echinacea angustifolia'
+            }
         },
         {
             'gbif': { 'id': '3150929' },
@@ -84,7 +85,8 @@ const identifications = {
                 },
                 'scientificName': 'Echinacea tennesseensis (Beadle) Small',
                 'scientificNameAuthorship': '(Beadle) Small',
-                'scientificNameWithoutAuthor': 'Echinacea tennesseensis'}
+                'scientificNameWithoutAuthor': 'Echinacea tennesseensis'
+            }
         },
         {
             'gbif': { 'id': '3150919' },
@@ -149,7 +151,8 @@ const identifications = {
                 },
                 'scientificName': 'Callistephus chinensis (L.) Nees',
                 'scientificNameAuthorship': '(L.) Nees',
-                'scientificNameWithoutAuthor': 'Callistephus chinensis'}
+                'scientificNameWithoutAuthor': 'Callistephus chinensis'
+            }
         }],
         'version': '2022-02-14 (5.0)'
     },
@@ -352,7 +355,8 @@ const identifications = {
                 },
                 'scientificName': 'Hesperis matronalis L.',
                 'scientificNameAuthorship': 'L.',
-                'scientificNameWithoutAuthor': 'Hesperis matronalis'}
+                'scientificNameWithoutAuthor': 'Hesperis matronalis'
+            }
         },
         {
             'gbif': { 'id': '7290475' },
@@ -393,7 +397,8 @@ const identifications = {
                 },
                 'scientificName': 'Saponaria officinalis L.',
                 'scientificNameAuthorship': 'L.',
-                'scientificNameWithoutAuthor': 'Saponaria officinalis'}
+                'scientificNameWithoutAuthor': 'Saponaria officinalis'
+            }
         },
         {
             'gbif': { 'id': '2927727' },
@@ -436,7 +441,8 @@ const identifications = {
                 },
                 'scientificName': 'Plumbago auriculata Lam.',
                 'scientificNameAuthorship': 'Lam.',
-                'scientificNameWithoutAuthor': 'Plumbago auriculata'}
+                'scientificNameWithoutAuthor': 'Plumbago auriculata'
+            }
         },
         {
             'gbif': { 'id': '2925496' },
@@ -540,7 +546,8 @@ const identifications = {
                 },
                 'scientificName': 'Verbena bonariensis L.',
                 'scientificNameAuthorship': 'L.',
-                'scientificNameWithoutAuthor': 'Verbena bonariensis'}
+                'scientificNameWithoutAuthor': 'Verbena bonariensis'
+            }
         }],
         'version': '2022-02-14 (5.0)'
     },
@@ -602,7 +609,7 @@ const identifications = {
 }
 
 function PlantIdentification() {
-    const { tutorialStep, setTutorialStep, setSelectedPlantIndex } = useContext(Context);
+    const { tutorialStep, setTutorialStep, nextTutorialStep, setSelectedPlantIndex } = useContext(Context);
     const [showPopover, setShowPopover] = useState(false);
     const navigate = useNavigate();
 
@@ -613,11 +620,11 @@ function PlantIdentification() {
     const [showAPI, setShowAPI] = useState(false);
 
     useEffect(() => {
-        if (tutorialStep !== 0) setShowPopover(true)
-    }, [])
+        if (tutorialStep > 0) setShowPopover(true)
+    }, [tutorialStep, response])
 
     const onUploadFlower = () => {
-        if (tutorialStep === 2) setTutorialStep(3);
+        if (tutorialStep === 2 ) nextTutorialStep();
 
         if (inputFlower.current) {
             inputFlower.current.click();
@@ -625,6 +632,7 @@ function PlantIdentification() {
     };
 
     const onIdentify = async () => {
+        if (tutorialStep === 3) nextTutorialStep();
         setShowAPI(true);
 
         // // POST request using fetch with async / await
@@ -645,10 +653,11 @@ function PlantIdentification() {
         const sample_response = identifications[selectedFile]['results'];
 
         const styled_response = (
-            sample_response.map(e => (
-                <ResultContainer role='button' onClick={() => {
-                    setSelectedPlantIndex(1)
-                    navigate('/dictionary')
+            sample_response.map((e,i) => (
+                <ResultContainer key = {i} role='button' onClick={() => {
+                    if (tutorialStep > 0) setTutorialStep(5);
+                    setSelectedPlantIndex(1);
+                    navigate('/dictionary');
                 }}>
                     <UploadedImage src={mockImage} />
                     <span>
@@ -659,11 +668,8 @@ function PlantIdentification() {
                     </span>
                 </ResultContainer>))
         );
-
         setResponse(styled_response);
-
-        console.log(response)
-    };
+  };
 
     //: ChangeEvent<HTMLInputElement>
     const handleFlowerChange = (event) => {
@@ -671,7 +677,6 @@ function PlantIdentification() {
             let input = event.target;
             var fReader = new FileReader();
             if (input.files) {
-                console.log(input.files[0])
                 setSelectedFile(input.files[0].name)
                 fReader.readAsDataURL(input.files[0]);
                 fReader.onloadend = (event) => {
@@ -700,28 +705,40 @@ function PlantIdentification() {
                     <OverlayTrigger
                         placement="bottom"
                         show={showPopover && tutorialStep === 2}
-                        overlay={(p) => Popover(p, 'Upload Image From Camera Roll')}>
+                        overlay={(p) => Popover(p, 'To identify a plant, upload the image here! ')}>
                         <PrettyButton
                             onClick={onUploadFlower}>
                             <img src={Camera} style={{ margin: '0px 10px 3px 0px', height: '1.5rem' }} alt='camera' />
                             Upload Image
                         </PrettyButton>
                     </OverlayTrigger>
-                    {selectedFlower !== null && !showAPI && <PrettyButton upload onClick={onIdentify}>
-                        Identify
-                    </PrettyButton>}
+
+                    <OverlayTrigger
+
+                        placement="top"
+                        show={showPopover && tutorialStep === 3 && selectedFlower !== null && !showAPI}
+                        overlay={(p) => Popover(p, 'Identify this plant')}>
+                        <PrettyButton
+                            onClick={onIdentify} style={{ display: selectedFlower !== null && !showAPI ? 'block' : 'none' }}
+                        >
+                            Identify
+                        </PrettyButton>
+
+                    </OverlayTrigger>
+
+
                 </ButtonContainer>
-                {/* <div style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                width: '100%',
-                alignContent: "flex-start"
-            }}> */}
-                {showAPI && <span style={{ width: '100%' }}>Results:</span>}
-                {showAPI &&
-                    response}
-                {/* </div> */}
+                <span style={{ width: '100%', display: showAPI ? 'block' : 'none' }}>Results:</span>
+                <OverlayTrigger
+                    placement="top"
+                    overlay={(p) => Popover(p, 'To see general information on this plant you can click it')}
+                    show={showPopover && tutorialStep === 4}
+                >
+                    <div>
+                        {showAPI &&
+                            response}
+                    </div>
+                </OverlayTrigger>
             </MainContainer>
         </div>
     )

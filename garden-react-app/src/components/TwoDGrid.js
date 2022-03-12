@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "./Context";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import styled from "styled-components";
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import plantDb from './PlantDb'
 import {autoGenGarden} from './Constants'
 import SWAlgorithm from "./SWAlgorithm";
+import Popover from './Popover';
+import { OverlayTrigger } from "react-bootstrap";
 // imgs
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
@@ -42,6 +44,12 @@ function TwoDGrid() {
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
     const [movingPlant, setMovingPlant] = useState(null);
     const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid));
+    const [showPopover, setShowPopover] = useState(false);
+    const {tutorialStep, setTutorialStep, nextTutorialStep} = useContext(Context);
+
+    useEffect(() => {
+        if (tutorialStep > 0) setShowPopover(true)
+    }, [tutorialStep])
 
     // Functions //
 
@@ -128,7 +136,6 @@ function TwoDGrid() {
             const lastState = newHistory.pop();
             const newGrid = [...grid];
             if (Array.isArray(lastState)) {
-                console.log(lastState);
                 lastState.forEach(({i, j, value}) => {
                     newGrid[i][j] = value;
                 });
@@ -173,17 +180,26 @@ function TwoDGrid() {
     return (
         <Container>
             <TopButtons>
-                <Dropdown>
+            <OverlayTrigger
+                    placement="bottom"
+                    overlay={(p) => Popover(p, 'To begin adding plants, ensure that flowers are selected in the dorp down menu.')}
+                    show={showPopover && tutorialStep === 9}
+                >
+            
+                <Dropdown onClick={() =>  {setShowPopover(false)}}>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                         {plantGroup}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {PLANT_GROUPS.map((groupName, i) =>
-                            <Dropdown.Item onClick={() => setPlantGroup(groupName)}>{groupName}</Dropdown.Item>
+                            <Dropdown.Item onClick={() => {if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true); setPlantGroup(groupName)}}>{groupName}</Dropdown.Item>
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
+            </OverlayTrigger>
             </TopButtons>
+           
+
             <PlantSelector>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(-3)}
@@ -191,10 +207,17 @@ function TwoDGrid() {
                     style={{borderRadius: '4px 0 0 4px'}}>
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
+                <OverlayTrigger
+                        placement="bottom"
+                        overlay={(p) => Popover(p, 'To select a flower to add, click on it in the navigation bar.')}
+                        show={showPopover && tutorialStep === 10}
+                    >
                 <PlantsSelectionsContainer>
+                
                     {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
+                    
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
-                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)}
+                            onClick={() => {if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i)}}
                             onContextMenu={(e) => rightClickNavigate(e, x.id)}
                                      className={'col-4'}
                         >
@@ -202,14 +225,21 @@ function TwoDGrid() {
                             <div>{x.commonNames[0]}</div>
                         </PlantOption>
                     )}
+                    
                 </PlantsSelectionsContainer>
+                </OverlayTrigger>
                 <SelectorNavigationButton
-                    onClick={() => updateFirstPlantIndex(3)}
+                    onClick={() => updateFirstPlantIndex(3) }
                     disabled={firstPlantChoiceIndex + 3 > plantDb.length}
                     style={{borderRadius: '0 4px 4px 0'}}>
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
+            <OverlayTrigger
+                        placement="bottom"
+                        overlay={(p) => Popover(p, 'You can toggle information mode, move/remove plants from the grid, or undo previous change.')}
+                        show={showPopover && tutorialStep === 12}
+                    >
             <BottomButtonsContainer>
                 <BottomButton onClick={() => toggleAlternateMode(INSIGHT)} disabled={selectedPlant === null}
                               style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
@@ -227,13 +257,20 @@ function TwoDGrid() {
                     <img src={undoIcon} />
                 </BottomButton>
             </BottomButtonsContainer>
-            <GridContainer>
+            </OverlayTrigger>
+            <OverlayTrigger
+                        placement="top"
+                        overlay={(p) => Popover(p, 'Now by clicking into the grid, you can place the flower into the garden.')}
+                        show={showPopover && tutorialStep === 11}
+                    >
+            <GridContainer onClick={() => { if (tutorialStep === 11) nextTutorialStep()}}>
                 <TransformWrapper>
                     <TransformComponent>
                         {displayGrid}
                     </TransformComponent>
                 </TransformWrapper>
             </GridContainer>
+            </OverlayTrigger>
             <Legend>
                 <LegendItem>
                     <LegendIcon style={{ backgroundColor: '#007BFF' }} />
@@ -248,9 +285,15 @@ function TwoDGrid() {
                     Conflict
                 </LegendItem>
             </Legend>
-            <Button variant={'success'} onClick={() => setGrid(autoGenGarden.map(arr => arr.slice()))}>
+            <OverlayTrigger
+                        placement="top"
+                        overlay={(p) => Popover(p, 'This feature will automatically generate a garden based on your preferences, goals, and location. ')}
+                        show={showPopover && tutorialStep === 12}
+                    >
+            <Button variant={'success'} onClick={() => {if (tutorialStep === 12) nextTutorialStep(); setGrid(autoGenGarden.map(arr => arr.slice()))}}>
                 Autogenerate a garden for me!
             </Button>
+            </OverlayTrigger>
         </Container >
     )
 }

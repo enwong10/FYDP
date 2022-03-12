@@ -3,46 +3,23 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import plant from '../assets/plant.jpeg';
 import Button from 'react-bootstrap/Button';
-import Popover from 'react-bootstrap/Popover';
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Context } from "./Context";
 import Modal from 'react-bootstrap/Modal';
-import plantDb from './PlantDb'
+import plantDb from './PlantDb';
+import Popover from "./Popover";
 
 function PlantDictionary() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { tutorialStep, setTutorialStep, selectedPlantIndex } = useContext(Context);
-    const [show, setShow] = useState(false);
+    const { tutorialStep, setTutorialStep, selectedPlantIndex, nextTutorialStep } = useContext(Context);
     const [showModal, setShowModal] = useState(false);
+    const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
-        if (tutorialStep !== 0) setShow(true)
+        if (tutorialStep > 0) setShowPopover(true)
     }, [tutorialStep])
-
-    const renderGrow = (props) => (
-        <Popover id="grow-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                borderColor: "black",
-                color: 'white',
-                ...props.style,
-            }}>
-            To see its growing information, select this tab.
-        </Popover>
-    );
-    const renderPersonal = (props) => (
-        <Popover id="personal-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                borderColor: "black",
-                color: 'white',
-                ...props.style,
-            }}>
-            Or to see how this flower best suits you, open this tab.
-        </Popover>
-    );
 
 
     return (
@@ -55,13 +32,13 @@ function PlantDictionary() {
                 </div>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={renderGrow}
-                    show={tutorialStep === 4}
+                    overlay={(p) => Popover(p, 'To see its growing information, select this tab')}
+                    show={showPopover && tutorialStep === 5}
                 >
                     <div role='button'
                         style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black' }}
                         onClick={() => {
-                            if (tutorialStep === 4) setTutorialStep(5);
+                            if (tutorialStep === 5) nextTutorialStep();
                             setPage(2);
                         }}
                     >
@@ -70,42 +47,21 @@ function PlantDictionary() {
                 </OverlayTrigger>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={renderPersonal}
-                    show={tutorialStep === 5}
+                    overlay={(p) => Popover(p, 'Or to see how this flower best suits you, open this tab')}
+                    show={showPopover && tutorialStep === 6}
                 >
                     <div
                         role="button"
                         style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black' }}
                         onClick={() => {
-                            if (tutorialStep === 5) setTutorialStep(6);
+                            if (tutorialStep === 6) nextTutorialStep();
                             setPage(3);
                         }}
                     >
                         PERSONAL
                     </div>
                 </OverlayTrigger>
-                <Modal show={tutorialStep === 6} onHide={() => setShowModal(false)} centered>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Walkthrough?</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="text-left">
-                            Would you like to continue the walkthrough? To continue click okay and navigate back to the home page.
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            className='btn btn-success'
-                            onClick={() => {
-                                setTutorialStep(7);
-                                setShowModal(false);
-                            }}
-                        >
-                            Continue
-                        </Button>
-                        <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>Exit</Button>
-                    </Modal.Footer>
-                </Modal>
+               
             </PageSelectorContainer>
             {page === 1 &&
                 <PageContentContainer>

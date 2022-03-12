@@ -1,29 +1,46 @@
 import styled from "styled-components";
 import back from "../assets/back.svg";
 import home from "../assets/home.svg";
-import React, {useContext} from "react";
-import {useNavigate} from "react-router-dom";
-import { Context} from "./Context";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "./Context";
+import { OverlayTrigger } from "react-bootstrap";
+import Popover from "./Popover";
 
-export function TopNavBar({title, component}) {
+
+export function TopNavBar({ title, component }) {
     const navigate = useNavigate();
-    const {tutorialStep, setTutorialStep} = useContext(Context);
-    return(
+    const { tutorialStep, setTutorialStep, nextTutorialStep } = useContext(Context);
+    const [showPopover, setShowPopover] = useState(false);
+    useEffect(() => {
+        if (tutorialStep > 0) setShowPopover(true)
+    }, [tutorialStep])
+
+    return (
         <PageContainer>
-            <div className={'row'}>
-                <Back className={'col'}>
-                    <div role='button' onClick={() => navigate(-1)}>
-                        <img src={back} alt='back'/>
+            <ActionButtonContainer>
+                <div role='button' onClick={() => navigate(-1)}>
+                    <img src={back} alt='back' />
+                </div>
+                <div className="d-flex flex-row align-items-center">
+                {tutorialStep > 0 && <div role='button' className="mx-3 text-decoration-underline" onClick={() => setTutorialStep(0)}>
+                        Exit Tutorial
                     </div>
-                </Back>
-                <Home className={'col'}>
+                }
+                 <OverlayTrigger
+                    placement="bottom"
+                    overlay={(p) => Popover(p, 'To continue to another feature, navigate back home')}
+                    show={showPopover && (tutorialStep === 7 || tutorialStep === 13)}
+                >
                     <div role='button' onClick={() => {
-                        //setTutorialStep(7);
-                        navigate('/garden')}}>
-                        <img src={home} alt='home'/>
+                        if (tutorialStep === 7 || tutorialStep === 13) nextTutorialStep();
+                        navigate('/garden')
+                    }}>
+                        <img src={home} alt='home' />
                     </div>
-                </Home>
-            </div>
+                </OverlayTrigger>
+                </div>
+            </ActionButtonContainer>
             {title && <Title> {title} </Title>}
             {component}
         </PageContainer>
@@ -40,16 +57,18 @@ const PageContainer = styled.div`
     flex-direction: column;
 `
 
-const Back = styled.div`
-    padding: 12px;
-    text-align: left;
-`;
-
-const Home = styled.div`
-    padding: 12px;
-    text-align: right;
-`;
 
 const Title = styled.h1`
     text-align: center;
 `;
+
+const ActionButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    >div {
+        padding: 12px 0;
+    }
+`

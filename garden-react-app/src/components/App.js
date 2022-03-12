@@ -11,10 +11,8 @@ import ARGrid from "./3DGrid";
 import TwoDGrid from "./TwoDGrid";
 import MainGarden from "./MainGarden";
 import PlantIdentification from "./PlantIdentification";
-import IdentificationCamera from "./IdentificationCamera";
 import PlantDictionary from "./PlantDictionary";
 import GardenSettings from "./GardenSettings";
-import IdentificationAlgo from "./IdentificationAlgo"
 import MyPlants from "./MyPlants";
 import { ContextProvider } from "./Context";
 import { TopNavBar } from "./TopNavBar";

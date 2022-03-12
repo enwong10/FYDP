@@ -20,17 +20,15 @@ import download from '../assets/download.svg';
 
 function MainGarden() {
     const navigate = useNavigate();
-    const { grid, background, tutorialStep, setTutorialStep } = useContext(Context);
+    const { grid, background, tutorialStep, setTutorialStep, nextTutorialStep } = useContext(Context);
     const [showModal, setShowModal] = useState(false);
     const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
-        if (tutorialStep === -1) setShowModal(true);
+        if (tutorialStep === -1 || tutorialStep === 15) setShowModal(true);
+        if (tutorialStep > 0) setShowPopover(true)
     }, [tutorialStep])
 
-    useEffect(() => {
-        if (tutorialStep !== 0) setShowPopover(true)
-    }, [])
 
     const onDownloadClick = () => {
         const a = document.createElement("a");
@@ -43,31 +41,31 @@ function MainGarden() {
         <MainContainer>
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Walkthrough?</Modal.Title>
+                    <Modal.Title>{tutorialStep === -1 ? 'Walkthrough?' : 'Walkthrough Complete'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="text-left">
-                        Would you like to participate in the app walkthrough?
+                        {tutorialStep === -1 ? 'Would you like to participate in the app walkthrough?' : "Congrats! You've successfully completed the walkthrough tutorial"}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
                         className='btn btn-success'
                         onClick={() => {
-                            setTutorialStep(1);
+                            tutorialStep === -1 && setTutorialStep(1);
                             setShowModal(false);
                         }}
                     >
-                        Yes
+                        {tutorialStep === -1 ? 'Yes' : 'Finish'}
                     </Button>
-                    <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>No</Button>
+                    {tutorialStep === -1 && <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>No</Button>}
                 </Modal.Footer>
             </Modal>
             <Settings>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={(p) => Popover(p, 'Change User Settings')}
-                // show={showPopover && tutorialStep === 6}
+                    //show={showPopover && tutorialStep === 6}
                 >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -81,7 +79,7 @@ function MainGarden() {
                 <OverlayTrigger
                     placement="bottom"
                     overlay={(p) => Popover(p, 'Your Plants Page')}
-                // show={showPopover && tutorialStep === 5}
+                 //show={showPopover && tutorialStep === 5}
                 >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -96,7 +94,7 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="bottom"
                         overlay={(p) => Popover(p, 'Download a JPEG of your Garden!')}
-                    // show={showPopover && tutorialStep === 4}
+                      //  show={showPopover && tutorialStep === 4}
                     >
                         <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -118,12 +116,12 @@ function MainGarden() {
                     <OverlayTrigger
                         placement="top"
                         overlay={(p) => Popover(p, 'Add New Plants To Your Garden')}
-                        show={showPopover && tutorialStep === 7}
+                        show={showPopover && tutorialStep === 8}
                     >
                         <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px', marginLeft: '-10px' }}
                             onClick={() => {
-                                if (tutorialStep === 7) setTutorialStep(8);
+                                if (tutorialStep === 8) nextTutorialStep();
                                 navigate('/2d-grid')
                             }}>
                             <img src={add} alt='2d-grid' />
@@ -131,12 +129,12 @@ function MainGarden() {
                     </OverlayTrigger>
                     <OverlayTrigger
                         placement="top"
-                        overlay={(p) => Popover(p, 'Use our 3D View!')}
-                        show={showPopover && tutorialStep === 11}
+                        overlay={(p) => Popover(p, 'To visualize your garden you can use our 3D camera view!')}
+                        show={showPopover && tutorialStep === 14}
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
-                            onClick={() => navigate('/3d-grid')}>
+                            onClick={() => {if (tutorialStep === 14) nextTutorialStep(); navigate('/3d-grid')}}>
                             <img src={camera} alt='3d-grid' />
                         </div>
                     </OverlayTrigger>
@@ -148,7 +146,7 @@ function MainGarden() {
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
                             onClick={() => {
-                                if (tutorialStep === 1) setTutorialStep(2);
+                                if (tutorialStep === 1) nextTutorialStep();
                                 navigate('/identification')
                             }}>
                             <img src={info} alt='plant-identification' />
