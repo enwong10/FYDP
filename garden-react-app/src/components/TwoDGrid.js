@@ -101,6 +101,11 @@ function TwoDGrid() {
         }
     };
 
+    const rightClickNavigate = (e) => {
+        e.preventDefault();
+        navigate('/dictionary');
+    };
+
     // JSX Pieces //
 
     const displayGrid = grid.map((row, i) =>
@@ -141,7 +146,8 @@ function TwoDGrid() {
                 <PlantsSelectionsContainer>
                     {plantDictionary.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
-                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}>
+                            onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}
+                            onContextMenu={rightClickNavigate}>
                             <PlantImage src={x.imageUrl} />
                             <div>{x.commonNames[0]}</div>
                         </PlantOption>

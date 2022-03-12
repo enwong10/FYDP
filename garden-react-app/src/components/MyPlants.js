@@ -20,16 +20,16 @@ function MyPlants() {
             <input type='text' className="w-100 mt-4" placeholder="Find New Plants" readOnly />
             <LegendContainer>
                 <div>
-                    <LegendColor style={{ backgroundColor: '#D83535' }} />
-                    Conflict
-                </div>
-                <div>
                     <LegendColor style={{ backgroundColor: '#007BFF' }} />
                     Ideal
                 </div>
                 <div>
                     <LegendColor style={{ backgroundColor: '#977B16' }} />
                     Warning
+                </div>
+                <div>
+                    <LegendColor style={{ backgroundColor: '#D83535' }} />
+                    Conflict
                 </div>
             </LegendContainer>
             <div style={{ overflow: 'auto', width: '100%' }}>
@@ -38,13 +38,13 @@ function MyPlants() {
                     {cat !== 'Flowers' ?
                         <>
                             <h3>{cat} (0)</h3>
-                        </> : 
+                        </> :
                         <>
                         <div role='button' className='d-flex flex-row align-items-center' onClick={() => setIsAccordionCollapsed(!isAccordionCollapsed)} >
-                            <h3>{cat} ({listOfPlants.length - 1})</h3> 
+                            <h3>{cat} ({listOfPlants.length - 1})</h3>
                             <img className="mx-2" src={isAccordionCollapsed ? downIcon : upIcon} alt='expand/collapse'/>
                         </div>
-                        {!isAccordionCollapsed && listOfPlants.length > 0 && 
+                        {!isAccordionCollapsed && listOfPlants.length > 0 &&
                         <div className='d-flex flex-row flex-wrap justify-content-start'>
                             {listOfPlants.map((a) => (
                                 <>
