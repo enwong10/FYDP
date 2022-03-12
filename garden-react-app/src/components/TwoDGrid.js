@@ -39,6 +39,7 @@ function TwoDGrid() {
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
+    const [movingPlant, setMovingPlant] = useState(null);
 
     // Functions //
 
@@ -46,6 +47,17 @@ function TwoDGrid() {
         const newGrid = [...grid];
         setHistory([...history, { i, j, value: newGrid[i][j] }]);
         newGrid[i][j] = newValue;
+        setGrid(newGrid);
+    };
+
+    const modifyMultipleGrid = (squares) => {
+        const newGrid = [...grid];
+        const historyArray = [];
+        squares.forEach(({i, j, newValue}) => {
+            historyArray.push({ i, j, value: newGrid[i][j] });
+            newGrid[i][j] = newValue;
+        });
+        setHistory([...history, historyArray]);
         setGrid(newGrid);
     };
 
@@ -57,15 +69,29 @@ function TwoDGrid() {
             modifyGrid(i, j, null)
         }
         else if (interactionMode === INSPECTION) {
-            if (grid[i][j] !== null)
+            if (grid[i][j] !== null) {
                 setSelectedPlantIndex(grid[i][j]);
-            navigate('/dictionary');
+                navigate('/dictionary');
+            }
         }
         else if (interactionMode === INSIGHT) {
             // TODO: Enable tooltips
         }
         else if (interactionMode === MOVE) {
-            // TODO: Enable moving
+            if (!movingPlant) {
+                if (grid[i][j] !== null) setMovingPlant({i, j});
+            }
+            else if (i === movingPlant.i && j === movingPlant.j) {
+                setMovingPlant(null);
+            }
+            else {
+                const newGrid = [...grid];
+                modifyMultipleGrid([
+                    {i, j, newValue: newGrid[movingPlant.i][movingPlant.j]},
+                    {i: movingPlant.i, j: movingPlant.j, newValue: null}
+                ]);
+                setMovingPlant(null);
+            }
         }
     };
 
@@ -99,14 +125,22 @@ function TwoDGrid() {
             const newHistory = [...history];
             const lastState = newHistory.pop();
             const newGrid = [...grid];
-            newGrid[lastState.i][lastState.j] = lastState.value;
+            if (Array.isArray(lastState)) {
+                console.log(lastState);
+                lastState.forEach(({i, j, value}) => {
+                    newGrid[i][j] = value;
+                });
+            } else {
+                newGrid[lastState.i][lastState.j] = lastState.value;
+            }
             setGrid(newGrid);
             setHistory(newHistory);
         }
     };
 
-    const rightClickNavigate = (e) => {
+    const rightClickNavigate = (e, i) => {
         e.preventDefault();
+        setSelectedPlantIndex(i);
         navigate('/dictionary');
     };
 
@@ -117,14 +151,14 @@ function TwoDGrid() {
             {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
                     {id !== null &&
-                        <img src={plantDb[id].imageUrl} alt="" />
+                        <img src={plantDb[id].imageUrl} alt=""
+                             style={{opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1'}}
+                        />
                     }
                 </GridSquare>
             )}
         </GridRow>
     );
-
-    console.log(grid)
 
     return (
         <Container>
@@ -139,9 +173,6 @@ function TwoDGrid() {
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
-                <div role="button" onClick={undo} style={{ marginRight: '30px' }}>
-                    <img src={undoIcon} />
-                </div>
             </TopButtons>
             <PlantSelector>
                 <SelectorNavigationButton
@@ -154,7 +185,7 @@ function TwoDGrid() {
                     {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
                             onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)}
-                            onContextMenu={rightClickNavigate}
+                            onContextMenu={(e) => rightClickNavigate(e, x.id)}
                                      className={'col-4'}
                         >
                             <PlantImage src={x.imageUrl} />
@@ -169,6 +200,23 @@ function TwoDGrid() {
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
+            <BottomButtonsContainer>
+                <BottomButton onClick={() => toggleAlternateMode(INSIGHT)} disabled={selectedPlant === null}
+                              style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
+                    <img src={infoIcon} />
+                </BottomButton>
+                <BottomButton onClick={() => toggleAlternateMode(MOVE)}
+                              style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
+                    <img src={toolsIcon} />
+                </BottomButton>
+                <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
+                              style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
+                    <img src={trashIcon} />
+                </BottomButton>
+                <BottomButton onClick={undo}>
+                    <img src={undoIcon} />
+                </BottomButton>
+            </BottomButtonsContainer>
             <GridContainer>
                 <TransformWrapper>
                     <TransformComponent>
@@ -176,20 +224,6 @@ function TwoDGrid() {
                     </TransformComponent>
                 </TransformWrapper>
             </GridContainer>
-            <BottomButtonsContainer>
-                <BottomButton onClick={() => toggleAlternateMode(INSIGHT)}
-                    style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
-                    <img src={infoIcon} />
-                </BottomButton>
-                <BottomButton onClick={() => toggleAlternateMode(MOVE)}
-                    style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
-                    <img src={toolsIcon} />
-                </BottomButton>
-                <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
-                    style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
-                    <img src={trashIcon} />
-                </BottomButton>
-            </BottomButtonsContainer>
             <Legend>
                 <LegendItem>
                     <LegendIcon style={{ backgroundColor: '#007BFF' }} />
@@ -222,7 +256,7 @@ const Legend = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 30px;
+    margin: 15px 0 30px;
 `;
 
 const LegendItem = styled.div`
@@ -239,7 +273,7 @@ const LegendIcon = styled.div`
 `;
 
 const BottomButtonsContainer = styled.div`
-    margin: 10px 0 30px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -250,6 +284,10 @@ const BottomButton = styled.button`
     padding: 5px;
     border-radius: 2px;
     border: none;
+    
+    :disabled {
+        opacity: 0.4;
+    }
 `;
 
 const PlantsSelectionsContainer = styled.div`
@@ -286,7 +324,7 @@ const PlantSelector = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-grow;
-    margin: 10px auto;
+    margin: 10px auto 5px;
     border: 1px solid black;
     border-radius: 5px;
 `;
