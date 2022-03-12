@@ -49,16 +49,16 @@ function PlantDictionary() {
             <PageSelectorContainer>
                 <div role='button'
                     onClick={() => setPage(1)}
-                    style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black'}}>
-                        GENERAL
-                        </div>
+                    style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black' }}>
+                    GENERAL
+                </div>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderGrow}
                     show={tutorialStep === 4}
                 >
                     <div role='button'
-                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black'}}
+                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black' }}
                         onClick={() => {
                             if (tutorialStep === 4) setTutorialStep(5);
                             setPage(2);
@@ -74,7 +74,7 @@ function PlantDictionary() {
                 >
                     <div
                         role="button"
-                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black'}}
+                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black' }}
                         onClick={() => {
                             if (tutorialStep === 5) setTutorialStep(6);
                             setPage(3);
@@ -109,13 +109,13 @@ function PlantDictionary() {
             {page === 1 &&
                 <PageContentContainer>
                     <ImageContainer>
-                        <img src={plant} alt='plant' />
+                        <img src={plantDictionary[selectedPlantIndex].imageUrl} alt='plant' />
                     </ImageContainer>
                     <InformationContainer>
                         <div>
                             <div>
                                 <span>Common Names: </span>
-                                <span>{plantDictionary[selectedPlantIndex].commonNames[0]}</span> 
+                                <span>{plantDictionary[selectedPlantIndex].commonNames[0]}</span>
                                 {/* // TODO LIST ALL THE NAMES  */}
                             </div>
                         </div>
@@ -243,16 +243,14 @@ function PlantDictionary() {
                             <h2>Pros</h2>
                             <div className='d-flex flex-row'>
                                 <div className='d-flex flex-column'>
-                                    <span>Location</span>
-                                    <span>Time</span>
-                                    <span>Bees</span>
-                                    <span>Cost</span>
+                                    {plantDictionary[selectedPlantIndex].pros.map(e =>
+                                        <span>{e.name}</span>
+                                    )}
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{plantDictionary[selectedPlantIndex].prosLocation}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosTime}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosBees}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosCost}</span>
+                                    {plantDictionary[selectedPlantIndex].pros.map(e =>
+                                        <span>{e.state}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -262,12 +260,14 @@ function PlantDictionary() {
                             <h2>Cons</h2>
                             <div className='d-flex flex-row'>
                                 <div className='d-flex flex-column'>
-                                    <span>Animals</span>
-                                    <span>Children</span>
+                                    {plantDictionary[selectedPlantIndex].cons.map(e =>
+                                        <span>{e.name}</span>
+                                    )}
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{plantDictionary[selectedPlantIndex].consAnimals}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].consChildren}</span>
+                                    {plantDictionary[selectedPlantIndex].cons.map(e =>
+                                        <span>{e.state}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -297,7 +297,7 @@ const MainContainer = styled.div`
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 18px;
+    // padding: 18px;
 `
 
 const PageSelectorContainer = styled.div`

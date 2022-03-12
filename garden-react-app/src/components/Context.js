@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import mockImage from '../assets/Flower 2.jpeg';
+import growth_db from './GrowInfoDb';
 
 export const defaultSettings = {
     gardenName: '',
@@ -30,35 +31,7 @@ const buildInitialGrid = (width, height) => {
 
 export const defaultGrid = buildInitialGrid(10, 10);
 
-const MOCK_PLANT = {
-    imageUrl: mockImage,
-    commonNames: ['White Trillium'],
-    scientificName: 'Trillium grandiflorum',
-    occurranceStatus: 'Present',
-    locality: 'Southern Ontario, Canada',
-    establishmentMeans: 'Natural, Non-invasive',
-    lifespan: 'Perennial',
-    growthSunShade: 'Shade',
-    height: '20-50 cm',
-    description: ['White Trillium is the provincial flower of Ontario', 'It has large white three-petalled flower above a whorl of 3 leaves.'],
-    waterAmount: '10 oz per week',
-    soilType: 'Brunisolic, Acidic',
-    spacing: '6 to 12 inches',
-    seedDepth: '2 to 4 inches',
-    plantingTime: 'Early Spring/Late Summer',
-    stalking: 'No',
-    sunlightAmount: 'Moderate',
-    mulch: '3 to 5 cm in fall',
-    additionalInformation: ["Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
-    prosLocation: 'Good',
-    prosTime: 'Excellent',
-    prosBees: 'Good',
-    prosCost: 'Excellent',
-    consAnimals: 'Awful',
-    consChildren: 'Poor',
-};
-
-export const plantDictionary = [MOCK_PLANT, MOCK_PLANT, MOCK_PLANT, MOCK_PLANT, MOCK_PLANT];
+export const plantDictionary = growth_db;
 
 const Context = React.createContext({
     grid: '',

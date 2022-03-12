@@ -1,147 +1,190 @@
+import image0 from '../assets/plant_images/blue_eyed_grass.jpg'
+import image1 from '../assets/plant_images/rock_polypody.jpg'
+import image2 from '../assets/plant_images/fireweed.jpeg'
+import image3 from '../assets/plant_images/primrose.jpg'
+import image4 from '../assets/plant_images/fall_phlox.jpg'
+import image5 from '../assets/plant_images/eastern_purple_coneflower.jpg'
+import image6 from '../assets/plant_images/black_eyed_susan.gif'
+
 const growth_db = [
     {
         id: 0,
-        common_names: ['Airplant', 'Sky plant', 'Blushing Bride'],
-        scien_name: 'Tillandsia ionantha Planch',
-        genus: 'Tillandsia',
-        family: 'Bromeliaceae',
-        life_cycle: 'Perennial',
-        sun_requirements: 'Full Sun to Partial Shade', // rename this to something else
-        leaves: 'Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: 'Terrariums',
-        misc: 'Epiphytic',
+        imageUrl: image0,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 1,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image1,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 2,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image2,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 3,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image3,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 4,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image4,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 5,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image5,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
     {
         id: 6,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
+        imageUrl: image6,
+        commonNames: ['Narrowleaf Blue-eyed Grass', 'Narrow-leaf Blue-eyed-grass', 'Bermuda Blue-eyed Grass', 'Blue-eyed Grass'],
+        scientificName: 'Sisyrinchium angustifolium',
+        // TODO
+        occurranceStatus: '1Present',
+        locality: '1Southern Ontario, Canada',
+        establishmentMeans: '1Natural, Non-invasive',
+        lifespan: '1Perennial',
+        growthSunShade: '1Shade',
+        height: '120-50 cm',
+        description: ['1White Trillium is the provincial flower of Ontario', '1It has large white three-petalled flower above a whorl of 3 leaves.'],
+        waterAmount: '110 oz per week',
+        soilType: '1Brunisolic, Acidic',
+        spacing: '16 to 12 inches',
+        seedDepth: '12 to 4 inches',
+        plantingTime: '1Early Spring/Late Summer',
+        stalking: '1No',
+        sunlightAmount: '1Moderate',
+        mulch: '13 to 5 cm in fall',
+        additionalInformation: ["1Trimming: After flowering, let the seeds form. There's no need to cut back the plant in the forest. It will naturally yellow and disappear by midsummer. In the shade garden, if you want a tidier look, wait until the leaves start dying back before cutting the foliage to the ground.", "Fertilizing: Usually the decaying leaves from deciduous trees provide the perfect growing medium for trillium. To enhance the growth in areas where leaves blow away or in a shade garden, each fall add a 1- to 2-inch thick layer of compost or leaf mulch to the planting area."],
+        pros: [{name: 'Location', state: 'Good'}, {name: 'Time', state: 'Excellent'}, {name: 'Pollination', state: 'Marvelous'}, {name: 'Cost', state: 'Fantastic'}, ],
+        cons: [{name: 'Animals', state: 'Awful'}, {name: 'Children', state: 'Bad'}]
     },
-    {
-        id: 7,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
-    },
-    {
-        id: 8,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
-    },
-    {
-        id: 9,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
-    },
-    {
-        id: 10,
-        common_names: ['Airplant1', 'Sky plant1', 'Blushing Bride1'],
-        scien_name: 'Tillandsia ionantha Planch1',
-        genus: 'Hemerocallis1',
-        family: 'Hemerocallidaceae1',
-        species: 'fulva1', // not needed?
-        life_cycle: 'Perennial1',
-        sun_requirements: 'Full Sun to Partial Shade1', // rename this to something else
-        leaves: '1Evergreen, Leaves are typically gray, gray-green, or white',
-        locations: '1Terrariums',
-        misc: '1Epiphytic',
-    },
-]
+];
+
+export default growth_db;
 
 /*
 Height: '24-36 in. (60-90 cm)'

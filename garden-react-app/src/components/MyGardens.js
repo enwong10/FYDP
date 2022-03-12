@@ -66,6 +66,7 @@ const GardensContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     overflow: auto;
+    padding: 0px 12px;
 
     h1 {
         margin: 48px 0;
@@ -87,7 +88,7 @@ const GardensContainer = styled.div`
 `
 
 const GardenPreviewContainer = styled.div`
-    width: 80%;
+    width: 100%;
     padding-top: 80%;
     position: relative;
     margin: 18px 0;

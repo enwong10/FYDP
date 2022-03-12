@@ -8,7 +8,7 @@ import { Context, plantDictionary } from "./Context";
 function MyPlants() {
     const navigate = useNavigate();
     const [isAccordionCollapsed, setIsAccordionCollapsed] = useState(false);
-    const { grid, setSelectedPlant } = useContext(Context)
+    const { grid, setSelectedPlantIndex } = useContext(Context)
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
 
     const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
@@ -48,7 +48,7 @@ function MyPlants() {
                         <div className='d-flex flex-row flex-wrap justify-content-start'>
                             {listOfPlants.map((a) => (
                                 <>
-                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlant(a); navigate('/dictionary')}}>
+                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
                                     <img src={plantDictionary[a].imageUrl} alt='plant'/>
                                     <div>{plantDictionary[a].name}</div>
                                 </PlantPreviewContainer>}

@@ -20,8 +20,8 @@ API_KEY = "2b10189SmpQJ3XHmESgf2Hz9k"	# Your API_KEY here
 api_endpoint = f"https://my-api.plantnet.org/v2/identify/all?api-key={API_KEY}"
 
 # original_stdout = sys.stdout
-base_path = "B:/dev/githubio/mwjrink.github.io/code/test_images"
-with open('B:/dev/githubio/mwjrink.github.io/code/test_images/output.txt', 'wt', encoding="utf-8") as out:
+base_path = "B:/dev/school/SYDE-461/FYDP/garden-react-app/src/assets/plant_images/identifications"
+with open(base_path + '/output.txt', 'wt', encoding="utf-8") as out:
     # sys.stdout = out
     for file in os.listdir(base_path):
         image_path_1 = base_path + "/" + file

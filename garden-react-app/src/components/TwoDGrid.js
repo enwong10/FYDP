@@ -220,8 +220,13 @@ const PlantSelector = styled.div`
 
 const PlantOption = styled.div`
     text-align: center;
-    width: 33.3333333333%;
+    width: 33.33333%;
     border: 1px solid black;
+    
+    img {
+        height: 90px;
+        object-fit: cover;
+    }
 `;
 
 const SelectorNavigationButton = styled.button`
