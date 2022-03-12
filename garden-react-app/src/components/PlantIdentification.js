@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
-import Popover from 'react-bootstrap/Popover';
+import Popover from './Popover';
 import React, { useContext, useEffect, useRef, useState } from "react";
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -602,9 +602,8 @@ const identifications = {
 }
 
 function PlantIdentification() {
-    // const navigate = useNavigate();
     const { tutorialStep, setTutorialStep, setSelectedPlantIndex } = useContext(Context);
-    const [show, setShow] = useState(false);
+    const [showPopover, setShowPopover] = useState(false);
     const navigate = useNavigate();
 
     const inputFlower = useRef(null);
@@ -614,8 +613,8 @@ function PlantIdentification() {
     const [showAPI, setShowAPI] = useState(false);
 
     useEffect(() => {
-        if (tutorialStep !== 0) setShow(true)
-    }, [tutorialStep])
+        if (tutorialStep !== 0) setShowPopover(true)
+    }, [])
 
     const onUploadFlower = () => {
         if (tutorialStep === 2) setTutorialStep(3);
@@ -686,18 +685,6 @@ function PlantIdentification() {
         }
     }
 
-    const renderTooltip = (props) => (
-        <Popover id="overlay-example" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                color: 'white',
-                ...props.style,
-            }
-            }>
-            Upload Image From Camera Roll
-        </Popover>
-    );
-
     return (
         <div style={{ overflow: 'auto' }}>
             <MainContainer>
@@ -712,8 +699,8 @@ function PlantIdentification() {
                 <ButtonContainer>
                     <OverlayTrigger
                         placement="bottom"
-                        show={show && tutorialStep === 2}
-                        overlay={renderTooltip}>
+                        show={showPopover && tutorialStep === 2}
+                        overlay={(p) => Popover(p, 'Upload Image From Camera Roll')}>
                         <PrettyButton
                             onClick={onUploadFlower}>
                             <img src={Camera} style={{ margin: '0px 10px 3px 0px', height: '1.5rem' }} alt='camera' />

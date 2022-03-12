@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Button, Modal, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Button, Modal, OverlayTrigger } from 'react-bootstrap';
 import styled from "styled-components";
 import { Context } from "./Context";
-import { defaultGrid } from './Constants'
+import { defaultGrid } from './Constants';
+import Popover from './Popover';
 // css
 import 'react-html5-camera-photo/build/css/index.css';
 // imgs
@@ -21,83 +22,15 @@ function MainGarden() {
     const navigate = useNavigate();
     const { grid, background, tutorialStep, setTutorialStep } = useContext(Context);
     const [showModal, setShowModal] = useState(false);
+    const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
         if (tutorialStep === -1) setShowModal(true);
     }, [tutorialStep])
 
-    const [show, setShow] = useState(false);
-
     useEffect(() => {
-        if (tutorialStep !== 0) setShow(true)
-    }, [tutorialStep])
-
-    const renderSettingsPop = (props) => (
-        <Popover id="settings-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                borderColor: "black",
-                color: 'white',
-                ...props.style,
-            }}>
-            Change User Settings
-        </Popover>
-    );
-    const renderDictionaryPop = (props) => (
-        <Popover id="dictionary-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                color: 'white',
-                borderColor: "black",
-                ...props.style,
-            }}>
-            Your Plants Page
-        </Popover>
-    );
-    const renderIDPop = (props) => (
-        <Popover id="id-pop" {...props} show={tutorialStep === 0}
-            style={{
-                backgroundColor: '#28A745',
-                color: 'white',
-                borderColor: "black",
-                ...props.style,
-            }}>
-            To begin, navigate to the plant identification section.
-        </Popover>
-    );
-    const renderAddPop = (props) => (
-        <Popover id="add-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                color: 'white',
-                borderColor: "black",
-                ...props.style,
-            }}>
-            Add New Plants To Your Garden
-        </Popover>
-    );
-    const render3DPop = (props) => (
-        <Popover id="3d-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                borderColor: "black",
-                color: 'white',
-                ...props.style,
-            }}>
-            Use our 3D View!
-        </Popover>
-    );
-    const renderDownloadPop = (props) => (
-        <Popover id="down-pop" {...props}
-            style={{
-                backgroundColor: '#28A745',
-                borderColor: "black",
-                color: 'white',
-                ...props.style,
-            }}>
-            Download a JPEG of your Garden!
-        </Popover>
-    );
+        if (tutorialStep !== 0) setShowPopover(true)
+    }, [])
 
     const onDownloadClick = () => {
         const a = document.createElement("a");
@@ -133,8 +66,8 @@ function MainGarden() {
             <Settings>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={renderSettingsPop}
-                // show={tutorialStep === 6}
+                    overlay={(p) => Popover(p, 'Change User Settings')}
+                // show={showPopover && tutorialStep === 6}
                 >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -147,8 +80,8 @@ function MainGarden() {
             <Dictionary>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={renderDictionaryPop}
-                // show={tutorialStep === 5}
+                    overlay={(p) => Popover(p, 'Your Plants Page')}
+                // show={showPopover && tutorialStep === 5}
                 >
                     <Button
                         style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -162,8 +95,8 @@ function MainGarden() {
                 <Download>
                     <OverlayTrigger
                         placement="bottom"
-                        overlay={renderDownloadPop}
-                    // show={tutorialStep === 4}
+                        overlay={(p) => Popover(p, 'Download a JPEG of your Garden!')}
+                    // show={showPopover && tutorialStep === 4}
                     >
                         <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -184,8 +117,8 @@ function MainGarden() {
                 <div>
                     <OverlayTrigger
                         placement="top"
-                        overlay={renderAddPop}
-                        show={tutorialStep === 7}
+                        overlay={(p) => Popover(p, 'Add New Plants To Your Garden')}
+                        show={showPopover && tutorialStep === 7}
                     >
                         <Button
                             style={{ backgroundColor: 'transparent', borderColor: "transparent", height: '50px', paddingTop: '5px', marginLeft: '-10px' }}
@@ -198,8 +131,8 @@ function MainGarden() {
                     </OverlayTrigger>
                     <OverlayTrigger
                         placement="top"
-                        overlay={render3DPop}
-                        show={tutorialStep === 11}
+                        overlay={(p) => Popover(p, 'Use our 3D View!')}
+                        show={showPopover && tutorialStep === 11}
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -209,8 +142,8 @@ function MainGarden() {
                     </OverlayTrigger>
                     <OverlayTrigger
                         placement="top"
-                        show={tutorialStep === 1}
-                        overlay={renderIDPop}
+                        show={showPopover && tutorialStep === 1}
+                        overlay={(p) => Popover(p, 'To begin, navigate to the plant identification section.')}
                     >
                         <div role='button'
                             style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
