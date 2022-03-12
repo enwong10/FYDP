@@ -24,7 +24,7 @@ export function TopNavBar({ title, component }) {
                     <img src={back} alt='back' />
                 </div>
                 <div className="d-flex flex-row align-items-center">
-                {tutorialStep > 0 && <div role='button' className="mx-3 text-decoration-underline" onClick={() => setTutorialStep(0)}>
+                {tutorialStep > 0 && tutorialStep < 15 && <div role='button' className="mx-3 text-decoration-underline" onClick={() => setTutorialStep(0)}>
                         Exit Tutorial
                     </div>
                 }
