@@ -6,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Popover from 'react-bootstrap/Popover';
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { Context, plantDictionary } from "./Context";
+import { Context } from "./Context";
 import Modal from 'react-bootstrap/Modal';
+import plantDb from './PlantDb'
 
 function PlantDictionary() {
     const [page, setPage] = useState(1);
@@ -49,16 +50,16 @@ function PlantDictionary() {
             <PageSelectorContainer>
                 <div role='button'
                     onClick={() => setPage(1)}
-                    style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black'}}>
-                        GENERAL
-                        </div>
+                    style={{ background: page === 1 ? '#198754' : 'white', color: page === 1 ? 'white' : 'black' }}>
+                    GENERAL
+                </div>
                 <OverlayTrigger
                     placement="bottom"
                     overlay={renderGrow}
                     show={tutorialStep === 4}
                 >
                     <div role='button'
-                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black'}}
+                        style={{ background: page === 2 ? '#198754' : 'white', color: page === 2 ? 'white' : 'black' }}
                         onClick={() => {
                             if (tutorialStep === 4) setTutorialStep(5);
                             setPage(2);
@@ -74,7 +75,7 @@ function PlantDictionary() {
                 >
                     <div
                         role="button"
-                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black'}}
+                        style={{ background: page === 3 ? '#198754' : 'white', color: page === 3 ? 'white' : 'black' }}
                         onClick={() => {
                             if (tutorialStep === 5) setTutorialStep(6);
                             setPage(3);
@@ -109,63 +110,63 @@ function PlantDictionary() {
             {page === 1 &&
                 <PageContentContainer>
                     <ImageContainer>
-                        <img src={plant} alt='plant' />
+                        <img src={plantDb[selectedPlantIndex].imageUrl} alt='plant' />
                     </ImageContainer>
                     <InformationContainer>
                         <div>
                             <div>
                                 <span>Common Names: </span>
-                                <span>{plantDictionary[selectedPlantIndex].commonNames[0]}</span> 
+                                <span>{plantDb[selectedPlantIndex].commonNames[0]}</span>
                                 {/* // TODO LIST ALL THE NAMES  */}
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Scientific Name: </span>
-                                <span>{plantDictionary[selectedPlantIndex].scientificName}</span>
+                                <span>{plantDb[selectedPlantIndex].scientificName}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Occurrance Status: </span>
-                                <span>{plantDictionary[selectedPlantIndex].occurranceStatus}</span>
+                                <span>{plantDb[selectedPlantIndex].occurranceStatus}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Locality: </span>
-                                <span>{plantDictionary[selectedPlantIndex].locality}</span>
+                                <span>{plantDb[selectedPlantIndex].locality}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Establishment Means: </span>
-                                <span>{plantDictionary[selectedPlantIndex].establishmentMeans}</span>
+                                <span>{plantDb[selectedPlantIndex].establishmentMeans}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Lifespan: </span>
-                                <span>{plantDictionary[selectedPlantIndex].lifespan}</span>
+                                <span>{plantDb[selectedPlantIndex].lifespan}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Grows in Sun/Shade: </span>
-                                <span>{plantDictionary[selectedPlantIndex].growthSunShade}</span>
+                                <span>{plantDb[selectedPlantIndex].growthSunShade}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Height: </span>
-                                <span>{plantDictionary[selectedPlantIndex].height}</span>
+                                <span>{plantDb[selectedPlantIndex].height}</span>
                             </div>
                         </div>
                         <div className='mt-2'>
                             <div className='mb-2'>Description</div>
                             <div>
                                 <ul>
-                                    {plantDictionary[selectedPlantIndex].description.map((a) => (
+                                    {plantDb[selectedPlantIndex].description.map((a) => (
                                         <li key={a}>{a}</li>
                                     ))}
                                 </ul>
@@ -180,55 +181,55 @@ function PlantDictionary() {
                         <div>
                             <div>
                                 <span>Amount of Water: </span>
-                                <span>{plantDictionary[selectedPlantIndex].waterAmount}</span>
+                                <span>{plantDb[selectedPlantIndex].waterAmount}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Preferred Soil Type: </span>
-                                <span>{plantDictionary[selectedPlantIndex].soilType}</span>
+                                <span>{plantDb[selectedPlantIndex].soilType}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Spacing: </span>
-                                <span>{plantDictionary[selectedPlantIndex].spacing}</span>
+                                <span>{plantDb[selectedPlantIndex].spacing}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Seed Depth: </span>
-                                <span>{plantDictionary[selectedPlantIndex].seedDepth}</span>
+                                <span>{plantDb[selectedPlantIndex].seedDepth}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Planting Time: </span>
-                                <span>{plantDictionary[selectedPlantIndex].plantingTime}</span>
+                                <span>{plantDb[selectedPlantIndex].plantingTime}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Stalking: </span>
-                                <span>{plantDictionary[selectedPlantIndex].stalking}</span>
+                                <span>{plantDb[selectedPlantIndex].stalking}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Amount of Sunlight: </span>
-                                <span>{plantDictionary[selectedPlantIndex].sunlightAmount}</span>
+                                <span>{plantDb[selectedPlantIndex].sunlightAmount}</span>
                             </div>
                         </div>
                         <div>
                             <div>
                                 <span>Mulch: </span>
-                                <span>{plantDictionary[selectedPlantIndex].mulch}</span>
+                                <span>{plantDb[selectedPlantIndex].mulch}</span>
                             </div>
                         </div>
                         <div className='mt-2'>
                             <div className='mb-2'>Additional Information</div>
                             <div className="d-flex flex-column">
-                                {plantDictionary[selectedPlantIndex].additionalInformation.map((a) => (
+                                {plantDb[selectedPlantIndex].additionalInformation.map((a) => (
                                     <span key={a}>{a}</span>
                                 ))}
                             </div>
@@ -243,16 +244,14 @@ function PlantDictionary() {
                             <h2>Pros</h2>
                             <div className='d-flex flex-row'>
                                 <div className='d-flex flex-column'>
-                                    <span>Location</span>
-                                    <span>Time</span>
-                                    <span>Bees</span>
-                                    <span>Cost</span>
+                                    {plantDb[selectedPlantIndex].pros.map(e =>
+                                        <span>{e.name}</span>
+                                    )}
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{plantDictionary[selectedPlantIndex].prosLocation}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosTime}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosBees}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].prosCost}</span>
+                                    {plantDb[selectedPlantIndex].pros.map(e =>
+                                        <span>{e.state}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -262,12 +261,14 @@ function PlantDictionary() {
                             <h2>Cons</h2>
                             <div className='d-flex flex-row'>
                                 <div className='d-flex flex-column'>
-                                    <span>Animals</span>
-                                    <span>Children</span>
+                                    {plantDb[selectedPlantIndex].cons.map(e =>
+                                        <span>{e.name}</span>
+                                    )}
                                 </div>
                                 <div className='d-flex flex-column'>
-                                    <span>{plantDictionary[selectedPlantIndex].consAnimals}</span>
-                                    <span>{plantDictionary[selectedPlantIndex].consChildren}</span>
+                                    {plantDb[selectedPlantIndex].cons.map(e =>
+                                        <span>{e.state}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -297,7 +298,7 @@ const MainContainer = styled.div`
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 18px;
+    // padding: 18px;
 `
 
 const PageSelectorContainer = styled.div`

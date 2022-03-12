@@ -3,17 +3,16 @@ import styled from "styled-components";
 import upIcon from '../assets/up.svg';
 import downIcon from '../assets/down.svg';
 import { useNavigate } from "react-router-dom";
-import { Context, plantDictionary } from "./Context";
+import { Context } from "./Context";
+import plantDb from './PlantDb'
 
 function MyPlants() {
     const navigate = useNavigate();
     const [isAccordionCollapsed, setIsAccordionCollapsed] = useState(false);
-    const { grid, setSelectedPlant } = useContext(Context)
+    const { grid, setSelectedPlantIndex } = useContext(Context)
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
 
     const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
-    console.log(listOfPlants)
-    console.log(plantDictionary)
 
     return (
         <MainContainer>
@@ -48,9 +47,9 @@ function MyPlants() {
                         <div className='d-flex flex-row flex-wrap justify-content-start'>
                             {listOfPlants.map((a) => (
                                 <>
-                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlant(a); navigate('/dictionary')}}>
-                                    <img src={plantDictionary[a].imageUrl} alt='plant'/>
-                                    <div>{plantDictionary[a].name}</div>
+                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
+                                    <img src={plantDb[a].imageUrl} alt='plant'/>
+                                    <div>{plantDb[a].name}</div>
                                 </PlantPreviewContainer>}
                                 </>
                             ))}

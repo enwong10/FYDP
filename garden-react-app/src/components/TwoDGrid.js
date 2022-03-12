@@ -1,17 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Context, plantDictionary } from "./Context";
+import { Context } from "./Context";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import plantDb from './PlantDb'
+import { autoGenGarden } from './Constants'
+// imgs
 import chevronRight from '../assets/chevron_right.svg';
 import chevronLeft from '../assets/chevron_left.svg';
 import undoIcon from '../assets/undo.svg';
 import infoIcon from '../assets/info_square.svg';
 import trashIcon from '../assets/trash.svg';
 import toolsIcon from '../assets/tools.svg';
-import { useNavigate } from "react-router-dom";
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 const INSPECTION = 0;
 const ADDITION = 1;
@@ -32,8 +33,7 @@ const PLANT_GROUPS = [
 ];
 
 function TwoDGrid() {
-    const { grid, setGrid } = useContext(Context);
-    const { history, setHistory } = useContext(Context);
+    const { grid, setGrid, history, setHistory, setSelectedPlantIndex } = useContext(Context);
     const navigate = useNavigate();
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
     const [selectedPlant, setSelectedPlant] = useState(null);
@@ -58,7 +58,8 @@ function TwoDGrid() {
         }
         else if (interactionMode === INSPECTION) {
             if (grid[i][j] !== null)
-                navigate('/dictionary');
+                setSelectedPlantIndex(grid[i][j]);
+            navigate('/dictionary');
         }
         else if (interactionMode === INSIGHT) {
             // TODO: Enable tooltips
@@ -113,12 +114,14 @@ function TwoDGrid() {
             {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}>
                     {id !== null &&
-                        <img src={plantDictionary[id].imageUrl} alt="" />
+                        <img src={plantDb[id].imageUrl} alt="" />
                     }
                 </GridSquare>
             )}
         </GridRow>
     );
+
+    console.log(grid)
 
     return (
         <Container>
@@ -133,7 +136,7 @@ function TwoDGrid() {
                         )}
                     </Dropdown.Menu>
                 </Dropdown>
-                <div role="button" onClick={undo} style={{marginRight: '30px'}}>
+                <div role="button" onClick={undo} style={{ marginRight: '30px' }}>
                     <img src={undoIcon} />
                 </div>
             </TopButtons>
@@ -144,7 +147,7 @@ function TwoDGrid() {
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
                 <PlantsSelectionsContainer>
-                    {plantDictionary.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
+                    {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
                         <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
                             onClick={() => toggleAdditionMode(firstPlantChoiceIndex + i)} className={'col-3'}
                             onContextMenu={rightClickNavigate}>
@@ -155,7 +158,7 @@ function TwoDGrid() {
                 </PlantsSelectionsContainer>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(3)}
-                    disabled={firstPlantChoiceIndex + 3 > plantDictionary.length}>
+                    disabled={firstPlantChoiceIndex + 3 > plantDb.length}>
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
@@ -168,33 +171,33 @@ function TwoDGrid() {
             </GridContainer>
             <BottomButtonsContainer>
                 <BottomButton onClick={() => toggleAlternateMode(INSIGHT)}
-                              style={{backgroundColor: interactionMode === INSIGHT && '#28A745'}}>
+                    style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
                     <img src={infoIcon} />
                 </BottomButton>
                 <BottomButton onClick={() => toggleAlternateMode(MOVE)}
-                              style={{backgroundColor: interactionMode === MOVE && '#28A745'}}>
+                    style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
                     <img src={toolsIcon} />
                 </BottomButton>
                 <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
-                              style={{backgroundColor: interactionMode === REMOVE && '#28A745'}}>
+                    style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
                     <img src={trashIcon} />
                 </BottomButton>
             </BottomButtonsContainer>
             <Legend>
                 <LegendItem>
-                    <LegendIcon style={{backgroundColor: '#007BFF'}}/>
+                    <LegendIcon style={{ backgroundColor: '#007BFF' }} />
                     Ideal
                 </LegendItem>
                 <LegendItem>
-                    <LegendIcon style={{backgroundColor: '#977B16'}}/>
+                    <LegendIcon style={{ backgroundColor: '#977B16' }} />
                     Warning
                 </LegendItem>
                 <LegendItem>
-                    <LegendIcon style={{backgroundColor: '#D83535'}}/>
+                    <LegendIcon style={{ backgroundColor: '#D83535' }} />
                     Conflict
                 </LegendItem>
             </Legend>
-            <Button variant={'success'}>
+            <Button variant={'success'} onClick={() => setGrid(autoGenGarden.map(arr => arr.slice()))}>
                 Autogenerate a garden for me!
             </Button>
         </Container >
@@ -284,8 +287,13 @@ const PlantSelector = styled.div`
 
 const PlantOption = styled.div`
     text-align: center;
-    width: 33.3333333333%;
-    border: 2px solid black;
+    width: 33.33333%;
+    border: 1px solid black;
+    
+    img {
+        height: 90px;
+        object-fit: cover;
+    }
 `;
 
 const SelectorNavigationButton = styled.button`
@@ -317,6 +325,7 @@ const Container = styled.div`
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
     text-align: center;
     overflow-y: scroll;
+    height: 100%;
 `;
 
 export default TwoDGrid;
