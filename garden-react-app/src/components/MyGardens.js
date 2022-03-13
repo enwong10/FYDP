@@ -12,9 +12,6 @@ function MyGardens() {
     // }
 
     const navigate = useNavigate();
-    const onButtonClick = () => {
-        navigate('/garden');
-    }
 
 
     const GardenPreview = ({ background = null, title }) => (
@@ -24,8 +21,7 @@ function MyGardens() {
                 <div className="m-3">
                     <h3>{title}</h3>
                     <div className="d-flex justify-content-between">
-                        <button
-                            className="btn btn-success">
+                        <button className="btn btn-success" onClick={() => navigate('/garden')}>
                             Go to garden
                         </button>
                         <img src={del} alt='delete' />
@@ -42,14 +38,13 @@ function MyGardens() {
             </h1>
             <button
                 className="btn btn-success mb-4"
-                onClick={onButtonClick}
+                onClick={() => navigate('/initial-setup')}
             >
                 + Design a new garden
             </button>
             <div>
                 <GardenPreview background={garden} title="Backyard" />
                 <GardenPreview background={grandma} title="Grandma's House" />
-                <GardenPreview title="Front Yard" />
             </div>
             {/* <Button onClick={onButtonClick}>
                 View 3D Preview

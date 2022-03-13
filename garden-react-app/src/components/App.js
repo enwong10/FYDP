@@ -28,6 +28,7 @@ function App() {
             <Route path="my-gardens" element={<MyGardens />} />
             <Route path="garden" element={<MainGarden />} />
             <Route path="settings" element={<TopNavBar title={'Garden Settings'} component={<GardenSettings />} />} />
+            <Route path="initial-setup" element={<TopNavBar title={'Initial Setup'} noHome component={<GardenSettings initial />} />} />
             <Route path="3d-grid" element={<TopNavBar component={<ARGrid />} />} />
             <Route path="2d-grid" element={<TopNavBar component={<TwoDGrid />} />} />
             <Route path="identification" element={<TopNavBar title={'Identification'} component={<PlantIdentification />} />} />

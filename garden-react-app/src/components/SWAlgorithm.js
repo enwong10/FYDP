@@ -1,9 +1,9 @@
 
 function SWAlgorithm(grid) {
     const newgrid = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < grid.length; i++) {
         newgrid[i] = [];
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < grid[0].length; j++) {
             const rand = Math.random();
 
             newgrid[i].push({

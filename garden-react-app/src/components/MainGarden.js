@@ -17,6 +17,7 @@ import backgroundPlaceholder from '../assets/background-placeholder.png';
 import settings from '../assets/settings.svg';
 import dictionary from '../assets/dictionary.svg';
 import download from '../assets/download.svg';
+import myGardensIcon from '../assets/person_lines_icon.svg';
 
 function MainGarden() {
     const navigate = useNavigate();
@@ -61,6 +62,14 @@ function MainGarden() {
                     {tutorialStep === -1 && <Button className='btn btn-danger' onClick={() => { setTutorialStep(0); setShowModal(false) }}>No</Button>}
                 </Modal.Footer>
             </Modal>
+            <MyGardensButton>
+                <Button
+                    style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
+                    onClick={() => navigate('/my-gardens')}
+                >
+                    <img src={myGardensIcon} alt='my gardens' />
+                </Button>
+            </MyGardensButton>
             <Settings>
                 <Button
                     style={{ backgroundColor: 'transparent', borderColor: "transparent" }}
@@ -173,8 +182,15 @@ const Settings = styled.div`
 
 const Dictionary = styled.div`
     position: absolute;
-    top: 36px;
+    top: 45px;
     right: 0px;
+    margin: 12px;
+`
+
+const MyGardensButton = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
     margin: 12px;
 `
 
@@ -195,10 +211,11 @@ const Footer = styled.div`
         width: 100%;
         height: 100%;
         background: #28A745;
+        border-radius: 5px;
 
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         padding: 8px; 
         align-items: center;
     }
