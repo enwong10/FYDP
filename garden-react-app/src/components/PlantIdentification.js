@@ -29,7 +29,7 @@ function PlantIdentification() {
     }, [tutorialStep])
 
     const onUploadFlower = () => {
-        if (tutorialStep === 2 ) nextTutorialStep();
+        if (tutorialStep === 2) nextTutorialStep();
 
         if (inputFlower.current) {
             inputFlower.current.click();
@@ -58,23 +58,23 @@ function PlantIdentification() {
         const sample_response = plantImageIdentifications[selectedFile]['results'];
 
         const styled_response = (
-            sample_response.slice(0, 3).map((e,i) => (
-                <ResultContainer key = {i} role='button' onClick={() => {
+            sample_response.slice(0, 3).map((e, i) => (
+                <ResultContainer key={i} role='button' onClick={() => {
                     if (tutorialStep > 0) setTutorialStep(5);
-                    setSelectedPlantIndex(1);
+                    setSelectedPlantIndex(e['id']);
                     navigate('/dictionary');
                 }}>
-                    <UploadedImage src={mockImage} />
+                    <UploadedImage src={e['image']} />
                     <span>
                         {e['species']['commonNames'][0]}
                     </span>
                     <span>
-                        {e['score'].toFixed(4) * 100}%
+                        {(e['score'] * 100).toFixed(2)}%
                     </span>
                 </ResultContainer>))
         );
         setResponse(styled_response);
-  };
+    };
 
     //: ChangeEvent<HTMLInputElement>
     const handleFlowerChange = (event) => {

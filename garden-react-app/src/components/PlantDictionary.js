@@ -57,7 +57,7 @@ function PlantDictionary() {
                         PERSONAL
                     </div>
                 </OverlayTrigger>
-               
+
             </PageSelectorContainer>
             {page === 1 &&
                 <PageContentContainer>
@@ -67,9 +67,8 @@ function PlantDictionary() {
                     <InformationContainer>
                         <div>
                             <div>
-                                <span>Common Names: </span>
-                                <span>{plantDb[selectedPlantIndex].commonNames[0]}</span>
-                                {/* // TODO LIST ALL THE NAMES  */}
+                                <span style={{ marginRight: '10px' }}>Common Names: </span>
+                                <span>{plantDb[selectedPlantIndex].commonNames.join(', ')}</span>
                             </div>
                         </div>
                         <div>
@@ -78,16 +77,16 @@ function PlantDictionary() {
                                 <span>{plantDb[selectedPlantIndex].scientificName}</span>
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <div>
                                 <span>Occurrance Status: </span>
                                 <span>{plantDb[selectedPlantIndex].occurranceStatus}</span>
                             </div>
-                        </div>
+                        </div> */}
                         <div>
                             <div>
                                 <span>Locality: </span>
-                                <span>{plantDb[selectedPlantIndex].locality}</span>
+                                <span>{plantDb[selectedPlantIndex].localities.join(', ')}</span>
                             </div>
                         </div>
                         <div>
@@ -100,12 +99,6 @@ function PlantDictionary() {
                             <div>
                                 <span>Lifespan: </span>
                                 <span>{plantDb[selectedPlantIndex].lifespan}</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <span>Grows in Sun/Shade: </span>
-                                <span>{plantDb[selectedPlantIndex].growthSunShade}</span>
                             </div>
                         </div>
                         <div>
@@ -132,14 +125,20 @@ function PlantDictionary() {
                     <InformationContainer>
                         <div>
                             <div>
+                                <span>Light Requirements: </span>
+                                <span>{plantDb[selectedPlantIndex].lightRequirements.join(', ')}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
                                 <span>Amount of Water: </span>
                                 <span>{plantDb[selectedPlantIndex].waterAmount}</span>
                             </div>
                         </div>
                         <div>
                             <div>
-                                <span>Preferred Soil Type: </span>
-                                <span>{plantDb[selectedPlantIndex].soilType}</span>
+                                <span>Soil Moisture: </span>
+                                <span>{plantDb[selectedPlantIndex].soilMoisture.join(', ')}</span>
                             </div>
                         </div>
                         <div>
@@ -162,28 +161,23 @@ function PlantDictionary() {
                         </div>
                         <div>
                             <div>
-                                <span>Stalking: </span>
-                                <span>{plantDb[selectedPlantIndex].stalking}</span>
+                                <span>Blooms: </span>
+                                <span>{plantDb[selectedPlantIndex].blooms.join(', ')}</span>
                             </div>
                         </div>
+
                         <div>
                             <div>
-                                <span>Amount of Sunlight: </span>
-                                <span>{plantDb[selectedPlantIndex].sunlightAmount}</span>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <span>Mulch: </span>
-                                <span>{plantDb[selectedPlantIndex].mulch}</span>
+                                <span>Spacing: </span>
+                                <span>{plantDb[selectedPlantIndex].spacing}</span>
                             </div>
                         </div>
                         <div className='mt-2'>
-                            <div className='mb-2'>Additional Information</div>
+                            <div className='mb-2'>Condition Comments</div>
                             <div className="d-flex flex-column">
-                                {plantDb[selectedPlantIndex].additionalInformation.map((a) => (
-                                    <span key={a}>{a}</span>
-                                ))}
+                                <span>
+                                    {plantDb[selectedPlantIndex].conditionComments}
+                                </span>
                             </div>
                         </div>
                     </InformationContainer>
@@ -243,6 +237,7 @@ export default PlantDictionary
 const MainContainer = styled.div`
     position: relative;
     max-width: 400px;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;

@@ -3,7 +3,7 @@ import rock_polypody_img from '../assets/plant_images/rock_polypody.jpg'
 import fireweed_img from '../assets/plant_images/fireweed.jpeg'
 import primrose_img from '../assets/plant_images/primrose.jpg'
 import fall_phlox_img from '../assets/plant_images/fall_phlox.jpg'
-import image5 from '../assets/plant_images/eastern_purple_coneflower.jpg'
+import eastern_purple_coneflower_img from '../assets/plant_images/eastern_purple_coneflower.jpg'
 import black_eyed_susan_img from '../assets/plant_images/black_eyed_susan.gif'
 
 const plantDb = [
@@ -165,24 +165,24 @@ const plantDb = [
     },
     {
         id: 5,
-        imageUrl: image5,
-        commonNames: ['Eastern Purple Coneflower, Purple Coneflower'],
-        scientificName: 'Echinacea purpurea',
-        localities: ['ON', 'QC'],
-        blooms: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        establishmentMeans: 'Natural, Non-invasive',
-        lifespan: 'Perennial',
-        lightRequirements: ['Sun', 'Part Shade'],
-        height: '2-5 feet',
-        description: [
+         imageUrl: eastern_purple_coneflower_img,
+         commonNames: ['Eastern Purple Coneflower', 'Purple Coneflower'],
+         scientificName: 'Echinacea purpurea',
+         localities: ['ON', 'QC'],
+         blooms: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+         establishmentMeans: 'Natural, Non-invasive',
+         lifespan: 'Perennial',
+         lightRequirements: ['Sun', 'Part Shade'],
+         height: '2-5 feet',
+         description: [
             'A popular perennial with smooth, 2-5 ft. stems and long-lasting, lavender flowers. Rough, scattered leaves that become small toward the top of the stem. Flowers occur singly atop the stems and have domed, purplish-brown, spiny centers and drooping, lavender rays. An attractive perennial with purple (rarely white), drooping rays surrounding a spiny, brownish central disk.',
             'The genus name is from the Greek echinos, meaning "hedgehog," an allusion to the spiny, brownish central disk. The flowers of Echinacea species are used to make an extremely popular herbal tea, purported to help strengthen the immune system; an extract is also available in tablet or liquid form in pharmacies and health food stores. Often cultivated, Purple Coneflower is a showy, easily grown garden plant.'],
-        waterAmount: 'Medium',
-        soilMoisture: ['Dry'],
-        conditionComments: 'Echinacea is a suitable addition to a prairie garden and attractive in flower arrangements. It is a popular perennial with smooth stems and long-lasting, lavender flowers. Rough, scattered leaves that become small toward the top of the stem. Flowers occur singly atop the stems and have domed, purplish-brown, spiny centers and drooping, lavender rays. Purple coneflower can become very aggressive.',
-        spacing: '2 to 6 inches',
-        seedDepth: '1 to 4 inches',
-        plantingTime: 'Any',
+         waterAmount: 'Medium',
+         soilMoisture: ['Dry'],
+         conditionComments: 'Echinacea is a suitable addition to a prairie garden and attractive in flower arrangements. It is a popular perennial with smooth stems and long-lasting, lavender flowers. Rough, scattered leaves that become small toward the top of the stem. Flowers occur singly atop the stems and have domed, purplish-brown, spiny centers and drooping, lavender rays. Purple coneflower can become very aggressive.',
+         spacing: '2 to 6 inches',
+         seedDepth: '1 to 4 inches',
+         plantingTime: 'Any',
         pros: [
             { name: 'Location', state: 'Good' },
             { name: 'Time', state: 'Excellent' },
