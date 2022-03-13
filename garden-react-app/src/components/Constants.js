@@ -39,7 +39,7 @@ const buildInitialGrid = (width, height) => {
     return grid;
 };
 
-export const identifications = {
+export const plantImageIdentifications = {
     'ep_coneflower.jpg': {
         'bestMatch': 'Echinacea purpurea (L.) Moench',
         'language': 'en',
