@@ -1,5 +1,5 @@
 
-function SWAlgorithm(grid) {
+function SWAlgorithm(grid, selectedPlantId) {
     const newgrid = [];
     for (let i = 0; i < grid.length; i++) {
         newgrid[i] = [];

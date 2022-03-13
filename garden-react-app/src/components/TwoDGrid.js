@@ -43,12 +43,16 @@ function TwoDGrid() {
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
     const [movingPlant, setMovingPlant] = useState(null);
-    const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid));
+    const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid, selectedPlant));
     const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
     }, [tutorialStep])
+
+    useEffect(() => {
+        setWarningsGrid(SWAlgorithm(grid, selectedPlant));
+    }, [grid, selectedPlant]);
 
     // Functions //
 
