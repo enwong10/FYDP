@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import plantDb from './PlantDb'
-import {autoGenGarden} from './Constants'
+import { autoGenGarden, initialWarningsGrid } from './Constants'
 import SWAlgorithm from "./SWAlgorithm";
 import Popover from './Popover';
 import { OverlayTrigger } from "react-bootstrap";
@@ -43,7 +43,7 @@ function TwoDGrid() {
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(PLANT_GROUPS[0]);
     const [movingPlant, setMovingPlant] = useState(null);
-    const [warningsGrid, setWarningsGrid] = useState(SWAlgorithm(grid, selectedPlant));
+    const [warningsGrid, setWarningsGrid] = useState(initialWarningsGrid);
     const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
@@ -51,7 +51,9 @@ function TwoDGrid() {
     }, [tutorialStep])
 
     useEffect(() => {
-        setWarningsGrid(SWAlgorithm(grid, selectedPlant));
+        console.log(); //! THIS NEEDS TO BE HERE, we need a side effect otherwise this will sometimes not run and be wrongly optimized out ¯\_(ツ)_/¯
+        const newWarningsGrid = SWAlgorithm(grid, selectedPlant);
+        setWarningsGrid(newWarningsGrid);
     }, [grid, selectedPlant]);
 
     // Functions //
@@ -66,7 +68,7 @@ function TwoDGrid() {
     const modifyMultipleGrid = (squares) => {
         const newGrid = [...grid];
         const historyArray = [];
-        squares.forEach(({i, j, newValue}) => {
+        squares.forEach(({ i, j, newValue }) => {
             historyArray.push({ i, j, value: newGrid[i][j] });
             newGrid[i][j] = newValue;
         });
@@ -92,7 +94,7 @@ function TwoDGrid() {
         }
         else if (interactionMode === MOVE) {
             if (!movingPlant) {
-                if (grid[i][j] !== null) setMovingPlant({i, j});
+                if (grid[i][j] !== null) setMovingPlant({ i, j });
             }
             else if (i === movingPlant.i && j === movingPlant.j) {
                 setMovingPlant(null);
@@ -100,8 +102,8 @@ function TwoDGrid() {
             else {
                 const newGrid = [...grid];
                 modifyMultipleGrid([
-                    {i, j, newValue: newGrid[movingPlant.i][movingPlant.j]},
-                    {i: movingPlant.i, j: movingPlant.j, newValue: null}
+                    { i, j, newValue: newGrid[movingPlant.i][movingPlant.j] },
+                    { i: movingPlant.i, j: movingPlant.j, newValue: null }
                 ]);
                 setMovingPlant(null);
             }
@@ -139,7 +141,7 @@ function TwoDGrid() {
             const lastState = newHistory.pop();
             const newGrid = [...grid];
             if (Array.isArray(lastState)) {
-                lastState.forEach(({i, j, value}) => {
+                lastState.forEach(({ i, j, value }) => {
                     newGrid[i][j] = value;
                 });
             } else {
@@ -163,109 +165,121 @@ function TwoDGrid() {
             {row.map((id, j) =>
                 <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
                     style={{
-                        backgroundColor:
-                            warningsGrid[i][j] && (
-                            'warning' in warningsGrid[i][j] && warningsGrid[i][j].warning ? '#977B16' :
-                            'suggestions' in warningsGrid[i][j] && warningsGrid[i][j].suggestions ? '#007BFF' :
-                            '')
+                        borderColor: (() => {
+                            if (warningsGrid[i][j]) {
+                                // console.log(i)
+                                // console.log(j)
+                                // console.log(warningsGrid[i][j])
+                                if (warningsGrid[i][j].warning && warningsGrid[i][j].warning.length > 0) {
+                                    return '#977B16';
+                                }
+
+                                if (warningsGrid[i][j].suggestions && warningsGrid[i][j].suggestions.length > 0) {
+                                    return '#007BFF';
+                                }
+                            }
+                            return '#000000';
+                        })(),
+                        borderWidth: '4px'
                     }}
                 >
                     {id !== null &&
                         <img src={plantDb[id].imageUrl} alt=""
-                             style={{opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1'}}
+                            style={{ opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1' }}
                         />
                     }
                 </GridSquare>
-            )}
-        </GridRow>
+            )
+            }
+        </GridRow >
     );
 
     return (
         <Container>
             <TopButtons>
-            <OverlayTrigger
+                <OverlayTrigger
                     placement="bottom"
                     overlay={(p) => Popover(p, 'To begin adding plants, ensure that flowers are selected in the dorp down menu.')}
                     show={showPopover && tutorialStep === 9}
-                >          
-                <Dropdown onClick={() =>  {setShowPopover(false)}}>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        {plantGroup}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {PLANT_GROUPS.map((groupName, i) =>
-                            <Dropdown.Item onClick={() => {if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true); setPlantGroup(groupName)}}>{groupName}</Dropdown.Item>
-                        )}
-                    </Dropdown.Menu>
-                </Dropdown>
-            </OverlayTrigger>
+                >
+                    <Dropdown onClick={() => { setShowPopover(false) }}>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            {plantGroup}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {PLANT_GROUPS.map((groupName, i) =>
+                                <Dropdown.Item onClick={() => { if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true); setPlantGroup(groupName) }}>{groupName}</Dropdown.Item>
+                            )}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </OverlayTrigger>
             </TopButtons>
             <PlantSelector>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(-3)}
                     disabled={firstPlantChoiceIndex === 0}
-                    style={{borderRadius: '4px 0 0 4px'}}>
+                    style={{ borderRadius: '4px 0 0 4px' }}>
                     <img src={chevronLeft} />
                 </SelectorNavigationButton>
                 <OverlayTrigger
-                        placement="bottom"
-                        overlay={(p) => Popover(p, 'To select a flower to add, click on it in the navigation bar.')}
-                        show={showPopover && tutorialStep === 10}
-                    >
-                <PlantsSelectionsContainer>
-                    {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
-                        <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
-                            onClick={() => {if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i)}}
-                            onContextMenu={(e) => rightClickNavigate(e, x.id)}
-                                     className={'col-4'}
-                        >
-                            <PlantImage src={x.imageUrl} />
-                            <div>{x.commonNames[0]}</div>
-                        </PlantOption> )}
-                </PlantsSelectionsContainer>
+                    placement="bottom"
+                    overlay={(p) => Popover(p, 'To select a flower to add, click on it in the navigation bar.')}
+                    show={showPopover && tutorialStep === 10}
+                >
+                    <PlantsSelectionsContainer>
+                        {plantDb.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((x, i) =>
+                            <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
+                                onClick={() => { if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i) }}
+                                onContextMenu={(e) => rightClickNavigate(e, x.id)}
+                                className={'col-4'}
+                            >
+                                <PlantImage src={x.imageUrl} />
+                                <div>{x.commonNames[0]}</div>
+                            </PlantOption>)}
+                    </PlantsSelectionsContainer>
                 </OverlayTrigger>
                 <SelectorNavigationButton
-                    onClick={() => updateFirstPlantIndex(3) }
+                    onClick={() => updateFirstPlantIndex(3)}
                     disabled={firstPlantChoiceIndex + 3 > plantDb.length}
-                    style={{borderRadius: '0 4px 4px 0'}}>
+                    style={{ borderRadius: '0 4px 4px 0' }}>
                     <img src={chevronRight} />
                 </SelectorNavigationButton>
             </PlantSelector>
             <OverlayTrigger
-                        placement="bottom"
-                        overlay={(p) => Popover(p, 'You can toggle information mode, move/remove plants from the grid, or undo previous change.')}
-                        show={showPopover && tutorialStep === 12}
-                    >
-            <BottomButtonsContainer>
-                <BottomButton onClick={() => toggleAlternateMode(INSIGHT)} disabled={selectedPlant === null}
-                              style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
-                    <img src={infoIcon} />
-                </BottomButton>
-                <BottomButton onClick={() => toggleAlternateMode(MOVE)}
-                              style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
-                    <img src={toolsIcon} />
-                </BottomButton>
-                <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
-                              style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
-                    <img src={trashIcon} />
-                </BottomButton>
-                <BottomButton onClick={undo}>
-                    <img src={undoIcon} />
-                </BottomButton>
-            </BottomButtonsContainer>
+                placement="bottom"
+                overlay={(p) => Popover(p, 'You can toggle information mode, move/remove plants from the grid, or undo previous change.')}
+                show={showPopover && tutorialStep === 12}
+            >
+                <BottomButtonsContainer>
+                    <BottomButton onClick={() => toggleAlternateMode(INSIGHT)} disabled={selectedPlant === null}
+                        style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
+                        <img src={infoIcon} />
+                    </BottomButton>
+                    <BottomButton onClick={() => toggleAlternateMode(MOVE)}
+                        style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
+                        <img src={toolsIcon} />
+                    </BottomButton>
+                    <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
+                        style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
+                        <img src={trashIcon} />
+                    </BottomButton>
+                    <BottomButton onClick={undo}>
+                        <img src={undoIcon} />
+                    </BottomButton>
+                </BottomButtonsContainer>
             </OverlayTrigger>
             <OverlayTrigger
-                        placement="top"
-                        overlay={(p) => Popover(p, 'Now by clicking into the grid, you can place the flower into the garden.')}
-                        show={showPopover && tutorialStep === 11}
-                    >
-            <GridContainer onClick={() => { if (tutorialStep === 11) nextTutorialStep()}}>
-                <TransformWrapper>
-                    <TransformComponent>
-                        {displayGrid}
-                    </TransformComponent>
-                </TransformWrapper>
-            </GridContainer>
+                placement="top"
+                overlay={(p) => Popover(p, 'Now by clicking into the grid, you can place the flower into the garden.')}
+                show={showPopover && tutorialStep === 11}
+            >
+                <GridContainer onClick={() => { if (tutorialStep === 11) nextTutorialStep() }}>
+                    <TransformWrapper>
+                        <TransformComponent>
+                            {displayGrid}
+                        </TransformComponent>
+                    </TransformWrapper>
+                </GridContainer>
             </OverlayTrigger>
             <Legend>
                 <LegendItem>
@@ -282,13 +296,13 @@ function TwoDGrid() {
                 </LegendItem>
             </Legend>
             <OverlayTrigger
-                        placement="top"
-                        overlay={(p) => Popover(p, 'This feature will automatically generate a garden based on your preferences, goals, and location. ')}
-                        show={showPopover && tutorialStep === 12}
-                    >
-            <Button variant={'success'} onClick={() => {if (tutorialStep === 12) nextTutorialStep(); setGrid(autoGenGarden.map(arr => arr.slice()))}}>
-                Autogenerate a garden for me!
-            </Button>
+                placement="top"
+                overlay={(p) => Popover(p, 'This feature will automatically generate a garden based on your preferences, goals, and location. ')}
+                show={showPopover && tutorialStep === 12}
+            >
+                <Button variant={'success'} onClick={() => { if (tutorialStep === 12) nextTutorialStep(); setGrid(autoGenGarden.map(arr => arr.slice())) }}>
+                    Autogenerate a garden for me!
+                </Button>
             </OverlayTrigger>
         </Container >
     )
@@ -381,6 +395,7 @@ const PlantSelector = styled.div`
 const PlantOption = styled.div`
     text-align: center;
     border: 2px solid black;
+    height: 100%;
     
     img {
         height: 90px;
