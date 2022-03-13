@@ -1,20 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import plant from '../assets/plant.jpeg';
-import Button from 'react-bootstrap/Button';
 import 'react-html5-camera-photo/build/css/index.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { Context } from "./Context";
-import Modal from 'react-bootstrap/Modal';
 import plantDb from './PlantDb';
 import Popover from "./Popover";
 
 function PlantDictionary() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { tutorialStep, setTutorialStep, selectedPlantIndex, nextTutorialStep } = useContext(Context);
-    const [showModal, setShowModal] = useState(false);
+    const { tutorialStep, selectedPlantIndex, nextTutorialStep } = useContext(Context);
     const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
@@ -247,7 +243,7 @@ export default PlantDictionary
 const MainContainer = styled.div`
     position: relative;
     max-width: 400px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;

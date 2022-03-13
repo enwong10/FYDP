@@ -43,9 +43,10 @@ function App() {
 }
 
 const Container = styled.div`
-    margin:auto;
+    margin: auto;
     max-width: 400px;
-    width: 100%
+    width: 100%;
+    height: 100%;
 `;
 
 export default App;

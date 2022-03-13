@@ -53,7 +53,7 @@ export function TopNavBar({ title, component, noHome }) {
 
 const PageContainer = styled.div`
     width: 100%;
-    height: 100vh;
+    height: 100%;
 
     padding: 0px 12px;
 

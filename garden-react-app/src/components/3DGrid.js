@@ -6,7 +6,6 @@ import garden from '../assets/3d_garden.PNG';
 import 'react-html5-camera-photo/build/css/index.css';
 import html2canvas from 'html2canvas'
 import { Context } from "./Context";
-import {TopNavBar} from "./TopNavBar";
 
 function ARGrid() {
     const ref = createRef(null);
@@ -83,7 +82,7 @@ const Container = styled.div`
     flex-direction: column;
     overflow: hidden;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     height: calc(var(--vh, 1vh) * 100);
     justify-content: center;
     align-items: center;

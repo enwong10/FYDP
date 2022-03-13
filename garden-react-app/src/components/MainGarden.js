@@ -54,6 +54,7 @@ function MainGarden() {
                         className='btn btn-success'
                         onClick={() => {
                             tutorialStep === -1 && setTutorialStep(1);
+                            tutorialStep === 15 && nextTutorialStep();
                             setShowModal(false);
                         }}
                     >
@@ -154,7 +155,7 @@ export default MainGarden;
 const MainContainer = styled.div`
     position: relative;
     max-width: 400px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
