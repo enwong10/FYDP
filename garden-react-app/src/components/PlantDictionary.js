@@ -17,7 +17,6 @@ function PlantDictionary() {
         if (tutorialStep > 0) setShowPopover(true)
     }, [tutorialStep])
 
-
     return (
         <MainContainer>
             <PageSelectorContainer>
