@@ -35,6 +35,12 @@ const PLANT_GROUPS = {
     // "Fungi": []
 };
 
+// TODO: finish this and display colours on names
+const OVERALL_WARNING = {
+    ideal: [1, 2],
+    warning: [0]
+};
+
 function TwoDGrid() {
     const { grid, setGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep } = useContext(Context);
     const navigate = useNavigate();
@@ -326,7 +332,10 @@ function TwoDGrid() {
                 overlay={(p) => Popover(p, 'This feature will automatically generate a garden based on your preferences, goals, and location. ')}
                 show={showPopover && tutorialStep === 12}
             >
-                <Button variant={'success'} onClick={() => { if (tutorialStep === 12) nextTutorialStep(); setGrid(autoGenGarden.map(arr => arr.slice())) }}>
+                <Button variant={'success'} onClick={() => {
+                    if (tutorialStep === 12) nextTutorialStep();
+                    setGrid(autoGenGarden.map(arr => arr.slice()));
+                }}>
                     Autogenerate a garden for me!
                 </Button>
             </OverlayTrigger>
