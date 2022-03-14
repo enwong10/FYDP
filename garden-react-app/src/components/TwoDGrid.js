@@ -45,10 +45,11 @@ function TwoDGrid() {
     const [movingPlant, setMovingPlant] = useState(null);
     const [warningsGrid, setWarningsGrid] = useState(initialWarningsGrid);
     const [showPopover, setShowPopover] = useState(false);
+    const [insightCoords, setInsightCoords] = useState(null);
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
-    }, [tutorialStep])
+    }, [tutorialStep]);
 
     useEffect(() => {
         console.log(); //! THIS NEEDS TO BE HERE, we need a side effect otherwise this will sometimes not run and be wrongly optimized out ¯\_(ツ)_/¯
@@ -78,32 +79,37 @@ function TwoDGrid() {
 
     const clickedGrid = (i, j) => {
         if (interactionMode === ADDITION) {
-            modifyGrid(i, j, selectedPlant)
-        }
-        else if (interactionMode === REMOVE) {
+            if (!(warningsGrid[i][j] && warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0)) {
+                modifyGrid(i, j, selectedPlant)
+            }
+        } else if (interactionMode === REMOVE) {
             modifyGrid(i, j, null)
-        }
-        else if (interactionMode === INSPECTION) {
+        } else if (interactionMode === INSPECTION) {
             if (grid[i][j] !== null) {
                 setSelectedPlantIndex(grid[i][j]);
                 navigate('/dictionary');
             }
-        }
-        else if (interactionMode === INSIGHT) {
-            // TODO: Enable tooltips
-        }
-        else if (interactionMode === MOVE) {
+        } else if (interactionMode === INSIGHT) {
+            if ('all' in warningsGrid[i][j]) {
+                if (insightCoords && insightCoords.i === i && insightCoords.j === j) {
+                    setInsightCoords(null);
+                } else {
+                    setInsightCoords({i, j});
+                }
+            }
+        } else if (interactionMode === MOVE) {
             if (!movingPlant) {
-                if (grid[i][j] !== null) setMovingPlant({ i, j });
-            }
-            else if (i === movingPlant.i && j === movingPlant.j) {
+                if (grid[i][j] !== null) {
+                    setMovingPlant({i, j});
+                    setSelectedPlant(grid[i][j]);
+                }
+            } else if (i === movingPlant.i && j === movingPlant.j) {
                 setMovingPlant(null);
-            }
-            else {
+            } else {
                 const newGrid = [...grid];
                 modifyMultipleGrid([
-                    { i, j, newValue: newGrid[movingPlant.i][movingPlant.j] },
-                    { i: movingPlant.i, j: movingPlant.j, newValue: null }
+                    {i, j, newValue: newGrid[movingPlant.i][movingPlant.j]},
+                    {i: movingPlant.i, j: movingPlant.j, newValue: null}
                 ]);
                 setMovingPlant(null);
             }
@@ -111,6 +117,7 @@ function TwoDGrid() {
     };
 
     const toggleAdditionMode = (plantIndex) => {
+        if (insightCoords) setInsightCoords(null);
         if (selectedPlant === plantIndex) {
             setInteractionMode(INSPECTION);
             setSelectedPlant(null);
@@ -122,6 +129,7 @@ function TwoDGrid() {
     };
 
     const toggleAlternateMode = (mode) => {
+        if (insightCoords) setInsightCoords(null);
         if (interactionMode === mode) setInteractionMode(INSPECTION);
         else {
             if (mode !== INSIGHT && selectedPlant !== null) setSelectedPlant(null);
@@ -163,34 +171,39 @@ function TwoDGrid() {
     const displayGrid = grid.map((row, i) =>
         <GridRow key={'row' + i} className={'row'}>
             {row.map((id, j) =>
-                <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
-                    style={{
-                        borderColor: (() => {
-                            if (warningsGrid[i][j]) {
-                                // console.log(i)
-                                // console.log(j)
-                                // console.log(warningsGrid[i][j])
-                                if (warningsGrid[i][j].warning && warningsGrid[i][j].warning.length > 0) {
-                                    return '#977B16';
-                                }
-
-                                if (warningsGrid[i][j].suggestions && warningsGrid[i][j].suggestions.length > 0) {
-                                    return '#007BFF';
-                                }
-                            }
-                            return '#000000';
-                        })(),
-                        borderWidth: '4px'
-                    }}
+                <OverlayTrigger
+                    placement="top"
+                    overlay={(p) => Popover(p, warningsGrid[i][j].all[0])}
+                    show={insightCoords && insightCoords.i === i && insightCoords.j === j}
                 >
-                    {id !== null &&
-                        <img src={plantDb[id].imageUrl} alt=""
-                            style={{ opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1' }}
-                        />
-                    }
-                </GridSquare>
-            )
-            }
+                    <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
+                        disabled={warningsGrid[i][j] && warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0}
+                        style={{
+                            borderColor: (() => {
+                                if (warningsGrid[i][j]) {
+                                    if (warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0) {
+                                        return '#D83535';
+                                    }
+                                    else if (warningsGrid[i][j].warning && warningsGrid[i][j].warning.length > 0) {
+                                        return '#977B16';
+                                    }
+                                    else if (warningsGrid[i][j].suggestions && warningsGrid[i][j].suggestions.length > 0) {
+                                        return '#007BFF';
+                                    }
+                                }
+                                return '#000000';
+                            })(),
+                            borderWidth: '4px'
+                        }}
+                    >
+                        {id !== null &&
+                            <img src={plantDb[id].imageUrl} alt=""
+                                style={{ opacity: movingPlant?.i === i && movingPlant?.j === j ? '0.5' : '1' }}
+                            />
+                        }
+                    </GridSquare>
+                </OverlayTrigger>
+            )}
         </GridRow >
     );
 
@@ -199,7 +212,7 @@ function TwoDGrid() {
             <TopButtons>
                 <OverlayTrigger
                     placement="bottom"
-                    overlay={(p) => Popover(p, 'To begin adding plants, ensure that flowers are selected in the dorp down menu.')}
+                    overlay={(p) => Popover(p, 'To begin adding plants, ensure that flowers are selected in the drop down menu.')}
                     show={showPopover && tutorialStep === 9}
                 >
                     <Dropdown onClick={() => { setShowPopover(false) }}>
@@ -251,7 +264,7 @@ function TwoDGrid() {
                 show={showPopover && tutorialStep === 12}
             >
                 <BottomButtonsContainer>
-                    <BottomButton onClick={() => toggleAlternateMode(INSIGHT)} disabled={selectedPlant === null}
+                    <BottomButton onClick={() => toggleAlternateMode(INSIGHT)}
                         style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
                         <img src={infoIcon} />
                     </BottomButton>
@@ -281,6 +294,9 @@ function TwoDGrid() {
                     </TransformWrapper>
                 </GridContainer>
             </OverlayTrigger>
+            <div>
+                Each square is 1 sqft. -- North is up.
+            </div>
             <Legend>
                 <LegendItem>
                     <LegendIcon style={{ backgroundColor: '#007BFF' }} />

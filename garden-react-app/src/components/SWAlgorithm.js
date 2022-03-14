@@ -22,14 +22,22 @@ function SWAlgorithm(grid, selectedPlantId) {
                 plant = plantDb[selectedPlantId];
             }
 
-            const toCheck = [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1]].filter(e => e[0] < grid.length && e[0] >= 0 && e[1] < grid[0].length && e[1] >= 0);
+            const toCheck = [
+                [i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1], [i - 1, j - 1], [i - 1, j+1], [i + 1, j - 1], [i + 1, j + 1]
+            ].filter(e => e[0] < grid.length && e[0] >= 0 && e[1] < grid[0].length && e[1] >= 0);
 
             var warning = [];
             var suggestions = [];
+            const conflicts = [];
+            const requiredSpace = parseInt(plant.spacing.split(' ')[0])/12;
 
             for (const xy of toCheck) {
                 if (grid[xy[0]][xy[1]] === null) {
                     continue;
+                }
+
+                if (parseInt(plantDb[grid[xy[0]][xy[1]]].spacing.split(' ')[0])/12 + requiredSpace > 1) {
+                    conflicts.push('The spacing requirements of an adjacent plant differ interfere with this placement.');
                 }
 
                 if (plantDb[grid[xy[0]][xy[1]]].lightRequirements.filter(v => plant.lightRequirements.includes(v)).length === 0) {
@@ -61,7 +69,8 @@ function SWAlgorithm(grid, selectedPlantId) {
             newgrid[i].push({
                 warning,
                 suggestions,
-                required_space: parseInt(plant.spacing.split(' ')[0]),
+                conflicts,
+                all: [...conflicts, ...warning, ...suggestions]
             });
         }
     }
