@@ -219,7 +219,7 @@ function TwoDGrid() {
                 <PlantImage src={plantDb[plantId].imageUrl} />
                 <div>{plantDb[plantId].commonNames[0]}</div>
             </PlantOption>))
-    }
+    };
 
     return (
         <Container>
@@ -259,7 +259,11 @@ function TwoDGrid() {
                 </OverlayTrigger>
                 <SelectorNavigationButton
                     onClick={() => updateFirstPlantIndex(3)}
-                    disabled={firstPlantChoiceIndex + 3 > plantDb.length}
+                    disabled={
+                        plantGroup === 'Plants in Garden' ?
+                        firstPlantChoiceIndex + 2 > grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) :
+                        firstPlantChoiceIndex + 2 > PLANT_GROUPS[plantGroup].length
+                    }
                     style={{ borderRadius: '0 4px 4px 0' }}>
                     <img src={chevronRight} alt='next'/>
                 </SelectorNavigationButton>
