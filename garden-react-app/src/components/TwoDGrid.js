@@ -52,6 +52,7 @@ function TwoDGrid() {
     const [warningsGrid, setWarningsGrid] = useState(initialWarningsGrid);
     const [showPopover, setShowPopover] = useState(false);
     const [insightCoords, setInsightCoords] = useState(null);
+    const [isAutogen, setIsAutogen] = useState(false);
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
@@ -59,11 +60,27 @@ function TwoDGrid() {
 
     useEffect(() => {
         console.log(); //! THIS NEEDS TO BE HERE, we need a side effect otherwise this will sometimes not run and be wrongly optimized out ¯\_(ツ)_/¯
-        const newWarningsGrid = SWAlgorithm(grid, selectedPlant);
-        setWarningsGrid(newWarningsGrid);
+        if (!isAutogen) {
+            const newWarningsGrid = SWAlgorithm(grid, selectedPlant);
+            setWarningsGrid(newWarningsGrid);
+        }
     }, [grid, selectedPlant]);
 
     // Functions //
+
+    const hardCodeWarningsGrid = () => {
+        const newgrid = [];
+        for (let i = 0; i < grid.length; i++) {
+            newgrid[i] = [];
+            for (let j = 0; j < grid[i].length; j++) {
+                newgrid[i].push({
+                    suggestions: ['This spot would be ideal for this plant as there are no adjacent plants with significantly differing growth requirements.'],
+                    all: ['This spot would be ideal for this plant as there are no adjacent plants with significantly differing growth requirements.']
+                });
+            }
+        }
+        setWarningsGrid(newgrid);
+    };
 
     const modifyGrid = (i, j, newValue) => {
         const newGrid = [...grid];
@@ -180,7 +197,7 @@ function TwoDGrid() {
                 <OverlayTrigger
                     placement="top"
                     overlay={(p) => Popover(p, warningsGrid[i][j].all[0])}
-                    show={insightCoords && insightCoords.i === i && insightCoords.j === j}
+                    show={insightCoords && insightCoords.i === i && insightCoords.j === j && warningsGrid[i][j].all.length > 0}
                 >
                     <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
                         disabled={warningsGrid[i][j] && warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0}
@@ -215,15 +232,27 @@ function TwoDGrid() {
 
     const getPlantSelectionsOptions = () => {
         const arrOfPlants = plantGroup === 'Plants in Garden' ? grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) : PLANT_GROUPS[plantGroup];
-        console.log(arrOfPlants)
         return (arrOfPlants.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((plantId, i) =>
-            <PlantOption style={{ border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : "" }}
+            <PlantOption style={{
+                    border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : ""
+                }}
                 onClick={() => { if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i) }}
                 onContextMenu={(e) => rightClickNavigate(e, plantId)}
                 className={'col-4'}
             >
                 <PlantImage src={plantDb[plantId].imageUrl} />
-                <div>{plantDb[plantId].commonNames[0]}</div>
+                <div>
+                    {plantDb[plantId].commonNames[0]}
+                </div>
+                {'warning' in plantDb[plantId].mainPreference ?
+                    <div style={{color: '#977B16'}}>
+                        Warning: {plantDb[plantId].mainPreference['warning']}
+                    </div>
+                    :
+                    <div style={{color: '#007BFF'}}>
+                        Ideal: {plantDb[plantId].mainPreference['suggestion']}
+                    </div>
+                }
             </PlantOption>))
     };
 
@@ -241,7 +270,11 @@ function TwoDGrid() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {Object.keys(PLANT_GROUPS).map((groupName, i) =>
-                                <Dropdown.Item key={i} onClick={() => { if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true); setPlantGroup(groupName) }}>{groupName}</Dropdown.Item>
+                                <Dropdown.Item key={i} onClick={() => {
+                                    if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true);
+                                    setPlantGroup(groupName);
+                                    setSelectedPlant(null);
+                                }}>{groupName}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
@@ -335,6 +368,8 @@ function TwoDGrid() {
                 <Button variant={'success'} onClick={() => {
                     if (tutorialStep === 12) nextTutorialStep();
                     setGrid(autoGenGarden.map(arr => arr.slice()));
+                    setIsAutogen(true);
+                    hardCodeWarningsGrid();
                 }}>
                     Autogenerate a garden for me!
                 </Button>
@@ -426,6 +461,7 @@ const PlantSelector = styled.div`
     margin: 10px auto 5px;
     border: 1px solid black;
     border-radius: 5px;
+    min-height: 220px;
 `;
 
 const PlantOption = styled.div`

@@ -178,28 +178,28 @@ const Settings = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    margin: 12px;
+    padding: 8px 0;
 `
 
 const Dictionary = styled.div`
     position: absolute;
     top: 45px;
     right: 0px;
-    margin: 12px;
+    padding: 8px 0;
 `
 
 const MyGardensButton = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    margin: 12px;
+    padding: 8px 0;
 `
 
 const Download = styled.div`
     position: absolute;
-    top: 72px;
+    top: 90px;
     right: 0;
-    margin: 12px;
+    padding: 8px 0;
 `
 
 const Footer = styled.div`

@@ -27,15 +27,16 @@ const plantDb = [
         spacing: '6 to 8 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {warning: 'Location'},
         // TODO
         pros: [
-            { name: 'Location', state: 'Good' },
+            { name: 'Animals', state: 'Good' },
             { name: 'Time', state: 'Awful' },
             { name: 'Pollination', state: 'Awful' },
             { name: 'Cost', state: 'Excellent' },
         ],
         cons: [
-            { name: 'Animals', state: 'Poor' },
+            { name: 'Location', state: 'Poor' },
             { name: 'Children', state: 'Good' },
         ]
     },
@@ -59,14 +60,13 @@ const plantDb = [
         spacing: '12 to 24 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {warning: 'Location'},
         pros: [
-            { name: 'Location', state: 'Excellent' },
+            { name: 'Cost', state: 'Excellent' },
             { name: 'Animals', state: 'Good' },
-
-
         ],
         cons: [
-            { name: 'Cost', state: 'Awful' },
+            { name: 'Location', state: 'Awful' },
             { name: 'Pollination', state: 'Awful' },
             { name: 'Children', state: 'Poor' },
             { name: 'Time', state: 'Poor' },
@@ -92,6 +92,7 @@ const plantDb = [
         spacing: '3 to 6 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {suggestion: 'Pollination'},
         pros: [ // BEES GREAT
             { name: 'Cost', state: 'Excellent' },
             { name: 'Pollination', state: 'Excellent' },
@@ -123,6 +124,7 @@ const plantDb = [
         spacing: '1 to 3 inches',
         seedDepth: '1 to 2 inches',
         plantingTime: 'Any',
+        mainPreference: {suggestion: 'Location'},
         pros: [
             { name: 'Location', state: 'Good' },
             { name: 'Pollination', state: 'Good' },
@@ -155,6 +157,7 @@ const plantDb = [
         spacing: '8 to 12 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {suggestion: 'Time'},
         pros: [
             { name: 'Cost', state: 'Excellent' },
             { name: 'Time', state: 'Excellent' },
@@ -186,6 +189,7 @@ const plantDb = [
         spacing: '2 to 6 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {warning: 'Location'},
         pros: [
             { name: 'Time', state: 'Good' },
             { name: 'Cost', state: 'Good' },
@@ -217,6 +221,7 @@ const plantDb = [
         spacing: '4 to 6 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
+        mainPreference: {suggestion: 'Pollination'},
         pros: [
             { name: 'Pollination', state: 'Excellent' },
             { name: 'Location', state: 'Good' },

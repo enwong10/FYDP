@@ -35,7 +35,7 @@ function SWAlgorithm(grid, selectedPlantId) {
                     continue;
                 }
 
-                if (parseInt(plantDb[grid[xy[0]][xy[1]]].spacing.split(' ')[0])/12 + requiredSpace > 1) {
+                if (Math.max(parseInt(plantDb[grid[xy[0]][xy[1]]].spacing.split(' ')[0])/12, requiredSpace) >= 1) {
                     conflicts.push('The spacing requirements of an adjacent plant differ interfere with this placement.');
                 }
 
