@@ -44,16 +44,17 @@ function MyPlants() {
                             <img className="mx-2" src={isAccordionCollapsed ? downIcon : upIcon} alt='expand/collapse'/>
                         </div>
                         {!isAccordionCollapsed && listOfPlants.length > 0 &&
-                        <div className='d-flex flex-row flex-wrap justify-content-start'>
+                        <PlantPreviewFlexBox>
                             {listOfPlants.map((a) => (
+                                a !== null &&
                                 <div key={a}>
-                                {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
-                                    <img src={plantDb[a].imageUrl} alt='plant'/>
-                                    <div>{plantDb[a].name}</div>
-                                </PlantPreviewContainer>}
+                                    <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
+                                        <img src={plantDb[a].imageUrl} alt='plant'/>
+                                        <div>{plantDb[a].commonNames[0]}</div>
+                                    </PlantPreviewContainer>
                                 </div>
                             ))}
-                        </div>}
+                        </PlantPreviewFlexBox>}
                         </>
                         }
                 </div>
@@ -99,22 +100,21 @@ const LegendColor = styled.div`
     margin-right: 4px;
 `
 
+const PlantPreviewFlexBox = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+`;
+
 const PlantPreviewContainer = styled.div`
     position: relative;
-    width: 30%;
-    height: 0px;
-    padding-top: 30%;
+    width: 100px;
+    height: 100px;
     border: 2px solid black;
-    margin-bottom: 5%;
-    margin-right: 3%;
     overflow: hidden;
 
     img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
