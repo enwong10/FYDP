@@ -66,6 +66,13 @@ function TwoDGrid() {
         }
     }, [grid, selectedPlant]);
 
+    // This is if you need to debug the selected plant
+    // useEffect(() => {
+    //     if (selectedPlant !== null) {
+    //         console.log(plantDb[selectedPlant].commonNames[0]);
+    //     }
+    // }, [selectedPlant]);
+
     // Functions //
 
     const hardCodeWarningsGrid = () => {
@@ -117,13 +124,13 @@ function TwoDGrid() {
                 if (insightCoords && insightCoords.i === i && insightCoords.j === j) {
                     setInsightCoords(null);
                 } else {
-                    setInsightCoords({i, j});
+                    setInsightCoords({ i, j });
                 }
             }
         } else if (interactionMode === MOVE) {
             if (!movingPlant) {
                 if (grid[i][j] !== null) {
-                    setMovingPlant({i, j});
+                    setMovingPlant({ i, j });
                     setSelectedPlant(grid[i][j]);
                 }
             } else if (i === movingPlant.i && j === movingPlant.j) {
@@ -131,8 +138,8 @@ function TwoDGrid() {
             } else {
                 const newGrid = [...grid];
                 modifyMultipleGrid([
-                    {i, j, newValue: newGrid[movingPlant.i][movingPlant.j]},
-                    {i: movingPlant.i, j: movingPlant.j, newValue: null}
+                    { i, j, newValue: newGrid[movingPlant.i][movingPlant.j] },
+                    { i: movingPlant.i, j: movingPlant.j, newValue: null }
                 ]);
                 setMovingPlant(null);
             }
@@ -234,9 +241,12 @@ function TwoDGrid() {
         const arrOfPlants = plantGroup === 'Plants in Garden' ? grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) : PLANT_GROUPS[plantGroup];
         return (arrOfPlants.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((plantId, i) =>
             <PlantOption style={{
-                    border: selectedPlant === firstPlantChoiceIndex + i ? "2px dashed #28A745" : ""
+                border: selectedPlant === plantId ? "2px dashed #28A745" : ""
+            }}
+                onClick={() => {
+                    if (tutorialStep === 10) nextTutorialStep();
+                    toggleAdditionMode(plantId)
                 }}
-                onClick={() => { if (tutorialStep === 10) nextTutorialStep(); toggleAdditionMode(firstPlantChoiceIndex + i) }}
                 onContextMenu={(e) => rightClickNavigate(e, plantId)}
                 className={'col-4'}
             >
@@ -245,11 +255,11 @@ function TwoDGrid() {
                     {plantDb[plantId].commonNames[0]}
                 </div>
                 {'warning' in plantDb[plantId].mainPreference ?
-                    <div style={{color: '#977B16'}}>
+                    <div style={{ color: '#977B16' }}>
                         Warning: {plantDb[plantId].mainPreference['warning']}
                     </div>
                     :
-                    <div style={{color: '#007BFF'}}>
+                    <div style={{ color: '#007BFF' }}>
                         Ideal: {plantDb[plantId].mainPreference['suggestion']}
                     </div>
                 }
@@ -285,7 +295,7 @@ function TwoDGrid() {
                     onClick={() => updateFirstPlantIndex(-3)}
                     disabled={firstPlantChoiceIndex === 0}
                     style={{ borderRadius: '4px 0 0 4px' }}>
-                    <img src={chevronLeft} alt='prev'/>
+                    <img src={chevronLeft} alt='prev' />
                 </SelectorNavigationButton>
                 <OverlayTrigger
                     placement="bottom"
@@ -300,11 +310,11 @@ function TwoDGrid() {
                     onClick={() => updateFirstPlantIndex(3)}
                     disabled={
                         plantGroup === 'Plants in Garden' ?
-                        firstPlantChoiceIndex + 2 > grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) :
-                        firstPlantChoiceIndex + 2 > PLANT_GROUPS[plantGroup].length
+                            firstPlantChoiceIndex + 2 > grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) :
+                            firstPlantChoiceIndex + 2 > PLANT_GROUPS[plantGroup].length
                     }
                     style={{ borderRadius: '0 4px 4px 0' }}>
-                    <img src={chevronRight} alt='next'/>
+                    <img src={chevronRight} alt='next' />
                 </SelectorNavigationButton>
             </PlantSelector>
             <OverlayTrigger
@@ -315,18 +325,18 @@ function TwoDGrid() {
                 <BottomButtonsContainer>
                     <BottomButton onClick={() => toggleAlternateMode(INSIGHT)}
                         style={{ backgroundColor: interactionMode === INSIGHT && '#28A745' }}>
-                        <img src={infoIcon} alt='info'/>
+                        <img src={infoIcon} alt='info' />
                     </BottomButton>
                     <BottomButton onClick={() => toggleAlternateMode(MOVE)}
                         style={{ backgroundColor: interactionMode === MOVE && '#28A745' }}>
-                        <img src={toolsIcon} alt='move'/>
+                        <img src={toolsIcon} alt='move' />
                     </BottomButton>
                     <BottomButton onClick={() => toggleAlternateMode(REMOVE)}
                         style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
-                        <img src={trashIcon} alt='delete'/>
+                        <img src={trashIcon} alt='delete' />
                     </BottomButton>
                     <BottomButton onClick={undo}>
-                        <img src={undoIcon} alt='undo'/>
+                        <img src={undoIcon} alt='undo' />
                     </BottomButton>
                 </BottomButtonsContainer>
             </OverlayTrigger>

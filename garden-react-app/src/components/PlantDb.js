@@ -28,7 +28,6 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         mainPreference: {warning: 'Location'},
-        // TODO
         pros: [
             { name: 'Animals', state: 'Good' },
             { name: 'Time', state: 'Awful' },
