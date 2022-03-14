@@ -33,7 +33,7 @@ function MyPlants() {
             </LegendContainer>
             <div style={{ overflow: 'auto', width: '100%' }}>
             {plantsCategory.map((cat) => (
-                <div className='w-100 mb-3'>
+                <div key={cat} className='w-100 mb-3'>
                     {cat !== 'Flowers' ?
                         <>
                             <h3>{cat} (0)</h3>
@@ -46,12 +46,12 @@ function MyPlants() {
                         {!isAccordionCollapsed && listOfPlants.length > 0 &&
                         <div className='d-flex flex-row flex-wrap justify-content-start'>
                             {listOfPlants.map((a) => (
-                                <>
+                                <div key={a}>
                                 {a !== null && <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
                                     <img src={plantDb[a].imageUrl} alt='plant'/>
                                     <div>{plantDb[a].name}</div>
                                 </PlantPreviewContainer>}
-                                </>
+                                </div>
                             ))}
                         </div>}
                         </>

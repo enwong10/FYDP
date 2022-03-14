@@ -9,9 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Camera from '../assets/camera.svg'
 import { plantImageIdentifications } from './Constants';
 
-import mockImage from '../assets/Flower 2.jpeg';
-
-const api_key = '2b10189SmpQJ3XHmESgf2Hz9k'
+// const api_key = '2b10189SmpQJ3XHmESgf2Hz9k'
 
 function PlantIdentification() {
     const { tutorialStep, setTutorialStep, nextTutorialStep, setSelectedPlantIndex } = useContext(Context);
@@ -55,25 +53,29 @@ function PlantIdentification() {
         // const data = await response.json();
         // setResponse(data);
 
-        const sample_response = plantImageIdentifications[selectedFile]['results'];
+        try {
+            const sample_response = plantImageIdentifications[selectedFile]['results'];
 
-        const styled_response = (
-            sample_response.slice(0, 3).map((e, i) => (
-                <ResultContainer key={i} role='button' onClick={() => {
-                    if (tutorialStep > 0) setTutorialStep(5);
-                    setSelectedPlantIndex(e['id']);
-                    navigate('/dictionary');
-                }}>
-                    <UploadedImage src={e['image']} />
-                    <span>
-                        {e['species']['commonNames'][0]}
-                    </span>
-                    <span>
-                        {(e['score'] * 100).toFixed(2)}%
-                    </span>
-                </ResultContainer>))
-        );
-        setResponse(styled_response);
+            const styled_response = (
+                sample_response.slice(0, 3).map((e, i) => (
+                    <ResultContainer key={i} role='button' onClick={() => {
+                        if (tutorialStep > 0) setTutorialStep(5);
+                        setSelectedPlantIndex(e['id']);
+                        navigate('/dictionary');
+                    }}>
+                        <UploadedImage src={e['image']} />
+                        <span>
+                            {e['species']['commonNames'][0]}
+                        </span>
+                        <span>
+                            {(e['score'] * 100).toFixed(2)}%
+                        </span>
+                    </ResultContainer>))
+            );
+            setResponse(styled_response);
+        } catch {
+            setResponse('Unable to find a match for your uploaded plant. Please try again with a different image!')
+        }
     };
 
     //: ChangeEvent<HTMLInputElement>
@@ -176,6 +178,7 @@ const MainContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-bottom: 24px;
     
     // overflow: scroll;
 `

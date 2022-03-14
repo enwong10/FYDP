@@ -30,13 +30,13 @@ const plantDb = [
         // TODO
         pros: [
             { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Time', state: 'Awful' },
+            { name: 'Pollination', state: 'Awful' },
+            { name: 'Cost', state: 'Excellent' },
         ],
         cons: [
-            { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Animals', state: 'Poor' },
+            { name: 'Children', state: 'Good' },
         ]
     },
     {
@@ -60,14 +60,16 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         pros: [
-            { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Location', state: 'Excellent' },
+            { name: 'Animals', state: 'Good' },
+
+
         ],
         cons: [
-            { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Cost', state: 'Awful' },
+            { name: 'Pollination', state: 'Awful' },
+            { name: 'Children', state: 'Poor' },
+            { name: 'Time', state: 'Poor' },
         ]
     },
     {
@@ -91,14 +93,14 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         pros: [ // BEES GREAT
-            { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Cost', state: 'Excellent' },
+            { name: 'Pollination', state: 'Excellent' },
+            { name: 'Time', state: 'Good' },
         ],
         cons: [
             { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Location', state: 'Awful' },
+            { name: 'Children', state: 'Poor' },
         ]
     },
     {
@@ -123,13 +125,14 @@ const plantDb = [
         plantingTime: 'Any',
         pros: [
             { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Pollination', state: 'Good' },
         ],
         cons: [
             { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Children', state: 'Awful' },
+            { name: 'Cost', state: 'Awful' },
+            { name: 'Time', state: 'Poor' },
+
         ]
     },
     {
@@ -153,14 +156,14 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         pros: [
-            { name: 'Location', state: 'Good' },
+            { name: 'Cost', state: 'Excellent' },
             { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Animals', state: 'Good' },
+            { name: 'Location', state: 'Good' },
         ],
         cons: [
-            { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Children', state: 'Poor' },
+            { name: 'Pollination', state: 'Poor' },
         ]
     },
     {
@@ -184,14 +187,14 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         pros: [
-            { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Time', state: 'Good' },
+            { name: 'Cost', state: 'Good' },
         ],
         cons: [
-            { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Location', state: 'Awful' },
+            { name: 'Animals', state: 'Poor' },
+            { name: 'Children', state: 'Poor' },
+            { name: 'Pollination', state: 'Poor' },
         ]
     },
     {
@@ -215,14 +218,14 @@ const plantDb = [
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
         pros: [
+            { name: 'Pollination', state: 'Excellent' },
             { name: 'Location', state: 'Good' },
-            { name: 'Time', state: 'Excellent' },
-            { name: 'Pollination', state: 'Marvelous' },
-            { name: 'Cost', state: 'Fantastic' },
+            { name: 'Animals', state: 'Good' },
         ],
         cons: [
-            { name: 'Animals', state: 'Awful' },
-            { name: 'Children', state: 'Bad' },
+            { name: 'Cost', state: 'Awful' },
+            { name: 'Children', state: 'Poor' },
+            { name: 'Time', state: 'Poor' },
         ]
     },
 ];
