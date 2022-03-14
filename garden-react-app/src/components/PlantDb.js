@@ -59,13 +59,13 @@ const plantDb = [
         spacing: '12 to 24 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
-        mainPreference: {warning: 'Location'},
+        mainPreference: {suggestion: 'Cost'},
         pros: [
             { name: 'Cost', state: 'Excellent' },
             { name: 'Animals', state: 'Good' },
+            { name: 'Location', state: 'Good' },
         ],
         cons: [
-            { name: 'Location', state: 'Awful' },
             { name: 'Pollination', state: 'Awful' },
             { name: 'Children', state: 'Poor' },
             { name: 'Time', state: 'Poor' },
@@ -156,15 +156,15 @@ const plantDb = [
         spacing: '8 to 12 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
-        mainPreference: {suggestion: 'Time'},
+        mainPreference: {warning: 'Location'},
         pros: [
             { name: 'Cost', state: 'Excellent' },
             { name: 'Time', state: 'Excellent' },
             { name: 'Animals', state: 'Good' },
-            { name: 'Location', state: 'Good' },
+            { name: 'Children', state: 'Good' },
         ],
         cons: [
-            { name: 'Children', state: 'Poor' },
+            { name: 'Location', state: 'Poor' },
             { name: 'Pollination', state: 'Poor' },
         ]
     },
@@ -188,13 +188,13 @@ const plantDb = [
         spacing: '2 to 6 inches',
         seedDepth: '1 to 4 inches',
         plantingTime: 'Any',
-        mainPreference: {warning: 'Location'},
+        mainPreference: {suggestion: 'Cost'},
         pros: [
             { name: 'Time', state: 'Good' },
             { name: 'Cost', state: 'Good' },
+            { name: 'Location', state: 'Excellent' },
         ],
         cons: [
-            { name: 'Location', state: 'Awful' },
             { name: 'Animals', state: 'Poor' },
             { name: 'Children', state: 'Poor' },
             { name: 'Pollination', state: 'Poor' },
