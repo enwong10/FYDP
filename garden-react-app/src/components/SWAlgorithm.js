@@ -2,7 +2,6 @@ import plantDb from './PlantDb';
 
 function SWAlgorithm(grid, selectedPlantId) {
     const newgrid = [];
-    // console.log('here0');
     for (let i = 0; i < grid.length; i++) {
         newgrid[i] = [];
         for (let j = 0; j < grid[i].length; j++) {
