@@ -53,6 +53,7 @@ function TwoDGrid() {
     const [showPopover, setShowPopover] = useState(false);
     const [insightCoords, setInsightCoords] = useState(null);
     const [isAutogen, setIsAutogen] = useState(false);
+    const [plantsInGarden, setPlantsInGarden] = useState(0);
 
     useEffect(() => {
         if (tutorialStep > 0) setShowPopover(true)
@@ -66,6 +67,16 @@ function TwoDGrid() {
         }
     }, [grid, selectedPlant]);
 
+    useEffect(() => {
+        const amount = getPlantsInGarden().length;
+        setPlantsInGarden(amount);
+    }, [grid]);
+
+    useEffect(() => {
+        const amount = getPlantsInGarden().length;
+        setPlantsInGarden(amount);
+    }, []);
+
     // This is if you need to debug the selected plant
     // useEffect(() => {
     //     if (selectedPlant !== null) {
@@ -74,6 +85,10 @@ function TwoDGrid() {
     // }, [selectedPlant]);
 
     // Functions //
+
+    const getPlantsInGarden = () => {
+        return grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null);
+    };
 
     const hardCodeWarningsGrid = () => {
         const newgrid = [];
@@ -108,7 +123,7 @@ function TwoDGrid() {
     };
 
     const clickedGrid = (i, j) => {
-        if (interactionMode === ADDITION) {
+        if (interactionMode === ADDITION && selectedPlant !== null) {
             if (!(warningsGrid[i][j] && warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0)) {
                 modifyGrid(i, j, selectedPlant)
             }
@@ -238,7 +253,7 @@ function TwoDGrid() {
     );
 
     const getPlantSelectionsOptions = () => {
-        const arrOfPlants = plantGroup === 'Plants in Garden' ? grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) : PLANT_GROUPS[plantGroup];
+        const arrOfPlants = plantGroup === 'Plants in Garden' ? getPlantsInGarden() : PLANT_GROUPS[plantGroup];
         return (arrOfPlants.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((plantId, i) =>
             <PlantOption style={{
                 border: selectedPlant === plantId ? "2px dashed #28A745" : ""
@@ -284,6 +299,7 @@ function TwoDGrid() {
                                     if (tutorialStep === 9) nextTutorialStep(); setShowPopover(true);
                                     setPlantGroup(groupName);
                                     setSelectedPlant(null);
+                                    setfirstPlantChoiceIndex(0);
                                 }}>{groupName}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
@@ -310,8 +326,8 @@ function TwoDGrid() {
                     onClick={() => updateFirstPlantIndex(3)}
                     disabled={
                         plantGroup === 'Plants in Garden' ?
-                            firstPlantChoiceIndex + 2 > grid.flat().filter((v, i, a) => a.indexOf(v) === i && v !== null) :
-                            firstPlantChoiceIndex + 2 > PLANT_GROUPS[plantGroup].length
+                            firstPlantChoiceIndex + 3 >= plantsInGarden :
+                            firstPlantChoiceIndex + 3 >= PLANT_GROUPS[plantGroup].length
                     }
                     style={{ borderRadius: '0 4px 4px 0' }}>
                     <img src={chevronRight} alt='next' />
