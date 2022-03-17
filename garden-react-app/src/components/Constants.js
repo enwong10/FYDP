@@ -38,7 +38,7 @@ export const defaultSettings = {
     budget: undefined,
 };
 
-const buildInitialGrid = (width, height) => {
+export const buildInitialGrid = (width, height) => {
     const grid = [];
     for (let i = 0; i < width; i++) {
         grid[i] = [];
@@ -666,7 +666,7 @@ export const plantImageIdentifications = {
 
 export const defaultGrid = buildInitialGrid(10, 10);
 
-export const initialWarningsGrid = 
+export const initialWarningsGrid =
 [
     [{},{},{},{},{},{},{},{},{},],
     [{},{},{},{},{},{},{},{},{},],

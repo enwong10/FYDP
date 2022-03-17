@@ -2,12 +2,15 @@ import React, {useContext, useEffect} from "react";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
 import { Context } from "./Context";
-import { Dropdown } from 'react-bootstrap';
+import {Dropdown, OverlayTrigger} from 'react-bootstrap';
+import {buildInitialGrid} from "./Constants";
+import Popover from "./Popover";
+import plantDb from "./PlantDb";
 
 let originalSettings;
 
 function GardenSettings({initial}) {
-    const { settings, setSettings } = useContext(Context);
+    const { settings, setSettings, grid, setGrid } = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -19,6 +22,31 @@ function GardenSettings({initial}) {
             <div>
                 <h6>Garden Name: </h6>
                 <input type='text' placeholder='My Garden' className="m-2" value={settings['gardenName']} onChange={(e) => setSettings({ ...settings, gardenName: e.target.value })} />
+                <h6>Garden Size: </h6>
+                <div>
+                    Length: <input style={{width: '20%'}} disabled type='number' placeholder='Length' className="m-2" min={1} value={grid.length} onChange={
+                        (e) => {
+                            if (parseInt(e.target.value) > 0) setGrid(buildInitialGrid(e.target.value, grid[0].length))
+                        }}/>(m)
+                </div>
+                <div>
+                    Width: <input style={{width: '20%'}} disabled type='number' placeholder='Width' className="m-2" min={1} value={grid[0].length} onChange={
+                        (e) => {
+                            if (parseInt(e.target.value) > 0) setGrid(buildInitialGrid(grid.length, e.target.value))
+                        }} />(m)
+                </div>
+                <GridContainer>
+                    North
+                {
+                    grid.map((row, i) =>
+                        <GridRow key={'row' + i} className={'row'}>
+                            {row.map((id, j) =>
+                                <GridSquare key={'col' + j} className={'col'} />
+                            )}
+                        </GridRow >
+                    )
+                }
+                </GridContainer>
                 {initial &&
                     <div style={{marginTop: '20px'}}>
                         The following questions will help us make suggestions that are best for your garden.
@@ -92,5 +120,21 @@ const SettingsContainer = styled.div`
         top: 18px;
     }
 `
+
+const GridContainer = styled.div`
+    margin: 5px 50px;
+    text-align: center;
+`;
+
+const GridSquare = styled.div`
+    border: 1px solid black;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+`;
+
+const GridRow = styled.div`
+    margin: auto;
+`;
 
 export default GardenSettings
