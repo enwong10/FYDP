@@ -388,7 +388,7 @@ function TwoDGrid() {
             </Legend>
             <OverlayTrigger
                 placement="top"
-                overlay={(p) => Popover(p, 'This feature will automatically generate a garden based on your preferences, goals, and location. ')}
+                overlay={(p) => Popover(p, 'Now please autogenerate a garden based on your preferences, goals, and location. ')}
                 show={showPopover && tutorialStep === 12}
             >
                 <Button variant={'success'} onClick={() => {
