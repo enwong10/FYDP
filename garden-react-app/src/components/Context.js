@@ -19,13 +19,14 @@ const Context = React.createContext({
 
 const ContextProvider = ({ children }) => {
     const [grid, setGrid] = useState(defaultGrid);
+    const [myPlants, setMyPlants] = useState([]);
     const [history, setHistory] = useState([]);
     const [background, setBackground] = useState('');
     const [settings, setSettings] = useState(defaultSettings);
     const [tutorialStep, setTutorialStep] = useState(-1);
     const [selectedPlantIndex, setSelectedPlantIndex] = useState(0);
 
-    return <Context.Provider value={{ grid, setGrid, history, setHistory, background, setBackground, settings, setSettings, tutorialStep, nextTutorialStep: () => setTutorialStep(tutorialStep + 1), setTutorialStep, selectedPlantIndex, setSelectedPlantIndex }}>{children}</Context.Provider>;
+    return <Context.Provider value={{ grid, setGrid, myPlants, setMyPlants, history, setHistory, background, setBackground, settings, setSettings, tutorialStep, nextTutorialStep: () => setTutorialStep(tutorialStep + 1), setTutorialStep, selectedPlantIndex, setSelectedPlantIndex }}>{children}</Context.Provider>;
 };
 
 export { Context, ContextProvider };

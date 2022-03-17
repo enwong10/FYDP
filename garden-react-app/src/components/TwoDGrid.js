@@ -25,6 +25,7 @@ const REMOVE = 4;
 
 const PLANT_GROUPS = {
     "Plants in Garden": [],
+    "My Plants": [],
     // "Saved Plants": [],
     "Save the Bees": [2],
     "Flowers": [0, 2, 3, 4, 5, 6],
@@ -42,7 +43,7 @@ const OVERALL_WARNING = {
 };
 
 function TwoDGrid() {
-    const { grid, setGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep } = useContext(Context);
+    const { grid, setGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep, myPlants } = useContext(Context);
     const navigate = useNavigate();
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
     const [selectedPlant, setSelectedPlant] = useState(null);
@@ -253,7 +254,7 @@ function TwoDGrid() {
     );
 
     const getPlantSelectionsOptions = () => {
-        const arrOfPlants = plantGroup === 'Plants in Garden' ? getPlantsInGarden() : PLANT_GROUPS[plantGroup];
+        const arrOfPlants = plantGroup === 'Plants in Garden' ? getPlantsInGarden() : plantGroup === 'My Plants' ? myPlants :PLANT_GROUPS[plantGroup];
         return (arrOfPlants.slice(firstPlantChoiceIndex, firstPlantChoiceIndex + 3).map((plantId, i) =>
             <PlantOption style={{
                 border: selectedPlant === plantId ? "2px dashed #28A745" : ""
@@ -305,6 +306,7 @@ function TwoDGrid() {
                         </Dropdown.Menu>
                     </Dropdown>
                 </OverlayTrigger>
+                <input type={'text'} placeholder={'Search All Plants'} />
             </TopButtons>
             <PlantSelector>
                 <SelectorNavigationButton
@@ -327,7 +329,9 @@ function TwoDGrid() {
                     disabled={
                         plantGroup === 'Plants in Garden' ?
                             firstPlantChoiceIndex + 3 >= plantsInGarden :
-                            firstPlantChoiceIndex + 3 >= PLANT_GROUPS[plantGroup].length
+                        plantGroup === 'My Plants' ?
+                            firstPlantChoiceIndex + 3 >= myPlants.length :
+                        firstPlantChoiceIndex + 3 >= PLANT_GROUPS[plantGroup].length
                     }
                     style={{ borderRadius: '0 4px 4px 0' }}>
                     <img src={chevronRight} alt='next' />

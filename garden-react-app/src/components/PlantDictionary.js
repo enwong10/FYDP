@@ -7,10 +7,13 @@ import { Context } from "./Context";
 import plantDb from './PlantDb';
 import Popover from "./Popover";
 
+import plusSquare from '../assets/plus_square.svg';
+import trashIcon from '../assets/trash.svg';
+
 function PlantDictionary() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const { tutorialStep, selectedPlantIndex, nextTutorialStep } = useContext(Context);
+    const { tutorialStep, selectedPlantIndex, nextTutorialStep, myPlants, setMyPlants } = useContext(Context);
     const [showPopover, setShowPopover] = useState(false);
 
     useEffect(() => {
@@ -62,6 +65,24 @@ function PlantDictionary() {
                 <PageContentContainer>
                     <ImageContainer>
                         <img src={plantDb[selectedPlantIndex].imageUrl} alt='plant' />
+                        {myPlants.includes(selectedPlantIndex) ?
+                            <div style={{backgroundColor: '#CA3E3E'}} onClick={
+                                ()=>{
+                                    const newMyPlants = [...myPlants].filter((value) => {
+                                        return value !== selectedPlantIndex;
+                                    });
+                                    setMyPlants(newMyPlants);
+                                }}
+                            ><img src={trashIcon} alt='delete' /></div>
+                             :
+                            <div style={{backgroundColor: '#007BFF'}} onClick={
+                                ()=>{
+                                    const newMyPlants = [...myPlants];
+                                    newMyPlants.push(selectedPlantIndex);
+                                    setMyPlants(newMyPlants);
+                                }}
+                            ><img src={plusSquare} alt='add' /></div>
+                        }
                     </ImageContainer>
                     <InformationContainer>
                         <div>
@@ -289,13 +310,29 @@ const ImageContainer = styled.div`
     width: 100%;
     padding-top: 75%;
 
-    img {
+    >img {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    div {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        
+        img {
+            height: 75%;
+            width: 75%;
+        }
     }
 `
 

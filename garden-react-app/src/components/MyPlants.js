@@ -9,10 +9,8 @@ import plantDb from './PlantDb'
 function MyPlants() {
     const navigate = useNavigate();
     const [isAccordionCollapsed, setIsAccordionCollapsed] = useState(false);
-    const { grid, setSelectedPlantIndex } = useContext(Context)
+    const { setSelectedPlantIndex, myPlants } = useContext(Context);
     const plantsCategory = ['Trees', 'Flowers', 'Food', 'Ground Covers', 'Shrubs', 'Fungus', 'Bee Support'];
-
-    const listOfPlants = grid.flat().filter((v, i, a) => a.indexOf(v) === i);
 
     return (
         <MainContainer>
@@ -40,17 +38,19 @@ function MyPlants() {
                         </> :
                         <>
                         <div role='button' className='d-flex flex-row align-items-center' onClick={() => setIsAccordionCollapsed(!isAccordionCollapsed)} >
-                            <h3>{cat} ({listOfPlants.length - 1})</h3>
+                            <h3>{cat} ({myPlants.length})</h3>
                             <img className="mx-2" src={isAccordionCollapsed ? downIcon : upIcon} alt='expand/collapse'/>
                         </div>
-                        {!isAccordionCollapsed && listOfPlants.length > 0 &&
+                        {!isAccordionCollapsed && myPlants.length > 0 &&
                         <PlantPreviewFlexBox>
-                            {listOfPlants.map((a) => (
+                            {myPlants.map((a) => (
                                 a !== null &&
                                 <div key={a}>
                                     <PlantPreviewContainer role='button' onClick={() => {setSelectedPlantIndex(a); navigate('/dictionary')}}>
                                         <img src={plantDb[a].imageUrl} alt='plant'/>
-                                        <div>{plantDb[a].commonNames[0]}</div>
+                                        <div style={{backgroundColor: 'warning' in plantDb[a].mainPreference ? '#977B16' : '#007BFF'}}>
+                                            {plantDb[a].commonNames[0]}
+                                        </div>
                                     </PlantPreviewContainer>
                                 </div>
                             ))}
@@ -103,7 +103,7 @@ const LegendColor = styled.div`
 const PlantPreviewFlexBox = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: left;
     gap: 10px;
 `;
 
@@ -125,11 +125,14 @@ const PlantPreviewContainer = styled.div`
         left: 0;
         bottom: 0;
         width: 100%;
-
-        background-color: #007BFF;
+        height: 30%;
         opacity: 0.9;
         color: white;
         text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 2px;
     }
 `
 
