@@ -107,7 +107,7 @@ function MainGarden() {
                 <div>
                     <OverlayTrigger
                         placement="top"
-                        overlay={(p) => Popover(p, 'Add New Plants To Your Garden')}
+                        overlay={(p) => Popover(p, 'Now lets add some new plants to your garden!')}
                         show={showPopover && tutorialStep === 8}
                     >
                         <Button
