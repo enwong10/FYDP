@@ -29,6 +29,10 @@ button {
   padding: 18px;
 }
 
+.lightingSquare:hover {
+  border-color: white
+}
+
 /*SCROLLBAR*/
 /* Works on Firefox */
 * {

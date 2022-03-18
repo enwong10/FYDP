@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Dropdown, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import plantDb from './PlantDb'
-import { autoGenGarden, initialWarningsGrid } from './Constants'
+import { autoGenGarden, defaultLightingGrids, initialWarningsGrid } from './Constants'
 import SWAlgorithm from "./SWAlgorithm";
 import Popover from './Popover';
 import { OverlayTrigger } from "react-bootstrap";
@@ -16,12 +16,19 @@ import undoIcon from '../assets/undo.svg';
 import infoIcon from '../assets/info_square.svg';
 import trashIcon from '../assets/trash.svg';
 import toolsIcon from '../assets/tools.svg';
+import sunIcon from '../assets/sun.svg';
 
 const INSPECTION = 0;
 const ADDITION = 1;
 const INSIGHT = 2;
 const MOVE = 3;
 const REMOVE = 4;
+const LIGHTING = 5;
+
+const SPRING = 0;
+const SUMMER = 1;
+const FALL = 2;
+const WINTER = 3;
 
 const PLANT_GROUPS = {
     "Plants in Garden": [],
@@ -43,9 +50,10 @@ const OVERALL_WARNING = {
 };
 
 function TwoDGrid() {
-    const { grid, setGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep, myPlants } = useContext(Context);
+    const { grid, setGrid, lightingGrid, setLightingGrid, history, setHistory, setSelectedPlantIndex, tutorialStep, nextTutorialStep, myPlants } = useContext(Context);
     const navigate = useNavigate();
     const [interactionMode, setInteractionMode] = useState(INSPECTION);
+    const [lightingSeason, setLightingSeason] = useState(SPRING);
     const [selectedPlant, setSelectedPlant] = useState(null);
     const [firstPlantChoiceIndex, setfirstPlantChoiceIndex] = useState(0);
     const [plantGroup, setPlantGroup] = useState(Object.keys(PLANT_GROUPS)[0]);
@@ -77,6 +85,11 @@ function TwoDGrid() {
         const amount = getPlantsInGarden().length;
         setPlantsInGarden(amount);
     }, []);
+
+    useEffect(() => {
+        const newLightingGrid = defaultLightingGrids[lightingSeason];
+        setLightingGrid(newLightingGrid);
+    }, [lightingSeason, setLightingGrid])
 
     // This is if you need to debug the selected plant
     // useEffect(() => {
@@ -221,6 +234,7 @@ function TwoDGrid() {
                     placement="top"
                     overlay={(p) => Popover(p, warningsGrid[i][j].all[0])}
                     show={insightCoords && insightCoords.i === i && insightCoords.j === j && warningsGrid[i][j].all.length > 0}
+                    key={'overlay-col' + j}
                 >
                     <GridSquare onClick={() => clickedGrid(i, j)} key={'col' + j} className={'col'}
                         disabled={warningsGrid[i][j] && warningsGrid[i][j].conflicts && warningsGrid[i][j].conflicts.length > 0}
@@ -252,6 +266,26 @@ function TwoDGrid() {
             )}
         </GridRow >
     );
+
+    const displayLightingGrid = (
+        <div>
+            {
+                lightingGrid.map((row, i) =>
+                    <GridRow key={'row' + i} className={'row'}>
+                        {row.map((lightVal, j) =>
+                            <GridSquare key={'col' + j} className={'col lightingSquare'}
+                                style={{
+                                    backgroundColor: `rgb(${lightVal*(255)}, ${lightVal*255}, 0)`,
+                                    borderWidth: '4px'
+                                }}
+                                title={`Daily Light Integral: ${Math.round(lightVal*50*100)/100}`}
+                            />
+                        )}
+                    </GridRow >
+                )
+            }
+        </div>
+    )
 
     const getPlantSelectionsOptions = () => {
         const arrOfPlants = plantGroup === 'Plants in Garden' ? getPlantsInGarden() : plantGroup === 'My Plants' ? myPlants :PLANT_GROUPS[plantGroup];
@@ -355,41 +389,68 @@ function TwoDGrid() {
                         style={{ backgroundColor: interactionMode === REMOVE && '#28A745' }}>
                         <img src={trashIcon} alt='delete' />
                     </BottomButton>
+                    <BottomButton onClick={() => toggleAlternateMode(LIGHTING)}
+                        style={{ backgroundColor: interactionMode === LIGHTING && '#28A745' }}>
+                        <img src={sunIcon} alt='View lighting' />
+                    </BottomButton>
                     <BottomButton onClick={undo}>
                         <img src={undoIcon} alt='undo' />
                     </BottomButton>
                 </BottomButtonsContainer>
             </OverlayTrigger>
-            <OverlayTrigger
-                placement="top"
-                overlay={(p) => Popover(p, 'Now by clicking into the grid, you can place the flower into the garden.')}
-                show={showPopover && tutorialStep === 11}
-            >
-                <GridContainer onClick={() => { if (tutorialStep === 11) nextTutorialStep() }}>
-                    <TransformWrapper>
-                        <TransformComponent>
-                            {displayGrid}
-                        </TransformComponent>
-                    </TransformWrapper>
-                </GridContainer>
-            </OverlayTrigger>
+            {interactionMode !== LIGHTING
+                ? <OverlayTrigger
+                    placement="top"
+                    overlay={(p) => Popover(p, 'Now by clicking into the grid, you can place the flower into the garden.')}
+                    show={showPopover && tutorialStep === 11}
+                >
+                    <GridContainer onClick={() => { if (tutorialStep === 11) nextTutorialStep() }}>
+                        <TransformWrapper>
+                            <TransformComponent>
+                                {displayGrid}
+                            </TransformComponent>
+                        </TransformWrapper>
+                    </GridContainer>
+                </OverlayTrigger>
+                : displayLightingGrid
+            }
             <div>
                 Each square is 1 sqft. -- North is up.
             </div>
-            <Legend>
-                <LegendItem>
-                    <LegendIcon style={{ backgroundColor: '#007BFF' }} />
-                    Ideal
-                </LegendItem>
-                <LegendItem>
-                    <LegendIcon style={{ backgroundColor: '#977B16' }} />
-                    Warning
-                </LegendItem>
-                <LegendItem>
-                    <LegendIcon style={{ backgroundColor: '#D83535' }} />
-                    Conflict
-                </LegendItem>
-            </Legend>
+            {interactionMode !== LIGHTING
+                ? <Legend>
+                    <LegendItem>
+                        <LegendIcon style={{ backgroundColor: '#007BFF' }} />
+                        Ideal
+                    </LegendItem>
+                    <LegendItem>
+                        <LegendIcon style={{ backgroundColor: '#977B16' }} />
+                        Warning
+                    </LegendItem>
+                    <LegendItem>
+                        <LegendIcon style={{ backgroundColor: '#D83535' }} />
+                        Conflict
+                    </LegendItem>
+                </Legend>
+                : <BottomButtonsContainer>
+                    <BottomButton onClick={() => setLightingSeason(SPRING)}
+                        style={{ backgroundColor: lightingSeason === SPRING && '#28A745' }}>
+                        SPRING
+                    </BottomButton>
+                    <BottomButton onClick={() => setLightingSeason(SUMMER)}
+                        style={{ backgroundColor: lightingSeason === SUMMER && '#28A745' }}>
+                        SUMMER
+                    </BottomButton>
+                    <BottomButton onClick={() => setLightingSeason(FALL)}
+                        style={{ backgroundColor: lightingSeason === FALL && '#28A745' }}>
+                        FALL
+                    </BottomButton>
+                    <BottomButton onClick={() => setLightingSeason(WINTER)}
+                        style={{ backgroundColor: lightingSeason === WINTER && '#28A745' }}>
+                        WINTER
+                    </BottomButton>
+                </BottomButtonsContainer>
+            }
             <OverlayTrigger
                 placement="top"
                 overlay={(p) => Popover(p, 'Now please autogenerate a garden based on your preferences, goals, and location. ')}
