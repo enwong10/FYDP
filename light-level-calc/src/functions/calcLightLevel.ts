@@ -1,6 +1,9 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import _ from 'lodash'
 import { createMatrix, generateDays, getPPFD, getSolarAzimothElevation, pointInPolygon } from './helpers'
+
+const openWeatherCache: Record<string, AxiosResponse<any, any>> = {}
+const astroCache: Record<string, AxiosResponse<any, any>> = {}
 
 export async function calcLightLevel(corners: number[][], polygons: number[][][], resolution: number[], coordinates: number[]) {
   if (resolution.length !== 2) return {}
@@ -45,28 +48,48 @@ export async function calcLightLevel(corners: number[][], polygons: number[][][]
     const date = new Date(d)
     let lightIntensitySums: number[][] = createMatrix(resolution, 0)
 
-    const monthlySummaryRes = await axios.get(process.env.OPENWEATHERMAP_AGGREGATED_MONTHLY_API_URL, {
-      params: {
-        month: date.getMonth(),
-        lat: coordinates[0],
-        lon: coordinates[1],
-        appid: process.env.OPENWEATHERMAP_APPID,
-      },
-    })
+    const openWeatherParams = {
+      month: date.getMonth(),
+      lat: coordinates[0],
+      lon: coordinates[1],
+      appid: process.env.OPENWEATHERMAP_APPID,
+    }
+
+    let monthlySummaryRes: AxiosResponse<any, any> = null
+    const openWeatherParamsKey = JSON.stringify(openWeatherParams)
+    if (openWeatherCache[openWeatherParamsKey]) {
+      monthlySummaryRes = openWeatherCache[openWeatherParamsKey]
+    } else {
+      monthlySummaryRes = await axios.get(process.env.OPENWEATHERMAP_AGGREGATED_MONTHLY_API_URL, {
+        params: openWeatherParams,
+      })
+      openWeatherCache[openWeatherParamsKey] = monthlySummaryRes
+    }
 
     const sunshine_hours = _.get(monthlySummaryRes, 'data.result.sunshine_hours', null)
     if (sunshine_hours === null) throw new Error(`Sunshine hours for month ${date.getMonth()} null.`)
 
     const midmonth = new Date(d)
     midmonth.setDate(15)
-    const astroSummaryRes = await axios.get(process.env.IPGEOLOCATION_API_URL, {
-      params: {
-        lat: coordinates[0],
-        long: coordinates[1],
-        apiKey: process.env.IPGEOLOCATION_APIKEY,
-        date: midmonth.toISOString().slice(0, 10),
-      },
-    })
+
+    const astroParams = {
+      lat: coordinates[0],
+      long: coordinates[1],
+      apiKey: process.env.IPGEOLOCATION_APIKEY,
+      date: midmonth.toISOString().slice(0, 10),
+    }
+
+    let astroSummaryRes: AxiosResponse<any, any> = null
+    const astroParamsKey = JSON.stringify(astroParams)
+    if (astroCache[astroParamsKey]) {
+      astroSummaryRes = astroCache[astroParamsKey]
+    } else {
+      astroSummaryRes = await axios.get(process.env.IPGEOLOCATION_API_URL, {
+        params: astroParams,
+      })
+      astroCache[astroParamsKey] = astroSummaryRes
+    }
+
     const dayLength: string | null = _.get(astroSummaryRes, 'data.day_length', null)
     if (dayLength === null) throw new Error(`day length for ${date.getMonth()} null.`)
     if (dayLength.length !== 5) throw new Error('day length improperly formatted')
@@ -81,7 +104,6 @@ export async function calcLightLevel(corners: number[][], polygons: number[][][]
     const hoursOfSunshineInMonth = (dayHours + dayMinutes / 60) * numDays
 
     const sunlightRatio = sunshine_hours / hoursOfSunshineInMonth
-    console.log(sunlightRatio)
 
     times.forEach(t => {
       const time = new Date(d)
@@ -150,9 +172,13 @@ export async function calcLightLevel(corners: number[][], polygons: number[][][]
   }
 
   const daylightFraction = lightSumsDaysUnshadedDenominator.map((a, i) => a / lightSumsDaysDenominator[i])
+  const DLINormalizedMatrix = DLIMatrix.map(d => d.map(xs => xs.map(dli => Math.min(dli / 50, 1))))
+  const DLIAveragesNormalized = DLIAverages.map(dli => Math.min(dli / 50, 1))
 
   return {
+    DLINormalizedMatrix,
     DLIMatrix,
+    DLIAveragesNormalized,
     DLIAverages,
     lightFractionDays,
     lightFractionMatrix,

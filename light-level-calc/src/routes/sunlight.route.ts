@@ -13,6 +13,7 @@ class SunlightRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}sunlight-data`, this.sunlightController.sunlightData)
+    this.router.get(`${this.path}sunlight-psnr`, this.sunlightController.sunlightPSNR)
   }
 }
 
